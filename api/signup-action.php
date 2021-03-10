@@ -34,8 +34,16 @@ try {
         INSERT INTO users
         VALUES(null, :username, :password)
         ');
+
+    // adding hash, salt and pepper to the password
+    $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
+    $pepper = $aData[0]->key;
+    $pwd = $_POST['password'];
+    $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
+    $pwd_hashed = password_hash($pwd_peppered, PASSWORD_ARGON2ID); // hashing again and keep in mind that salt is now added by default with password_hash
+
     $q->bindValue(':username', $_POST['username']);
-    $q->bindValue(':password', password_hash($_POST['password'], PASSWORD_DEFAULT));
+    $q->bindValue(':password', $pwd_hashed);
 
     $q->execute();
 

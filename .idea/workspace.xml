@@ -30,7 +30,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="" />
+    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/private/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/login-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/login-action.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/signup-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/signup-action.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,6 +63,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../login-igne" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -100,10 +106,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="Updated .gitignore" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1615407057137">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1615418123406">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1615407057137" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1615418123406" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1615417425937">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1615417425937" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1615302982927">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
