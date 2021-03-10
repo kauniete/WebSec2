@@ -30,15 +30,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/signup-action.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/private/.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.php" beforeDir="false" afterPath="$PROJECT_DIR$/private/db.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/login-action.php" afterDir="false" />
-    </list>
+    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,7 +76,7 @@
       <workItem from="1615303135438" duration="182000" />
       <workItem from="1615378044561" duration="1420000" />
       <workItem from="1615407039841" duration="19000" />
-      <workItem from="1615407089200" duration="4204000" />
+      <workItem from="1615407089200" duration="4508000" />
     </task>
     <servers />
   </component>
