@@ -1,31 +1,35 @@
 <?php
 
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+if(! (isset($username)) ) { sendError(400, 'Missing username or password', __LINE__); }
+if(! (isset($password)) ) { sendError(400, 'Missing username or password', __LINE__); }
+if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
+if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
+
+require_once (__DIR__.'/../private/db.php');
+
 try {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    if(! (isset($username)) ) { sendError(400, 'Missing username or password', __LINE__); }
-    if(! (isset($password)) ) { sendError(400, 'Missing username or password', __LINE__); }
-
-    require_once (__DIR__.'/db.php');
-
     // check if the credentials exist
     $q = $db->prepare("
         SELECT *
         FROM users
-        WHERE users.username = '$username' AND users.password = '$password' LIMIT 1
+        WHERE users.username = :username LIMIT 1
         ");
+    $q->bindValue(':username', $_POST['username']);
     $q->execute();
     $aRow = $q->fetchAll();
 
-    if($q->rowCount() === 0) {
+    if(! password_verify($_POST['password'], $aRow[0]->password) ) {
         // check if the login failed 3 times
         $q = $db->prepare("
             SELECT loginattempts.attempts, loginattempts.lastLogin
             FROM users
             INNER JOIN loginattempts ON users.id = loginattempts.user_fk
-            WHERE users.username = '$username' AND loginattempts.attempts = 3
+            WHERE users.username = :username AND loginattempts.attempts = 3
         ");
+        $q->bindValue(':username', $_POST['username']);
         $q->execute();
         $aRow = $q->fetchAll();
 
@@ -46,9 +50,11 @@ try {
                 $q = $db->prepare("
                     UPDATE users
                     INNER JOIN loginattempts ON users.id = loginattempts.user_fk
-                    SET loginattempts.attempts = 0, loginattempts.lastLogin = '$now'
-                    WHERE users.username = '$username' LIMIT 1
+                    SET loginattempts.attempts = 0, loginattempts.lastLogin = :timeNow
+                    WHERE users.username = :username LIMIT 1
                 ");
+                $q->bindValue(':username', $_POST['username']);
+                $q->bindValue(':timeNow', $now);
                 $q->execute();
             }
         } else {
@@ -56,11 +62,13 @@ try {
             $tmpDate = new DateTime();
             $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
             $q = $db->prepare("
-            UPDATE users
-            INNER JOIN loginattempts ON users.id = loginattempts.user_fk
-            SET loginattempts.attempts = loginattempts.attempts + 1, loginattempts.lastLogin = '$now'
-            WHERE users.username = '$username' LIMIT 1
-        ");
+                UPDATE users
+                INNER JOIN loginattempts ON users.id = loginattempts.user_fk
+                SET loginattempts.attempts = loginattempts.attempts + 1, loginattempts.lastLogin = :timeNow
+                WHERE users.username = :username LIMIT 1
+            ");
+            $q->bindValue(':username', $_POST['username']);
+            $q->bindValue(':timeNow', $now);
             $q->execute();
             header('Content-Type: application/json');
             echo json_encode($q->rowCount());
@@ -69,9 +77,15 @@ try {
         sendError(400, 'Invalid email or password', __LINE__);
     }
 
+    session_start();
+    $_SESSION['userId'] = $aRow[0]->id;
+    $_SESSION['username'] = $aRow[0]->username;
+    $_SESSION['password'] = $aRow[0]->password;
+
     http_response_code(200); // default is this line
     header('Content-Type: application/json');
-    echo json_encode($aRow);
+//    echo json_encode($aRow);
+    echo 'you are logged in!';
 
 } catch (Exception $ex) {
     header('Content-Type: application/json');
