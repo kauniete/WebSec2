@@ -21,7 +21,14 @@ try {
     $q->execute();
     $aRow = $q->fetchAll();
 
-    if(! password_verify($_POST['password'], $aRow[0]->password) ) {
+    // hash pepper to the password so it could match
+    $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
+    $pepper = $aData[0]->key;
+    $pwd = $_POST['password'];
+    $pwd_peppered = hash_hmac("sha256", $pwd, $pepper);
+    $pwd_hashed = $aRow[0]->password;
+
+    if(! password_verify($pwd_peppered, $pwd_hashed) ) {
         // check if the login failed 3 times
         $q = $db->prepare("
             SELECT loginattempts.attempts, loginattempts.lastLogin
@@ -84,7 +91,7 @@ try {
 
     http_response_code(200); // default is this line
     header('Content-Type: application/json');
-//    echo json_encode($aRow);
+
     echo 'you are logged in!';
 
 } catch (Exception $ex) {
