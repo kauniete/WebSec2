@@ -10,16 +10,16 @@ if( strlen($_POST['password']) < 10 ){ sendError(400, 'Password must be at least
 if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
 if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
 
-require_once (__DIR__.'/../private/db.php');
+$db = require_once (__DIR__.'/../private/db.php');
 
 try {
     // check if the credentials exist
     $q = $db->prepare("
         SELECT *
         FROM users
-        WHERE users.username = :username LIMIT 1
+        WHERE users.userUserName = :userUserName LIMIT 1
         ");
-    $q->bindValue(':username', $_POST['username']);
+    $q->bindValue(':userUserName', $_POST['username']);
     $q->execute();
     $aRow = $q->fetchAll();
 
@@ -29,10 +29,9 @@ try {
         return;
     }
 
-
     $q = $db->prepare('
-        INSERT INTO users
-        VALUES(null, :username, :password)
+        INSERT INTO users (userUserName, userPassword)
+        VALUES(:userUserName, :userPassword)
         ');
 
     // adding hash, salt and pepper to the password
@@ -42,8 +41,8 @@ try {
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
     $pwd_hashed = password_hash($pwd_peppered, PASSWORD_ARGON2ID); // hashing again and keep in mind that salt is now added by default with password_hash
 
-    $q->bindValue(':username', $_POST['username']);
-    $q->bindValue(':password', $pwd_hashed);
+    $q->bindValue(':userUserName', $_POST['username']);
+    $q->bindValue(':userPassword', $pwd_hashed);
 
     $q->execute();
 
@@ -64,7 +63,7 @@ function sendError($iErrorCode, $sMessage, $iLine){
 }
 
 function doCheckTimeDiff(DateTime $dateTime) {
-    $secondDate = new \DateTime();
+    $secondDate = new DateTime();
 
     $diff = $dateTime->diff($secondDate);
 
