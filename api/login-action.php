@@ -1,11 +1,11 @@
 <?php
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = htmlspecialchars($_POST['username']);
+$password = htmlspecialchars($_POST['password']);
 
 if(! (isset($username)) ) { sendError(400, 'Missing username or password', __LINE__); }
 if(! (isset($password)) ) { sendError(400, 'Missing username or password', __LINE__); }
-if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
-if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
+if( strlen($username) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
+if( strlen($password) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
 
 $dbHandler = require_once (__DIR__.'/../private/db.php');
 
@@ -43,7 +43,7 @@ class LoginHandler {
         }
     }
 
-    static function doUnblockUser($db) {
+    static function doUnblockUser($db, $username) {
         $tmpDate = new DateTime();
         $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
         /** @var PDO $db */
@@ -52,7 +52,7 @@ class LoginHandler {
                     SET logtry.logCount = 0, logtry.lastLog = :timeNow
                     WHERE logtry.userName = :userName LIMIT 1
                 ");
-        $q->bindValue(':userName', $_POST['username']);
+        $q->bindValue(':userName', $username);
         $q->bindValue(':timeNow', $now);
         $q->execute();
     }
@@ -83,7 +83,7 @@ class LoginHandler {
 }
 try {
     // check if the user exists
-    $currentUser = LoginHandler::doGetUserByUsername($dbHandler, $_POST['username']);
+    $currentUser = LoginHandler::doGetUserByUsername($dbHandler, $username);
     if($currentUser === null) {
         header('Content-Type: application/json');
         sendError(400, 'Invalid email or password', __LINE__);
@@ -106,14 +106,14 @@ try {
             sendError(400, 'You have to wait ~5 min, too many failed login attempts', __LINE__);
             return;
         } else {
-            LoginHandler::doUnblockUser($dbHandler);
+            LoginHandler::doUnblockUser($dbHandler, $username);
         }
     }
 
     // hash pepper to the password so it could match
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
     $pepper = $aData[0]->key;
-    $pwd = $_POST['password'];
+    $pwd = $password;
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper);
     $pwd_hashed = $currentUser->userPassword;
 

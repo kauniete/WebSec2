@@ -27,14 +27,20 @@
         <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:feature/karo" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/private/data.txt" afterDir="false" />
+    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="added XSS protection to login api">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/login-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/login-action.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/signup-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/signup-action.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +57,11 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="71db52bd-5a9e-4475-9d6c-94c4f1f3f289" name="Local server" />
+    </servers>
   </component>
   <component name="ProjectId" id="1pWdm0ZHKCo7v7YQGTBF1OnFdI2" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -83,6 +94,9 @@
       <workItem from="1615378044561" duration="1420000" />
       <workItem from="1615407039841" duration="19000" />
       <workItem from="1615407089200" duration="4508000" />
+      <workItem from="1620309379559" duration="853000" />
+      <workItem from="1620410919012" duration="138000" />
+      <workItem from="1620423741696" duration="1792000" />
     </task>
     <servers />
   </component>
@@ -94,7 +108,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/karo" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -103,24 +129,78 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated .gitignore" />
+    <MESSAGE value="added XSS protection to login api" />
+    <option name="LAST_COMMIT_MESSAGE" value="added XSS protection to login api" />
   </component>
   <component name="WindowStateProjectService">
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1615418123406">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1615418123406" />
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom" timestamp="1620308791996">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.0.bottom/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791996" />
+    <state width="1877" height="177" key="GridCell.Tab.0.center" timestamp="1620308791996">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.0.center/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791996" />
+    <state width="1877" height="177" key="GridCell.Tab.0.left" timestamp="1620308791995">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.0.left/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791995" />
+    <state width="1877" height="177" key="GridCell.Tab.0.right" timestamp="1620308791996">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.0.right/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791996" />
+    <state width="1877" height="177" key="GridCell.Tab.1.bottom" timestamp="1620308791997">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.1.bottom/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791997" />
+    <state width="1877" height="177" key="GridCell.Tab.1.center" timestamp="1620308791997">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.1.center/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791997" />
+    <state width="1877" height="177" key="GridCell.Tab.1.left" timestamp="1620308791996">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.1.left/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791996" />
+    <state width="1877" height="177" key="GridCell.Tab.1.right" timestamp="1620308791997">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.1.right/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791997" />
+    <state width="1877" height="177" key="GridCell.Tab.2.bottom" timestamp="1620308791998">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.2.bottom/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791998" />
+    <state width="1877" height="177" key="GridCell.Tab.2.center" timestamp="1620308791998">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.2.center/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791998" />
+    <state width="1877" height="177" key="GridCell.Tab.2.left" timestamp="1620308791998">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.2.left/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791998" />
+    <state width="1877" height="177" key="GridCell.Tab.2.right" timestamp="1620308791998">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="177" key="GridCell.Tab.2.right/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620308791998" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1615417425937">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1615417425937" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1615302982927">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1620300594350">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1615302982927" />
-    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1615303037192">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620300594350" />
+    <state x="667" y="224" width="585" height="592" key="find.popup" timestamp="1620428411697">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1615303037192" />
+    <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1620428411697" />
+    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1620428638307">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1620428638307" />
   </component>
 </project>
