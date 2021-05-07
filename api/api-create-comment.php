@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../private/db.php');
+$db = require_once (__DIR__.'/../private/db.php');
 
 try{
   if(!isset($_POST['comment']) ){ http_status_code(400);  }
