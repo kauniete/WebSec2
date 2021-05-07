@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../private/db.php');
+$db = require_once (__DIR__.'/../private/db.php');
 
 $iLatestCommentId = $_GET['iLatestCommentId'] ?? 0;
 
