@@ -178,7 +178,7 @@ header > h3{
 
 #events > header{
     position: sticky;
-    top: 0;
+    top: 1;
     width: 40.2vw;
     height: 3.4rem;
     background-color: white;
