@@ -5,7 +5,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 $iLatestCommentId = $_GET['iLatestCommentId'] ?? 0;
 
 try{
-$q = $db->prepare('SELECT * FROM comments WHERE commentId > :iLatestCommentId LIMIT 25');
+$q = $db->prepare('SELECT * FROM comments WHERE commentId > :iLatestCommentId LIMIT 10');
 $q->bindValue(':iLatestCommentId', $iLatestCommentId);
 $q->execute();
 $ajRows = $q->fetchAll();
