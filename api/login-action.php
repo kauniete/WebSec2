@@ -1,4 +1,10 @@
 <?php
+$dbHandler = require_once (__DIR__.'/../private/db.php');
+require_once (__DIR__.'/../utils/csrfHelper.php');
+if(! csrfHelper::is_csrf_valid()) {
+    header('Content-Type: application/json');
+    sendError(400, 'Invalid session', __LINE__);
+}
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 
@@ -7,7 +13,6 @@ if(! (isset($password)) ) { sendError(400, 'Missing username or password', __LIN
 if( strlen($username) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
 if( strlen($password) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
 
-$dbHandler = require_once (__DIR__.'/../private/db.php');
 
 class LoginHandler {
     static function doGetUserByUsername($db, $userUserName) {
@@ -82,6 +87,7 @@ class LoginHandler {
     }
 }
 try {
+
     // check if the user exists
     $currentUser = LoginHandler::doGetUserByUsername($dbHandler, $username);
     if($currentUser === null) {
@@ -124,13 +130,15 @@ try {
         sendError(400, 'Invalid email or password', __LINE__);
     }
 
-    session_start();
     $_SESSION['userId'] = $currentUser->userId;
     $_SESSION['username'] = $currentUser->userUserName;
     $_SESSION['password'] = $currentUser->userPassword;
 
-    http_response_code(200); // default is this line
+
+
     header('Content-Type: application/json');
+    http_response_code(200); // default is this line
+    header('Location: '.__DIR__.'/home.php');
 
     echo 'you are logged in!';
 
@@ -159,3 +167,5 @@ function doCheckTimeDiff(DateTime $dateTime) {
 
     return $diffInMin >= 5;
 }
+
+
