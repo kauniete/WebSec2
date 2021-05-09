@@ -1,5 +1,8 @@
 <?php
 
+session_start();
+$_SESSION['userId'] = 1; // For testing via postman, delete later
+
 $db = require_once (__DIR__.'/../private/db.php');
 
 try{
@@ -12,7 +15,7 @@ try{
   $q = $db->prepare("INSERT INTO comments (commentEventFk, commentUserFk, commentText) 
   VALUES (:commentEventFk, :commentUserFk, :commentText)");
   $q->bindValue(':commentEventFk', 1);
-  $q->bindValue(':commentUserFk', 1);
+  $q->bindValue(':commentUserFk', $_SESSION['userId']);
   $q->bindValue(':commentText', htmlspecialchars($text));
   $q->execute();
   $iLastInsertedId = $db->lastInsertId();
