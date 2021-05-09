@@ -1,0 +1,332 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* ###########################################*/
+
+body > header{
+    position: fixed;
+    width: 100vw;
+    height: 3.4rem;
+    background-color: white;
+    }
+
+body > header > h1{
+    color: #FFDF00;
+    font-style: italic;
+    text-align: center;
+    }
+
+
+#page{
+    display: grid;
+    grid-template-columns: 10fr 25fr 14fr;
+    gap: 1rem;
+    width: 100%;
+    height: 100vh;
+    padding: 50px 9% 0 9%;
+}
+
+
+/* ###########################################*/
+
+nav{
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: repeat(11, 1fr);
+    padding: 1rem 0px;
+    font-size: 1.4rem;
+    position: fixed;
+}
+
+nav > a{
+    display: flex;
+    flex-direction: row;
+    transition: 200ms ease-in-out;
+    border-radius: 50px;
+    padding: 0.8rem 1.2rem;
+}
+
+nav a{
+    color: black;
+    text-decoration: none;
+    align-self: center;
+    margin-right: auto;
+}
+
+nav > a:hover{
+    background: rgba(255, 223, 0, .1);
+    color: rgba(212, 175, 55, 1);
+    font-weight: 500;
+}
+nav > a > svg{
+    margin-right: 1.2rem;
+}
+
+nav > a:hover > svg{
+    fill: rgba(212, 175, 55, 1);
+}
+
+nav > a.active{
+    color: rgba(212, 175, 55, 1);
+    font-weight: 400;
+}
+
+
+/* ###########################################*/
+
+main{
+    grid-column: 2;   
+    display: grid;
+    grid-template-rows: 0.17fr auto;
+}
+
+div#serchBar{
+    grid-row: 1;
+    position: fixed;
+    width: 40.4vw;
+    height: 3.4rem;
+    background-color: white;
+}
+
+div#serchBar > input{
+    border: 0px solid;
+    width: 100%;
+    padding: .75rem 3rem;
+    margin: .4rem 0;
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(230, 236, 240, .3);
+    border-radius: 3rem;
+}
+
+div#serchBar > input:focus{
+    outline: none;
+    border: 1px solid rgba(255, 223, 0, 1); 
+    background-color: white;
+}
+
+div#serchBar > svg{
+    width: 1.4rem;
+    fill: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 1.1rem;
+    right: 36.5rem;
+}
+
+
+/* ###########################################*/
+
+#home{
+    display: block;
+    grid-row: 2; 
+}
+
+#home > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+#home > div{
+    padding: 1rem;
+}
+
+#home > div >h1{
+    color:rgba(255, 223, 0, 1);
+}
+
+#home > div >h2{
+    color:rgba(191, 166, 0, 1);
+    margin-top: 3rem;
+}
+
+#home > div >h2:last-of-type{
+    color: black;
+    margin-top: 3rem;
+}
+
+
+/* ###########################################*/
+
+#events{
+    display: none;
+    grid-row: 2; 
+}
+
+#events > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+
+/* ###########################################*/
+
+#users{
+    display: none;
+    grid-row: 2; 
+}
+
+#users > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+#users > p{
+    color: red;
+}
+
+
+/* ###########################################*/
+
+#profile{
+    display: none;
+    grid-row: 2; 
+}
+
+#profile > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+
+/* ###########################################*/
+
+#chat{
+    display: none;
+    grid-row: 2; 
+}
+
+#chat > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+
+/* ###########################################*/
+
+#galery{
+    display: none;
+    grid-row: 2; 
+}
+
+#galery > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+
+/* ###########################################*/
+
+#calendar{
+    display: none;
+    grid-row: 2; 
+}
+
+#calendar > header{
+    position: sticky;
+    top: 0;
+    width: 40.2vw;
+    height: 3.4rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+header > h3{
+   margin-left: 1rem;  
+}
+
+#calendar > p{
+    color: red;
+}
+
+/* ###########################################*/
+
+#top{
+    grid-column: 3;
+}
+
+div#top > div > svg{
+    width: 1.4rem;
+    fill: rgba(0, 0, 0, 0.5);
+
+}
+
+
+/* ###########################################*/
+
+
