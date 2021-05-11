@@ -1,19 +1,50 @@
-      
-// Logout Open and Close
-function openLogout(){
-    var logoutBox = document.getElementById("LogoutModal");
-        logoutBox.style.display = "grid";
 
-    window.onclick = function(event) {
-        if (event.target == logoutBox) {
-            logoutBox.style.display = "none";
-        }
-    }
-}
+// Get Events
+var showEvents = setInterval(async function(){ 
+	var con = await fetch('api/api-get-events.php')
+	if(con.status != 200){
+		alert('Something is wrong in the system')
+	  }
+  let aEvents = await con.json()
+	  aEvents.forEach( jEvent => {
+    var articleEvent = `
+      <article class="event"> 
+        <div id="${jEvent.eventId}">
+          <h2>${jEvent.eventName}</h2><span><p>created: ${jEvent.eventCreated}</p></span>
+          <p>type: ${jEvent.eventType}</p>
+          <img src="fotos_assets/${jEvent.eventImg}.jpg">
+          <p>Event discription: ${jEvent.eventAbout}</p>
+          <p>time: ${jEvent.eventTime}</p>
+          <p>place: ${jEvent.eventPlace}</p>
+          <div class="owner" id="${jEvent.userId}">
+            <img src="fotos_assets/${jEvent.userAvatar}.jpg">
+            <p>Created by_${jEvent.userName}</p>
+          </div>
+          <p>followees count: ${jEvent.eventTotalFollowees}</p>
+          <p>comments count: ${jEvent.eventTotalComments}</p>
+          <div id="comments"></div>
+          <div>
+            <form onsubmit="return false">
+              <input id="eventId" name="eventId" value="${jEvent.eventId}" type="hidden">
+              <input id="commentText" name="commentText" type="text">
+              <button onclick="sendComment()">Send</button>
+            </form>
+          </div>
+        </div>
+      </article>`  
+			document.querySelector('#events > header').insertAdjacentHTML('afterEnd', articleEvent)
+  } ) 
+}, 1000);
 
-// Comments to Events
+// clear interval
+setTimeout(function () {
+	clearInterval(showEvents);
+	}, 1500);
+
+
+// Create Comments to Events
 async function sendComment(){
-    // console.log(event.target.parentNode)
+    //const targetForm = event.target.parentNode
     let form = new FormData(event.target.parentNode)
     let conn = await fetch('api/api-create-comment.php', {
       method : "POST",
@@ -22,7 +53,9 @@ async function sendComment(){
     if( ! conn.ok ){ alert() }
     getLatestComments()
   }
+
   
+// Get Last Comments to Events
   async function getLatestComments(){
     let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
       headers:{
@@ -31,18 +64,42 @@ async function sendComment(){
     })
     if( ! conn.ok ){ alert() }
     let ajComments = await conn.json()
+    //let divEventId = document.querySelector('article.event > div').id
+    //let divEventId = document.querySelector('div#'+jComment.eventId+' > div#comments')
+    //console.log(divEventId)
     ajComments.forEach( jComment => {
-      let sDivEvent = `
-        <div class="event">
-          <span>${jComment.commentText}</span>
-        </div>`
-      document.querySelector('#comments').insertAdjacentHTML('beforeend',sDivEvent) 
+      let sDivComment = `
+      <div id="${jComment.eventId}">
+        <div class="owner">
+          <img src="fotos_assets/${jComment.userAvatar}.jpg">
+          <p>Created by_${jComment.userName}</p>
+        </div>
+        <button onclick="deleteComment('${jComment.commentId}')" data-commentId='${jComment.commentId}'>Delete</button>
+        <p>${jComment.commentText}</p>
+      </div>`
+    //if (divEventId == jComment.eventId) {
+      document.querySelector('#comments').insertAdjacentHTML('beforeEnd',sDivComment) 
+    //}
       iLatestCommentId = jComment.commentId
-    } )
+    }) 
   }
   
   let iLatestCommentId = 0
-  setInterval( () => { getLatestComments()  } , 1000 )
+  setInterval( () => { getLatestComments()  } , 2000 )
+
+
+// Delete User Comments
+async function deleteComment(commentId) {
+	event.target.parentElement.remove();
+	let con = await fetch('api/api-delete-comment.php?commentId='+commentId, {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! con.ok ){ alert() }
+	let response = await con.json();
+	console.log(response);
+  }
 
 
 // Page Change

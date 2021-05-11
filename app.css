@@ -191,6 +191,21 @@ header > h3{
    margin-left: 1rem;  
 }
 
+article.event{
+    margin-top: 3rem;;
+}
+
+article.event > div > img{
+    height: 15rem;
+    width:38rem;
+}
+
+.owner > img{
+    height: 3.2rem;
+    width: 3.2rem;
+    border-radius: 50%;
+}
+
 
 /* ###########################################*/
 
