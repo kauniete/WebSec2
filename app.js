@@ -51,37 +51,42 @@ async function sendComment(){
       body : form
     })
     if( ! conn.ok ){ alert() }
-    getLatestComments()
+  
+      getLatestComments()
   }
 
   
 // Get Last Comments to Events
-  async function getLatestComments(){
-    let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
-      headers:{
-        'Cache-Control': 'no-cache'
-      }
-    })
-    if( ! conn.ok ){ alert() }
-    let ajComments = await conn.json()
-    //let divEventId = document.querySelector('article.event > div').id
+async function getLatestComments(){
+  let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! conn.ok ){ alert() }
+  let ajComments = await conn.json()
+  let articles = document.querySelectorAll('article.event > div')
+  let commentBox = document.querySelectorAll('#comments')
+    //  need loop: let divEventId = article.id
     //let divEventId = document.querySelector('div#'+jComment.eventId+' > div#comments')
-    //console.log(divEventId)
     ajComments.forEach( jComment => {
       let sDivComment = `
       <div id="${jComment.eventId}">
-        <div class="owner">
-          <img src="fotos_assets/${jComment.userAvatar}.jpg">
-          <p>Created by_${jComment.userName}</p>
-        </div>
-        <button onclick="deleteComment('${jComment.commentId}')" data-commentId='${jComment.commentId}'>Delete</button>
-        <p>${jComment.commentText}</p>
+      <div class="owner">
+      <img src="fotos_assets/${jComment.userAvatar}.jpg">
+      <p>Created by_${jComment.userName}</p>
+      </div>
+      <button onclick="deleteComment('${jComment.commentId}')" data-commentId='${jComment.commentId}'>Delete</button>
+      <p>${jComment.commentText}</p>
       </div>`
-    //if (divEventId == jComment.eventId) {
-      document.querySelector('#comments').insertAdjacentHTML('beforeEnd',sDivComment) 
-    //}
+      
+      commentBox.forEach(box => {
+        //if ( jComment.eventId == divEventId) {
+        box.insertAdjacentHTML('beforeEnd',sDivComment) 
+       //} 
+      })
       iLatestCommentId = jComment.commentId
-    }) 
+    })
   }
   
   let iLatestCommentId = 0

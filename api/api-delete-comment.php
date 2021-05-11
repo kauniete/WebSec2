@@ -9,9 +9,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 
 try{
 
-  $q = $db->prepare('DELETE comments FROM comments 
-                    INNER JOIN users ON users.userId = comments.commentUserFk 
-                    WHERE comments.commentId = :commentId AND users.userId = :userId');
+  $q = $db->prepare('CALL deleteComment(:commentId, :userId)');
   $q->bindValue(':userId', $_SESSION['userId']);
   $q->bindValue(':commentId', $_GET['commentId']);
   $q->execute();

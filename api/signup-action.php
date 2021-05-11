@@ -14,11 +14,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 
 try {
     // check if the credentials exist
-    $q = $db->prepare("
-        SELECT *
-        FROM users
-        WHERE users.userUserName = :userUserName LIMIT 1
-        ");
+    $q = $db->prepare("CALL getUserByUserName(:userUserName)");
     $q->bindValue(':userUserName', $_POST['username']);
     $q->execute();
     $aRow = $q->fetchAll();
@@ -29,10 +25,7 @@ try {
         return;
     }
 
-    $q = $db->prepare('
-        INSERT INTO users (userUserName, userPassword)
-        VALUES(:userUserName, :userPassword)
-        ');
+    $q = $db->prepare('CALL createUser(:userUserName, :userPassword)');
 
     // adding hash, salt and pepper to the password
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
