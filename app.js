@@ -105,6 +105,7 @@ function doAppendEvent(event) {
             <div id="comments_${eventId}" class="comments"></div>
             <div>
               <form onsubmit="return false">
+                
                 <input id="eventId" name="eventId" value="${eventId}" type="hidden">
                 <input id="commentText" name="commentText" type="text">
                 <button onclick="sendComment()">Send</button>
