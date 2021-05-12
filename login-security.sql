@@ -49,16 +49,18 @@ INSERT INTO `loginattempts` (`id`, `user_fk`, `attempts`, `lastLogin`) VALUES
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(20) NOT NULL,
-  `password` varchar(250) NOT NULL
+  `userUserName` varchar(20) NOT NULL,
+  `userPassword` varchar(250) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  'vKey' varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'test', 'test');
+-- INSERT INTO `users` (`id`, `userUserName`, `userPassword`, 'email', 'vKey') VALUES
+-- (1, 'test', 'test');
 
 --
 -- Indexes for dumped tables
@@ -78,7 +80,7 @@ ALTER TABLE `loginattempts`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `userUserName` (`userUserName`);
 
 --
 -- AUTO_INCREMENT for dumped tables
