@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
-$conn = new mysqli('localhost', 'root', '' , 'emailverif');
+$conn = new mysqli('localhost', 'root', '' , 'login-security');
 // require_once ("../PHPMailer/class.phpmailer.php");
 
 require '../PHPMailer/src/Exception.php';
@@ -103,12 +103,9 @@ try {
           $mail->Body    = $output;
           // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
       
-          if(!$mail->send()){
-            echo 'error22';
-          }else {
-              
-          }
+          $mail->send();
       } catch (Exception $e) {
+          echo $e;
           echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }
 
