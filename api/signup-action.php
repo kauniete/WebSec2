@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
-$conn = new mysqli('localhost', 'root', '' , 'emailverif');
+$conn = new mysqli('localhost', 'root', '' , 'login-security');
 // require_once ("../PHPMailer/class.phpmailer.php");
 
 require '../PHPMailer/src/Exception.php';
@@ -68,7 +68,7 @@ try {
         // $last_id= mysqli_insert_id($conn);
         $url = 'https://localhost/Second Semester/WebSec/ExamProject/api/signup-action.php?id='.$last_id.'$token='.$vKey;
         $output = '<div>Please click the link'.$url.'</div>';
-    
+        $result = $q->rowCount();
 
     try {
           $mail = new PHPMailer(true);
@@ -81,7 +81,14 @@ try {
           $mail->Password   = 'aiftincai99';                               //SMTP password
           $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
           $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-      
+         
+          $mail->SMTPOptions = array(
+             'ssl' => array(
+             'verify_peer' => false,
+             'verify_peer_name' => false,
+             'allow_self_signed' => true
+             )
+          );
           //Recipients
           $mail->setFrom('adishady04@gmail.com', 'Adi');
           //replace with $email, $name;
@@ -103,12 +110,9 @@ try {
           $mail->Body    = $output;
           // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
       
-          if(!$mail->send()){
-            echo 'error22';
-          }else {
-              
-          }
+          $mail->send();
       } catch (Exception $e) {
+          echo $e;
           echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }
 
