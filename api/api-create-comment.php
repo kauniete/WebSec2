@@ -5,6 +5,8 @@ $_SESSION['userId'] = 1; // For testing via postman, delete later
 
 $db = require_once (__DIR__.'/../private/db.php');
 
+$eventId = $_POST['eventId'];
+
 try{
   if(!isset($_POST['comment']) ){ http_status_code(400);  }
   if(strlen($_POST['comment']) < 1 ){ http_status_code(400);  }
@@ -14,7 +16,7 @@ try{
 
   $q = $db->prepare("INSERT INTO comments (commentEventFk, commentUserFk, commentText) 
   VALUES (:commentEventFk, :commentUserFk, :commentText)");
-  $q->bindValue(':commentEventFk', 1);
+  $q->bindValue(':commentEventFk', $eventId);
   $q->bindValue(':commentUserFk', $_SESSION['userId']);
   $q->bindValue(':commentText', htmlspecialchars($text));
   $q->execute();

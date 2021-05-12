@@ -1,4 +1,7 @@
-      
+const localStates = {
+    lastEventId: 0,
+}
+
 // Logout Open and Close
 function openLogout(){
     var logoutBox = document.getElementById("LogoutModal");
@@ -13,8 +16,7 @@ function openLogout(){
 
 // Comments to Events
 async function sendComment(){
-    // console.log(event.target.parentNode)
-    let form = new FormData(event.target.parentNode)
+    let form = new FormData(event.target.parentNode);
     let conn = await fetch('api/api-create-comment.php', {
       method : "POST",
       body : form
@@ -32,17 +34,63 @@ async function sendComment(){
     if( ! conn.ok ){ alert() }
     let ajComments = await conn.json()
     ajComments.forEach( jComment => {
-      let sDivEvent = `
-        <div class="event">
-          <span>${jComment.commentText}</span>
-        </div>`
-      document.querySelector('#comments').insertAdjacentHTML('beforeend',sDivEvent) 
+      doAppendCommentByEventId(jComment);
       iLatestCommentId = jComment.commentId
     } )
   }
+
+async function getLatestEvents(){
+    let conn = await fetch('api/api-get-latest-events.php?iLatestEventId='+localStates.lastEventId, {
+        headers:{
+            'Cache-Control': 'no-cache'
+        }
+    })
+    if( ! conn.ok ){ alert() }
+    let ajEvents = await conn.json()
+    ajEvents.forEach( jEvent => {
+        doAppendEvent(jEvent);
+        localStates.lastEventId = jEvent.eventId;
+    } )
+}
+
+  function doAppendCommentByEventId(comment) {
+      const { commentEventFk, commentText} = comment;
+      const domEventEl = document.querySelector(`div.event[data-event-id="${commentEventFk}"]`)
+      if(!domEventEl) {
+          console.error(`No DOM event element with id ${commentEventFk}`)
+          return;
+      }
+      let tmpCommentElem = `
+        <div class="comment">
+          <span>${commentText}</span>
+        </div>`
+      document.getElementById(`comments_${commentEventFk}`).insertAdjacentHTML('beforeend',tmpCommentElem)
+  }
+
+function doAppendEvent(event) {
+    const { eventId, eventName} = event;
+    const eventsContainer = document.getElementById('events');
+    const tmpEventElem = `
+            <div id="event_${eventId}" class="event" data-event-id="${eventId}">
+                <h2>${eventName}</h2>
+                <div id="comments_${eventId}" class="comments"></div>
+                <div>
+                    <form onsubmit="return false;">
+                        <input id="comment_input_${eventId}" name="comment" type="text">
+                        <input value="${eventId}" name="eventId" type="hidden">
+                        <button onclick="sendComment()">Send</button>
+                    </form>
+                </div>
+            </div>`
+    eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
+}
   
   let iLatestCommentId = 0
-  setInterval( () => { getLatestComments()  } , 1000 )
+  setInterval( () => {
+      getLatestEvents().then(() => {
+          getLatestComments();
+      })
+  } , 1000 )
 
 
 // Page Change

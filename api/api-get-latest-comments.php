@@ -11,7 +11,7 @@ $q->execute();
 $ajRows = $q->fetchAll();
 echo json_encode($ajRows);
 
-}catch(Exeption $ex){
+}catch(Exception $ex){
   header('Content-Type: application/json');
   echo '{"message":"error '.$ex.'"}';
 }
