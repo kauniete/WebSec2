@@ -68,7 +68,7 @@ try {
         // $last_id= mysqli_insert_id($conn);
         $url = 'https://localhost/Second Semester/WebSec/ExamProject/api/signup-action.php?id='.$last_id.'$token='.$vKey;
         $output = '<div>Please click the link'.$url.'</div>';
-    
+        $result = $q->rowCount();
 
     try {
           $mail = new PHPMailer(true);
@@ -81,7 +81,14 @@ try {
           $mail->Password   = 'aiftincai99';                               //SMTP password
           $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
           $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-      
+         
+          $mail->SMTPOptions = array(
+             'ssl' => array(
+             'verify_peer' => false,
+             'verify_peer_name' => false,
+             'allow_self_signed' => true
+             )
+          );
           //Recipients
           $mail->setFrom('adishady04@gmail.com', 'Adi');
           //replace with $email, $name;
