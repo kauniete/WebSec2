@@ -17,49 +17,6 @@ function openLogout(){
 }
 
 
-// Get Events
-var showEvents = setInterval(async function(){ 
-	var con = await fetch('api/api-get-events.php')
-	if(con.status != 200){
-		alert('Something is wrong in the system')
-	  }
-  let aEvents = await con.json()
-	  aEvents.forEach( jEvent => {
-    var articleEvent = `
-      <article class="event"> 
-        <div id="${jEvent.eventId}">
-          <h2>${jEvent.eventName}</h2><span><p>created: ${jEvent.eventCreated}</p></span>
-          <p>type: ${jEvent.eventType}</p>
-          <img src="fotos_assets/${jEvent.eventImg}.jpg">
-          <p>Event discription: ${jEvent.eventAbout}</p>
-          <p>time: ${jEvent.eventTime}</p>
-          <p>place: ${jEvent.eventPlace}</p>
-          <div class="owner" id="${jEvent.userId}">
-            <img src="fotos_assets/${jEvent.userAvatar}.jpg">
-            <p>Created by_${jEvent.userName}</p>
-          </div>
-          <p>followees count: ${jEvent.eventTotalFollowees}</p>
-          <p>comments count: ${jEvent.eventTotalComments}</p>
-          <div id="comments"></div>
-          <div>
-            <form onsubmit="return false">
-              <input id="eventId" name="eventId" value="${jEvent.eventId}" type="hidden">
-              <input id="commentText" name="commentText" type="text">
-              <button onclick="sendComment()">Send</button>
-            </form>
-          </div>
-        </div>
-      </article>`  
-			document.querySelector('#events > header').insertAdjacentHTML('afterEnd', articleEvent)
-  } ) 
-}, 1000);
-
-// clear interval
-setTimeout(function () {
-	clearInterval(showEvents);
-	}, 1500);
-
-
 // Create Comments to Events
 async function sendComment(){
     let form = new FormData(event.target.parentNode);
@@ -90,6 +47,8 @@ async function getLatestComments(){
     })
   }
 
+
+// Get Last Event
 async function getLatestEvents(){
     let conn = await fetch('api/api-get-latest-events.php?iLatestEventId='+localStates.lastEventId, {
         headers:{
@@ -101,11 +60,11 @@ async function getLatestEvents(){
     ajEvents.forEach( jEvent => {
         doAppendEvent(jEvent);
         localStates.lastEventId = jEvent.eventId;
-    } )
+    })
 }
 
   function doAppendCommentByEventId(comment) {
-      const { eventId, commentText} = comment;
+      const { eventId, commentText, userAvatar, userName, commentId} = comment;
       const domEventEl = document.querySelector(`div.event[data-event-id="${eventId}"]`)
       if(!domEventEl) {
           console.error(`No DOM event element with id ${eventId}`)
@@ -113,7 +72,6 @@ async function getLatestEvents(){
       }
       let tmpCommentElem = `
         <div class="comment">
-          <span>${commentText}</span>
           <div class="owner">
             <img src="fotos_assets/${userAvatar}.jpg">
             <p>Created by_${userName}</p>
@@ -124,21 +82,36 @@ async function getLatestEvents(){
       document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem)
   }
 
+
+// Get Events
 function doAppendEvent(event) {
-    const { eventId, eventName} = event;
+    const { eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
     const eventsContainer = document.getElementById('events');
     const tmpEventElem = `
-            <div id="event_${eventId}" class="event" data-event-id="${eventId}">
-                <h2>${eventName}</h2>
-                <div id="comments_${eventId}" class="comments"></div>
-                <div>
-                    <form onsubmit="return false;">
-                        <input id="comment_input_${eventId}" name="comment" type="text">
-                        <input value="${eventId}" name="eventId" type="hidden">
-                        <button onclick="sendComment()">Send</button>
-                    </form>
-                </div>
-            </div>`
+    <article class="event">
+        <div id="event_${eventId}" class="event" data-event-id="${eventId}">
+            <h2>${eventName}</h2><span><p>created: ${eventCreated}</p></span>
+            <p>type: ${eventType}</p>
+            <img src="fotos_assets/${eventImg}.jpg">
+            <p>Event discription: ${eventAbout}</p>
+            <p>time: ${eventTime}</p>
+            <p>place: ${eventPlace}</p>
+            <div class="owner" id="${userId}">
+              <img src="fotos_assets/${userAvatar}.jpg">
+              <p>Created by_${userName}</p>
+            </div>
+            <p>followees count: ${eventTotalFollowees}</p>
+            <p>comments count: ${eventTotalComments}</p>
+            <div id="comments_${eventId}" class="comments"></div>
+            <div>
+              <form onsubmit="return false">
+                <input id="eventId" name="eventId" value="${eventId}" type="hidden">
+                <input id="commentText" name="commentText" type="text">
+                <button onclick="sendComment()">Send</button>
+              </form>
+            </div>
+          </div>
+        </article>`
     eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
 }
   
