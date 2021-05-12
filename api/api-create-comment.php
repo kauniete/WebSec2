@@ -13,10 +13,11 @@ try{
   if(strlen($_POST['commentText']) < 1 ){ http_status_code(400);  }
   if(strlen($_POST['commentText']) > 280 ){ http_status_code(400);  }
 
+  $eventId = $_POST['eventId'];
   $text = $_POST['commentText'];
 
   $q = $db->prepare("CALL createComment(:eventId, :userId, :commentText)");
-  $q->bindValue(':eventId', htmlspecialchars($_POST['eventId']));
+  $q->bindValue(':eventId', htmlspecialchars($eventId));
   $q->bindValue(':userId', $_SESSION['userId']);
   $q->bindValue(':commentText', htmlspecialchars($text));
   $q->execute();

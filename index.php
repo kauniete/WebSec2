@@ -24,7 +24,8 @@
             <h3>Signup</h3>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
-            <button type="button" form="signupForm">Log in</button>
+            <input type="text" name="email" placeholder="email">
+            <button type="button" form="signupForm">Sign up</button>
         </form>
     </div>
 </body>
