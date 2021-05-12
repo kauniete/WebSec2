@@ -8,14 +8,14 @@ use PHPMailer\PHPMailer\SMTP;
 $username = $_POST['username'];
 $password = $_POST['password'];
 $email = $_POST['email'];
-// $conn = new mysqli("localhost", "root","","login-security");
-// echo $conn;
-// $emailTest = 'adi_george@outlook.com';
+// // $conn = new mysqli("localhost", "root","","login-security");
+// // echo $conn;
+// // $emailTest = 'adi_george@outlook.com';
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
-if(! (isset($username)) ) { sendError(400, 'Missing username or password', __LINE__); }
-if(! (isset($password)) ) { sendError(400, 'Missing username or password', __LINE__); }
+if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
+if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
 if( strlen($_POST['username']) < 4 ){ sendError(400, 'Username must be at least 4 characters long', __LINE__); }
 if( strlen($_POST['password']) < 10 ){ sendError(400, 'Password must be at least 10 characters long', __LINE__); }
 if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
@@ -31,9 +31,9 @@ try {
     $q = $db->prepare("
         SELECT *
         FROM users
-        WHERE users.username = :username LIMIT 1
+        WHERE users.userUserName = :username LIMIT 1
         ");
-    $q->bindValue(':username', $username);
+    $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
     
@@ -43,13 +43,25 @@ try {
             return;
         }
         
-        $q=$db->prepare('INSERT INTO users VALUES(:id, :username, :email, :password, :vKey)');
+        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
         
-        $q->bindValue(':id', null);
-        $q->bindValue(':username', $_POST['username']);
-        $q->bindValue(':password', $_POST['password']);
-        $q->bindValue(':email',$_POST['email']);
-        $q->bindValue(':vKey', $vKey);
+        $q->bindValue(':userId', null);
+        $q->bindValue(':userFullName', 'test');
+        $q->bindValue(':userUserName', $_POST['username']);
+        $q->bindValue(':userEmail', $_POST['email']);
+        $q->bindValue(':userPassword', $_POST['password']);
+        $q->bindValue(':userAvatar','testasd');
+        $q->bindValue(':userAbout', 'about me');
+        $q->bindValue(':userVerifyCode', $vKey);
+        $q->bindValue(':userActive', 1);
+        $q->bindValue(':userCity', 'test');
+        $q->bindValue(':userLanguage', 'test');
+        $q->bindValue(':userCreated', '2021-05-10 00:12:18');
+        $q->bindValue(':userTotalMessages', '20');
+        $q->bindValue(':userTotalImg', '20');
+        $q->bindValue(':userTotalFollowers', '20');
+        $q->bindValue(':userTotalFollowees', '20');
+        $q->bindValue(':userTotalFollowing', '20');
         
         // adding hash, salt and pepper to the password
         $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));

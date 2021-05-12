@@ -52,8 +52,6 @@
 	
 
 	if(isset($_POST['check_code'])){
-
-       
     	 $otp_num = $_SESSION['vKey'];
          $email = $_SESSION['email'];
       	 $otp = $_POST['otp_code'];
