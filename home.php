@@ -1,6 +1,12 @@
 <?php
+session_start();
 $_SESSION['userAvatar'] = '';
 $_SESSION['userName'] = 'MonaMi';
+$_SESSION['userId'] = '1';
+if( ! isset($_SESSION['userId']) ){
+  header('Location: index.php');
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,16 +60,30 @@ $_SESSION['userName'] = 'MonaMi';
             <header>
                     <h3>Events</h3>
             </header>
-            <div id="event">
-                <h2>Event Nr 1</h2>
-                <div id="comments"></div>
-                <div>
-                    <form onsubmit="return false">
-                        <input id="comment" name="comment" type="text">
-                        <button onclick="sendComment()">Send</button>
-                    </form>
+          <!--   <article class="event">
+                <div id="0">
+                    <h2>Event Nr 0 Name</h2><span><p>created</p></span>
+                    <p>Event type</p>
+                    <img src="fotos_assets/photo-1547347298-4074fc3086f0.jpg">
+                    <p>Event discription</p>
+                    <p>Event time</p>
+                    <p>Event place</p>
+                    <div class="owner">
+                        <img src="fotos_assets/photo-1519613273847-6daa1d54e198.jpg">
+                        <p>Created by_name_</p>
+                    </div>
+                    <p>Event followees count</p>
+                    <p>Event comments count</p>
+                    <div id="comments"></div>
+                    <div>
+                        <form onsubmit="return false">
+                            <input id="eventId" name="eventId" value="1" type="hidden">
+                            <input id="commentText" name="commentText" type="text">
+                            <button onclick="sendComment()">Send</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </article>--> 
         </section>
 <!-- end of Events page--> 
 

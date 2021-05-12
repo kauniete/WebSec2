@@ -1,10 +1,15 @@
 <?php
 
+session_start();
+if( ! isset($_SESSION['userId']) ){
+  header('Location: login.php');
+}
+$_SESSION['userId'] = 1; // For testing via postman, delete later
+
 $db = require_once (__DIR__.'/../private/db.php');
 
 try{
-$q = $db->prepare('SELECT userId, userUserName, userAvatar, userAbout, userActive, userCity, userLanguage  
-                   FROM view_users LIMIT 10');
+$q = $db->prepare('CALL getAllUsers()');
 $q->execute();
 $ajRows = $q->fetchAll();
 echo json_encode($ajRows); 

@@ -16,11 +16,7 @@ if( strlen($password) > 50 ){ sendError(400, 'Password cannot be longer than 50 
 
 class LoginHandler {
     static function doGetUserByUsername($db, $userUserName) {
-        $q = $db->prepare("
-        SELECT *
-        FROM users
-        WHERE users.userUserName = :userUserName LIMIT 1
-        ");
+        $q = $db->prepare("CALL getUserByUserName(:userUserName)");
         $q->bindValue(':userUserName', $userUserName);
         $q->execute();
         $aRow = $q->fetchAll();
@@ -33,11 +29,7 @@ class LoginHandler {
 
     static function doGetLoginActivity($db, $userUserName) {
         /** @var PDO $db */
-        $q = $db->prepare("
-        SELECT *
-        FROM logtry
-        WHERE logtry.userName = :userName LIMIT 1
-        ");
+        $q = $db->prepare("CALL getUserLog(:userName)");
         $q->bindValue(':userName', $userUserName);
         $q->execute();
         $aRow = $q->fetchAll();
@@ -52,11 +44,7 @@ class LoginHandler {
         $tmpDate = new DateTime();
         $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
         /** @var PDO $db */
-        $q = $db->prepare("
-                    UPDATE logtry
-                    SET logtry.logCount = 0, logtry.lastLog = :timeNow
-                    WHERE logtry.userName = :userName LIMIT 1
-                ");
+        $q = $db->prepare("CALL updateLogToUnblock(:timeNow, :userName)");
         $q->bindValue(':userName', $username);
         $q->bindValue(':timeNow', $now);
         $q->execute();
@@ -65,11 +53,7 @@ class LoginHandler {
         $tmpDate = new DateTime();
         $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
         /** @var PDO $db */
-        $q = $db->prepare("
-                UPDATE logtry
-                SET logtry.logCount = logtry.logCount + 1, logtry.lastLog = :timeNow
-                WHERE logtry.userName = :userName LIMIT 1
-            ");
+        $q = $db->prepare("CALL updateLogToIncrement(:timeNow, :userName)");
         $q->bindValue(':userName', $userUserName);
         $q->bindValue(':timeNow', $now);
         $q->execute();
@@ -78,9 +62,7 @@ class LoginHandler {
         $tmpDate = new DateTime();
         $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
         /** @var PDO $db */
-        $q = $db->prepare("
-                INSERT INTO loggs VALUES(null, :userId, 0, :timeNow);
-            ");
+        $q = $db->prepare("CALL createLogs(:userId, :timeNow)");
         $q->bindValue(':userId', $userId);
         $q->bindValue(':timeNow', $now);
         $q->execute();
