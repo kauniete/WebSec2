@@ -1,6 +1,12 @@
 <?php
+session_start();
 $_SESSION['userAvatar'] = '';
 $_SESSION['userName'] = 'MonaMi';
+$_SESSION['userId'] = '1';
+if( ! isset($_SESSION['userId']) ){
+  header('Location: index.php');
+  exit;
+}
 ?>
 
 <!DOCTYPE html>

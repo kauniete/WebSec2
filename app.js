@@ -1,6 +1,8 @@
+
 const localStates = {
     lastEventId: 0,
 }
+
 
 // Logout Open and Close
 function openLogout(){
@@ -14,7 +16,51 @@ function openLogout(){
     }
 }
 
-// Comments to Events
+
+// Get Events
+var showEvents = setInterval(async function(){ 
+	var con = await fetch('api/api-get-events.php')
+	if(con.status != 200){
+		alert('Something is wrong in the system')
+	  }
+  let aEvents = await con.json()
+	  aEvents.forEach( jEvent => {
+    var articleEvent = `
+      <article class="event"> 
+        <div id="${jEvent.eventId}">
+          <h2>${jEvent.eventName}</h2><span><p>created: ${jEvent.eventCreated}</p></span>
+          <p>type: ${jEvent.eventType}</p>
+          <img src="fotos_assets/${jEvent.eventImg}.jpg">
+          <p>Event discription: ${jEvent.eventAbout}</p>
+          <p>time: ${jEvent.eventTime}</p>
+          <p>place: ${jEvent.eventPlace}</p>
+          <div class="owner" id="${jEvent.userId}">
+            <img src="fotos_assets/${jEvent.userAvatar}.jpg">
+            <p>Created by_${jEvent.userName}</p>
+          </div>
+          <p>followees count: ${jEvent.eventTotalFollowees}</p>
+          <p>comments count: ${jEvent.eventTotalComments}</p>
+          <div id="comments"></div>
+          <div>
+            <form onsubmit="return false">
+              <input id="eventId" name="eventId" value="${jEvent.eventId}" type="hidden">
+              <input id="commentText" name="commentText" type="text">
+              <button onclick="sendComment()">Send</button>
+            </form>
+          </div>
+        </div>
+      </article>`  
+			document.querySelector('#events > header').insertAdjacentHTML('afterEnd', articleEvent)
+  } ) 
+}, 1000);
+
+// clear interval
+setTimeout(function () {
+	clearInterval(showEvents);
+	}, 1500);
+
+
+// Create Comments to Events
 async function sendComment(){
     let form = new FormData(event.target.parentNode);
     let conn = await fetch('api/api-create-comment.php', {
@@ -22,21 +68,26 @@ async function sendComment(){
       body : form
     })
     if( ! conn.ok ){ alert() }
-    getLatestComments()
-  }
   
-  async function getLatestComments(){
-    let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
-      headers:{
-        'Cache-Control': 'no-cache'
-      }
-    })
-    if( ! conn.ok ){ alert() }
-    let ajComments = await conn.json()
+      getLatestComments()
+  }
+
+  
+// Get Last Comments to Events
+async function getLatestComments(){
+  let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! conn.ok ){ alert() }
+  let ajComments = await conn.json()
+  let articles = document.querySelectorAll('article.event > div')
+  let commentBox = document.querySelectorAll('#comments')
     ajComments.forEach( jComment => {
       doAppendCommentByEventId(jComment);
       iLatestCommentId = jComment.commentId
-    } )
+    })
   }
 
 async function getLatestEvents(){
@@ -54,17 +105,23 @@ async function getLatestEvents(){
 }
 
   function doAppendCommentByEventId(comment) {
-      const { commentEventFk, commentText} = comment;
-      const domEventEl = document.querySelector(`div.event[data-event-id="${commentEventFk}"]`)
+      const { eventId, commentText} = comment;
+      const domEventEl = document.querySelector(`div.event[data-event-id="${eventId}"]`)
       if(!domEventEl) {
-          console.error(`No DOM event element with id ${commentEventFk}`)
+          console.error(`No DOM event element with id ${eventId}`)
           return;
       }
       let tmpCommentElem = `
         <div class="comment">
           <span>${commentText}</span>
+          <div class="owner">
+            <img src="fotos_assets/${userAvatar}.jpg">
+            <p>Created by_${userName}</p>
+          </div>
+          <button onclick="deleteComment('${commentId}')" data-commentId='${commentId}'>Delete</button>
+          <p>${commentText}</p>
         </div>`
-      document.getElementById(`comments_${commentEventFk}`).insertAdjacentHTML('beforeend',tmpCommentElem)
+      document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem)
   }
 
 function doAppendEvent(event) {
@@ -91,6 +148,20 @@ function doAppendEvent(event) {
           getLatestComments();
       })
   } , 1000 )
+
+
+// Delete User Comments
+async function deleteComment(commentId) {
+	event.target.parentElement.remove();
+	let con = await fetch('api/api-delete-comment.php?commentId='+commentId, {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! con.ok ){ alert() }
+	let response = await con.json();
+	console.log(response);
+  }
 
 
 // Page Change
