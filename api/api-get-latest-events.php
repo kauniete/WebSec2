@@ -1,11 +1,17 @@
 <?php
 
+session_start();
+if( ! isset($_SESSION['userId']) ){
+  header('Location: login.php');
+}
+$_SESSION['userId'] = 1; // For testing via postman, delete later
+
 $db = require_once (__DIR__.'/../private/db.php');
 
 $iLatestEventId = $_GET['iLatestEventId'] ?? 0;
 
 try{
-    $q = $db->prepare('SELECT * FROM events WHERE eventId > :iLatestEventId LIMIT 25');
+    $q = $db->prepare('CALL getLastEvents(:iLatestEventId)');
     $q->bindValue(':iLatestEventId', $iLatestEventId);
     $q->execute();
     $ajRows = $q->fetchAll();
@@ -15,6 +21,3 @@ try{
     header('Content-Type: application/json');
     echo '{"message":"error '.$ex.'"}';
 }
-
-//echo '[{"id":1, "message": "Hi"}, {"id":2, "message": "Hello"}]';
-//echo '[[1, "Hi"], [2, "Hello"]]';
