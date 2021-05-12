@@ -27,11 +27,10 @@ $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
 try {
-    
     $q = $db->prepare("
         SELECT *
         FROM users
-        WHERE users.userUserName = :username LIMIT 1
+        WHERE users.userUserName = :userUserName LIMIT 1
         ");
     $q->bindValue(':userUserName', $username);
     $q->execute();
@@ -43,7 +42,7 @@ try {
             return;
         }
         
-        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
+        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, :userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
         
         $q->bindValue(':userId', null);
         $q->bindValue(':userFullName', 'test');
