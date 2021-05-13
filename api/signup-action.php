@@ -95,11 +95,13 @@ try {
           $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
           $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
          
-       
+          $email = $_POST['email'];
+          $name = $_POST['username'];
+
           //Recipients
-          $mail->setFrom('adigeorge652@gmail.com', 'Adi');
+          $mail->setFrom('adigeorge652@gmail.com', 'YellowMellow');
           //replace with $email, $name;
-          $mail->addAddress('adi_george@outlook.com', 'username');   //Add a recipient
+          $mail->addAddress('$email', '$name');   //Add a recipient
           // $mail->addAddress('ellen@example.com');               //Name is optional
           // $mail->addReplyTo('info@example.com', 'Information');
           // $mail->addCC('cc@example.com');
