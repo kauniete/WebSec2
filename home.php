@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$_SESSION['userAvatar'] = '';
+//echo $_SESSION['userAvatar'] = '';
 //$_SESSION['userName'] = 'MonaMi';
 //$_SESSION['userId'] = '1';
 
