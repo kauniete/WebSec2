@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2021 at 07:29 PM
+-- Generation Time: May 13, 2021 at 04:38 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -30,8 +30,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `createComment` (IN `eId` INT(20) UN
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createLogs` (IN `uId` INT(20) UNSIGNED, IN `tNow` DATETIME)  INSERT INTO loggs VALUES(null, uId, 0, tNow)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uName` VARCHAR(25), IN `uPass` VARCHAR(255))  INSERT INTO users (userUserName, userPassword)
-VALUES(uName, uPass)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uId` INT(20) UNSIGNED, IN `uFullName` VARCHAR(50), IN `uNick` VARCHAR(25), IN `uEmail` VARCHAR(50), IN `uPass` VARCHAR(255), IN `uAvatar` VARCHAR(40), IN `uCode` VARCHAR(6), IN `uActive` INT(1) UNSIGNED)  INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userAvatar, userVeryfyCode, userActive)
+VALUES(uId, uFullName, uNick, uEmail, uPass, uAvatar, uCode, uActive)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteComment` (IN `cId` INT(20) UNSIGNED, IN `uId` INT(20) UNSIGNED)  DELETE comments FROM comments 
 INNER JOIN users 
@@ -44,6 +44,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllUsers` ()  SELECT * FROM view
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEvents` ()  SELECT * FROM view_events LIMIT 10$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastComments` (IN `LastcId` INT(20) UNSIGNED)  SELECT * FROM view_comments WHERE commentId > LastcId LIMIT 10$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastEvents` (IN `iLatestId` INT(20))  SELECT * FROM view_events 
+WHERE eventId > iLatestId 
+LIMIT 10$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `uId` INT(20) UNSIGNED)  SELECT * FROM users 
 WHERE userId = uId 
@@ -109,12 +113,15 @@ CREATE TABLE `comments` (
 INSERT INTO `comments` (`commentId`, `commentEventFk`, `commentUserFk`, `commentText`, `commentCreated`, `commentActive`, `commentImg`, `commentHref`, `commentTotalLikes`, `commentTotalReplays`) VALUES
 (23, 1, 1, 'ttttttt', '2021-05-10 01:03:16', 1, NULL, NULL, 0, 0),
 (29, 2, 1, '................', '2021-05-11 00:25:34', 1, NULL, NULL, 0, 0),
-(73, 2, 1, 'h', '2021-05-11 04:18:43', 1, NULL, NULL, 0, 0),
 (77, 1, 1, 'hophop', '2021-05-11 04:20:02', 1, NULL, NULL, 0, 0),
 (82, 0, 1, 'OOOOOOOOOO', '2021-05-11 04:53:58', 1, NULL, NULL, 0, 0),
 (103, 2, 1, 'XXXXXXXXXXXXXXXXXX', '2021-05-11 17:55:55', 1, NULL, NULL, 0, 0),
-(104, 2, 1, 'gggg', '2021-05-11 17:58:30', 1, NULL, NULL, 0, 0),
-(106, 1, 1, 'X', '2021-05-11 18:00:20', 1, NULL, NULL, 0, 0);
+(106, 1, 1, 'X', '2021-05-11 18:00:20', 1, NULL, NULL, 0, 0),
+(115, 3, 1, '&lt;script&gt;document.querySelector(&quot;body&quot;).style.color = &quot;red&quot; &lt;/script&gt;', '2021-05-12 20:03:55', 1, NULL, NULL, 0, 0),
+(129, 1, 1, 'ggg', '2021-05-13 03:31:16', 1, NULL, NULL, 0, 0),
+(130, 2, 1, 'ggg', '2021-05-13 03:31:22', 1, NULL, NULL, 0, 0),
+(131, 3, 1, 'ggg', '2021-05-13 03:31:26', 1, NULL, NULL, 0, 0),
+(132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -143,7 +150,8 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`eventId`, `eventName`, `eventOwnerFk`, `eventAbout`, `eventTime`, `eventPlace`, `eventImg`, `eventCreated`, `eventActive`, `eventActivityType`, `eventTotalFollowees`, `eventTotalComments`) VALUES
 (1, 'Event Nr 1 Run', 3, 'run run run', '2021-05-19 12:14:44', 'address 1', 'photo-1526676037777-05a232554f77', '2021-05-10 00:18:51', 1, 'running', 0, 0),
-(2, 'Event Nr 2 Swim', 2, 'swim swim swim', '2021-05-14 10:14:44', 'address 2', 'photo-1472978346569-9fa7ea7adf4a', '2021-05-10 00:18:51', 1, 'swimming', 0, 0);
+(2, 'Event Nr 2 Swim', 2, 'swim swim swim', '2021-05-14 10:14:44', 'address 2', 'photo-1472978346569-9fa7ea7adf4a', '2021-05-10 00:18:51', 1, 'swimming', 0, 0),
+(3, 'Event Nr 3 Play', 5, 'Play Play play ', '2021-05-12 18:36:49', 'address3 ', 'photo-1547347298-4074fc3086f0', '2021-05-12 18:43:35', 1, 'playing', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -326,7 +334,7 @@ CREATE TABLE `users` (
   `userPassword` varchar(255) NOT NULL,
   `userAvatar` varchar(40) DEFAULT NULL,
   `userAbout` varchar(500) DEFAULT NULL,
-  `userVeryfyCode` varchar(50) NOT NULL,
+  `userVeryfyCode` varchar(6) NOT NULL,
   `userActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `userCity` varchar(60) DEFAULT NULL,
   `userLanguage` varchar(5) DEFAULT NULL,
@@ -346,7 +354,9 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (1, 'a aa', 'aaa', 'a@a.com', 'pass1', 'photo-1519872775884-29a6fea271ca', NULL, 'code1', 1, NULL, NULL, '2021-05-10 00:12:18', 0, 0, 0, 0, 0),
 (2, 'c cc', 'ccc', 'c@c.com', 'pass2', 'photo-1504810370725-2585de12e6ee', NULL, 'code2', 1, NULL, NULL, '2021-05-10 00:12:18', 0, 0, 0, 0, 0),
 (3, 'e ee', 'eee', 'e@2.com', 'pass3', 'photo-1489424731084-a5d8b219a5bb', NULL, 'code3', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
-(4, 'x xx', 'xxx', 'x@x.com', 'pass4', 'photo-1499996860823-5214fcc65f8f', NULL, 'code4', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0);
+(4, 'x xx', 'xxx', 'x@x.com', 'pass4', 'photo-1499996860823-5214fcc65f8f', NULL, 'code4', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
+(5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0),
+(6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -543,13 +553,13 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `eventId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `eventId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `galeries`
@@ -597,7 +607,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
