@@ -23,6 +23,10 @@
         <form id="signupForm" onsubmit="signup(); return false;">
             
             <h3>Signup</h3>
+            <?php
+                require_once("utils/csrfHelper.php");
+                csrfHelper::set_csrf();
+            ?>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
             <input type="text" name="email" placeholder="email">

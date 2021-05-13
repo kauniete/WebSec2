@@ -27,11 +27,8 @@ $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
 try {
-    $q = $db->prepare("
-        SELECT *
-        FROM users
-        WHERE users.userUserName = :userUserName LIMIT 1
-        ");
+    
+    $q = $db->prepare("CALL getUserByUserName(:username)");
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
@@ -42,25 +39,16 @@ try {
             return;
         }
         
-        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, :userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
+        $q=$db->prepare('CALL createUser(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userVerifyCode, :userActive)');
         
         $q->bindValue(':userId', null);
         $q->bindValue(':userFullName', 'test');
         $q->bindValue(':userUserName', $_POST['username']);
         $q->bindValue(':userEmail', $_POST['email']);
         $q->bindValue(':userPassword', $_POST['password']);
-        $q->bindValue(':userAvatar','testasd');
-        $q->bindValue(':userAbout', 'about me');
+        $q->bindValue(':userAvatar','photo-1580489944761-15a19d654956');
         $q->bindValue(':userVerifyCode', $vKey);
         $q->bindValue(':userActive', 1);
-        $q->bindValue(':userCity', 'test');
-        $q->bindValue(':userLanguage', 'test');
-        $q->bindValue(':userCreated', '2021-05-10 00:12:18');
-        $q->bindValue(':userTotalMessages', '20');
-        $q->bindValue(':userTotalImg', '20');
-        $q->bindValue(':userTotalFollowers', '20');
-        $q->bindValue(':userTotalFollowees', '20');
-        $q->bindValue(':userTotalFollowing', '20');
         
         // adding hash, salt and pepper to the password
         $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));

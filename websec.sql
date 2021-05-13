@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2021 at 01:41 AM
+-- Generation Time: May 13, 2021 at 04:38 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -30,8 +30,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `createComment` (IN `eId` INT(20) UN
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createLogs` (IN `uId` INT(20) UNSIGNED, IN `tNow` DATETIME)  INSERT INTO loggs VALUES(null, uId, 0, tNow)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uName` VARCHAR(25), IN `uPass` VARCHAR(255))  INSERT INTO users (userUserName, userPassword)
-VALUES(uName, uPass)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uId` INT(20) UNSIGNED, IN `uFullName` VARCHAR(50), IN `uNick` VARCHAR(25), IN `uEmail` VARCHAR(50), IN `uPass` VARCHAR(255), IN `uAvatar` VARCHAR(40), IN `uCode` VARCHAR(6), IN `uActive` INT(1) UNSIGNED)  INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userAvatar, userVeryfyCode, userActive)
+VALUES(uId, uFullName, uNick, uEmail, uPass, uAvatar, uCode, uActive)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteComment` (IN `cId` INT(20) UNSIGNED, IN `uId` INT(20) UNSIGNED)  DELETE comments FROM comments 
 INNER JOIN users 
@@ -118,7 +118,10 @@ INSERT INTO `comments` (`commentId`, `commentEventFk`, `commentUserFk`, `comment
 (103, 2, 1, 'XXXXXXXXXXXXXXXXXX', '2021-05-11 17:55:55', 1, NULL, NULL, 0, 0),
 (106, 1, 1, 'X', '2021-05-11 18:00:20', 1, NULL, NULL, 0, 0),
 (115, 3, 1, '&lt;script&gt;document.querySelector(&quot;body&quot;).style.color = &quot;red&quot; &lt;/script&gt;', '2021-05-12 20:03:55', 1, NULL, NULL, 0, 0),
-(125, 1, 1, 'gggg', '2021-05-13 00:30:04', 1, NULL, NULL, 0, 0);
+(129, 1, 1, 'ggg', '2021-05-13 03:31:16', 1, NULL, NULL, 0, 0),
+(130, 2, 1, 'ggg', '2021-05-13 03:31:22', 1, NULL, NULL, 0, 0),
+(131, 3, 1, 'ggg', '2021-05-13 03:31:26', 1, NULL, NULL, 0, 0),
+(132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -352,7 +355,8 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (2, 'c cc', 'ccc', 'c@c.com', 'pass2', 'photo-1504810370725-2585de12e6ee', NULL, 'code2', 1, NULL, NULL, '2021-05-10 00:12:18', 0, 0, 0, 0, 0),
 (3, 'e ee', 'eee', 'e@2.com', 'pass3', 'photo-1489424731084-a5d8b219a5bb', NULL, 'code3', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
 (4, 'x xx', 'xxx', 'x@x.com', 'pass4', 'photo-1499996860823-5214fcc65f8f', NULL, 'code4', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
-(5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0);
+(5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0),
+(6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -549,7 +553,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -603,7 +607,8 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
