@@ -24,7 +24,7 @@
             <script>
                 alert("Verfiy account done, you may sign in now");
                 <?php
-                header('Location: ../home.php');
+                header('Location: /../home.php');
                 exit();
                 ?>
             </script>

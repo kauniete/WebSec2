@@ -80,8 +80,8 @@ try {
     // $url = 'https://localhost/Second Semester/WebSec/ExamProject/api/signup-action.php?id='.$last_id.'$token='.$vKey;
     // $output = '<div>Please click the link'.$url.'</div>';
 
-    $q->execute();
 
+   $q->execute();
 
 // require_once ("../PHPMailer/class.phpmailer.php");
 
@@ -124,7 +124,15 @@ try {
     $mail->Body    = $vKey;
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
+    $q = $db->prepare("CALL getUserByUserName(:userUserName)");
+    $q->bindValue(':userUserName', $username);
+    $q->execute();
+    $aRow = $q->fetchAll();
+    $sUsername = $aRow[0]->userUserName;
 
+    $_SESSION['userId'] = $sUsername;
+    $_SESSION['userName'] = $_POST['username'];
+    $_SESSION['userAvatar'] = '';
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['vKey'] = $vKey;
 
@@ -141,12 +149,9 @@ try {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }            
         
-$result = $q->rowCount();
-       
-$_SESSION['userName'] = $_POST['username'];
-$_SESSION['userAvatar'] = '';
-
-echo 'you are signed up now!';
+//$result = $q->rowCount();
+//
+//echo 'you are signed up now!';
 
 } catch (Exception $ex) {
     header('Content-Type: application/json');
