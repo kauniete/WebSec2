@@ -104,7 +104,7 @@ try {
 
 
     //Recipients
-    $mail->setFrom('adigeorge652@gmail.com', 'Adi');
+    $mail->setFrom('adigeorge652@gmail.com', 'YellowMellow');
     //replace with $email, $name;
     $mail->addAddress($email, $username);   //Add a recipient
     // $mail->addAddress('ellen@example.com');               //Name is optional
@@ -139,8 +139,7 @@ try {
 } catch (Exception $e) {
     echo $e;
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-}
-    
+}            
         
 $result = $q->rowCount();
        
