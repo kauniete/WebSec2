@@ -3,14 +3,12 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
-// $conn = new mysqli('localhost', 'root', '' , 'login-security');
-// require '../vendor/autoload.php';
+
 $username = $_POST['username'];
 $password = $_POST['password'];
 $email = $_POST['email'];
-// // $conn = new mysqli("localhost", "root","","login-security");
-// // echo $conn;
-// // $emailTest = 'adi_george@outlook.com';
+
+echo $_POST['username'];
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
@@ -22,17 +20,17 @@ if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer
 if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
 if( strlen($_POST['email']) > 50 ){ sendError(400, 'Email cannot be longer than 50 characters', __LINE__); }
 if( strlen($_POST['email']) < 3 ){ sendError(400, 'Email must be at least 3 characters long', __LINE__); }
-
+// Check password format
+if(! $_POST['poassword'] == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $_POST['password'])){
+    echo 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
+    exit();
+}
 $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
 try {
     
-    $q = $db->prepare("
-        SELECT *
-        FROM users
-        WHERE users.userUserName = :username LIMIT 1
-        ");
+    $q = $db->prepare(" SELECT * FROM users WHERE users.userUserName = :userUserName LIMIT 1");
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
@@ -43,7 +41,7 @@ try {
             return;
         }
         
-        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
+        $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, :userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
         
         $q->bindValue(':userId', null);
         $q->bindValue(':userFullName', 'test');

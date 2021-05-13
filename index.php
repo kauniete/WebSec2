@@ -1,3 +1,6 @@
+<?php
+ session_start();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,8 +23,11 @@
             <input type="password" name="password" placeholder="password">
             <button type="submit" form="loginForm">Log in</button>
         </form>
-        <form id="signupForm" onsubmit="signup(); return false;">
-            
+        <form id="signupForm" onsubmit="signup(); return false;" method="POST" action="signup-action.php">
+        <?php
+                require_once("utils/csrfHelper.php");
+                csrfHelper::set_csrf();
+            ?>
             <h3>Signup</h3>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">

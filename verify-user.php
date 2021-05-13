@@ -22,6 +22,10 @@
       <div class="forms-container">
         <div class="reset-password">
           <form action="#" class="sign-in-form" method="POST">
+          <?php
+                require_once("utils/csrfHelper.php");
+                csrfHelper::set_csrf();
+            ?>
             <h2 class="title">Verify your Account</h2>
            	<div class="input-field">
               <i class="fas fa-key"></i>
