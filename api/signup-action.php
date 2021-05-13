@@ -49,7 +49,7 @@ try {
         $q->bindValue(':userAvatar','photo-1580489944761-15a19d654956');
         $q->bindValue(':userVerifyCode', $vKey);
         $q->bindValue(':userActive', 1);
-
+        
         // adding hash, salt and pepper to the password
         $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
         $pepper = $aData[0]->key;

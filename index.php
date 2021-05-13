@@ -20,7 +20,8 @@
             <input type="password" name="password" placeholder="password">
             <button type="submit" form="loginForm">Log in</button>
         </form>
-        <form id="signupForm" method="post">
+        <form id="signupForm" onsubmit="signup(); return false;">
+            
             <h3>Signup</h3>
             <?php
                 require_once("utils/csrfHelper.php");
@@ -29,8 +30,10 @@
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
             <input type="text" name="email" placeholder="email">
-            <button type="button" form="signupForm">Sign up</button>
+            <button form="signupForm">Sign up</button>
         </form>
     </div>
 </body>
+<script src="app.js"></script>
+
 </html>
