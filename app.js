@@ -322,3 +322,4 @@ async function signup(){
     }
     location.href="home.php"
   }
+  //karolina i have a problem with the ajax. Iff you have time could you take a look please? thanks
