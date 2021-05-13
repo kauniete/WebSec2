@@ -82,10 +82,19 @@ async function getLatestEvents(){
       document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem)
   }
 
-
-// Get Events
-function doAppendEvent(event) {
-    const { eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
+  
+// Get Token
+async function addToken(){
+	let request = await fetch('api/api-add-token.php')
+  if( ! request.ok ){ alert() }
+	let response = await request.json();
+  }
+  
+  
+  // Get Events
+  function doAppendEvent(event) {
+    addToken();
+    const { id, eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
     const eventsContainer = document.getElementById('events');
     const tmpEventElem = `
     <article class="event">
@@ -105,7 +114,7 @@ function doAppendEvent(event) {
             <div id="comments_${eventId}" class="comments"></div>
             <div>
               <form onsubmit="return false">
-                
+                <input type="hidden" name="csrf" value="${id}">
                 <input id="eventId" name="eventId" value="${eventId}" type="hidden">
                 <input id="commentText" name="commentText" type="text">
                 <button onclick="sendComment()">Send</button>
