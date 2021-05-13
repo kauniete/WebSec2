@@ -1,10 +1,13 @@
 <?php
 $dbHandler = require_once (__DIR__.'/../private/db.php');
+require_once (__DIR__.'/../utils/sendError.php');
 require_once (__DIR__.'/../utils/csrfHelper.php');
+
 if(! csrfHelper::is_csrf_valid()) {
     header('Content-Type: application/json');
     sendError(400, 'Invalid session', __LINE__);
 }
+
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 
@@ -113,16 +116,17 @@ try {
     }
 
     $_SESSION['userId'] = $currentUser->userId;
-    $_SESSION['username'] = $currentUser->userUserName;
+    $_SESSION['userName'] = $currentUser->userUserName;
     $_SESSION['password'] = $currentUser->userPassword;
+    $_SESSION['userAvatar'] = '';
 
 
 
-    header('Content-Type: application/json');
-    http_response_code(200); // default is this line
-    header('Location: '.__DIR__.'/home.php');
+    // header('Content-Type: application/json');
+    // http_response_code(200); // default is this line
+    header('Location: ../home.php');
 
-    echo 'you are logged in!';
+   // echo 'you are logged in!';
 
 } catch (Exception $ex) {
     header('Content-Type: application/json');
@@ -131,12 +135,6 @@ try {
 
 // ############################################################
 // ############################################################
-function sendError($iErrorCode, $sMessage, $iLine){
-    http_response_code($iErrorCode);
-    header('Content-Type: application/json');
-    echo '{"message":"'.$sMessage.'", "error":"'.$iLine.'"}';
-    exit();
-}
 
 function doCheckTimeDiff(DateTime $dateTime) {
     $secondDate = new DateTime();

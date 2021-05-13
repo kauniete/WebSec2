@@ -1,6 +1,3 @@
-<?php
- session_start();
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,26 +14,23 @@
             <h3>Login</h3>
             <?php
                 require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf();
+                csrfHelper::set_csrf("login");
             ?>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
             <button type="submit" form="loginForm">Log in</button>
         </form>
-        <form id="signupForm" onsubmit="signup(); return false;" method="POST" action="signup-action.php">
-        <?php
-                require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf();
-            ?>
+
+        <form id="signupForm" method="POST" action="api/signup-action.php">
             <h3>Signup</h3>
             <?php
                 require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf();
+                csrfHelper::set_csrf("signup");
             ?>
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
-            <input type="text" name="email" placeholder="email">
-            <button form="signupForm">Sign up</button>
+            <input type="email" name="email" placeholder="email">
+            <button type="submit" form="signupForm">Sign up</button>
         </form>
     </div>
 </body>

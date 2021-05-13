@@ -1,7 +1,8 @@
-  
 
 const localStates = {
   lastEventId: 0,
+  iLatestCommentId: 0
+
 }
 
 
@@ -33,7 +34,7 @@ async function sendComment(){
 
 // Get Last Comments to Events
 async function getLatestComments(){
-let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+iLatestCommentId, {
+let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+localStates.iLatestCommentId, {
   headers:{
     'Cache-Control': 'no-cache'
   }
@@ -44,7 +45,7 @@ let articles = document.querySelectorAll('article.event > div')
 let commentBox = document.querySelectorAll('#comments')
   ajComments.forEach( jComment => {
     doAppendCommentByEventId(jComment);
-    iLatestCommentId = jComment.commentId
+    localStates.iLatestCommentId = jComment.commentId
   })
 }
 
@@ -123,8 +124,8 @@ function doAppendEvent(event) {
           <div>
             <form onsubmit="return false">
               <input type="hidden" name="csrf" value="${id}">
-              <input id="eventId" name="eventId" value="${eventId}" type="hidden">
-              <input id="commentText" name="commentText" type="text">
+              <input id="eventId_${eventId}" name="eventId" value="${eventId}" type="hidden">
+              <input id="commentText_${eventId}" name="commentText" type="text">
               <button onclick="sendComment()">Send</button>
             </form>
           </div>
@@ -133,12 +134,14 @@ function doAppendEvent(event) {
   eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
 }
 
-let iLatestCommentId = 0
-setInterval( () => {
+//TODO: Call this once a user is logged in
+function doStartFetchingEventsData() {
+  setInterval( () => {
     getLatestEvents().then(() => {
-        getLatestComments();
+      getLatestComments();
     })
-} , 1000 )
+  } , 1000 )
+}
 
 
 // Delete User Comments
