@@ -1,9 +1,9 @@
 <?php
 try{
-//  $dbUserName = 'admin';
-//  $dbPassword = 's-fg-G*_9.U]VHeA'; // root | admin
-  $dbUserName = 'root';
-  $dbPassword = ''; // root | admin
+  $dbUserName = 'admin';
+  $dbPassword = 's-fg-G*_9.U]VHeA'; // root | admin
+//  $dbUserName = 'root';
+//  $dbPassword = ''; // root | admin
   $dbConnection = 'mysql:host=localhost; dbname=websec; charset=utf8mb4';
   $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // try-catch
