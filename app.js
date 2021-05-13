@@ -11,7 +11,7 @@ function openLogout(){
       logoutBox.style.display = "grid";
 
   window.onclick = function(event) {
-      if (event.target == logoutBox) {
+      if (event.target === logoutBox) {
           logoutBox.style.display = "none";
       }
   }
@@ -57,7 +57,14 @@ async function getLatestEvents(){
       }
   })
   if( ! conn.ok ){ alert() }
-  let ajEvents = await conn.json()
+  let ajEvents;
+  try {
+    ajEvents = await conn.json()
+  } catch (e) {
+    console.log('Invalid JSON response on getLatestEvents')
+    console.log(`Message: ${e.message}`);
+    return;
+  }
   ajEvents.forEach( jEvent => {
       doAppendEvent(jEvent);
       localStates.lastEventId = jEvent.eventId;
@@ -74,7 +81,7 @@ function doAppendCommentByEventId(comment) {
     let tmpCommentElem = `
       <div class="comment">
         <div class="owner">
-          <img src="fotos_assets/${userAvatar}.jpg">
+          <img src="fotos_assets/${userAvatar}.jpg" alt="">
           <p>Created by_${userName}</p>
         </div>
         <button onclick="deleteComment('${commentId}')" data-commentId='${commentId}'>Delete</button>
@@ -83,22 +90,31 @@ function doAppendCommentByEventId(comment) {
     document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem)
 }
 
+  
+// Get Token
+async function addToken(){
+	let request = await fetch('api/api-add-token.php')
+  if( ! request.ok ){ alert() }
+	let response = await request.json();
+  }
+  
 
 // Get Events
 function doAppendEvent(event) {
-  const { eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
+  addToken();
+  const { id, eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
   const eventsContainer = document.getElementById('events');
   const tmpEventElem = `
   <article class="event">
       <div id="event_${eventId}" class="event" data-event-id="${eventId}">
           <h2>${eventName}</h2><span><p>created: ${eventCreated}</p></span>
           <p>type: ${eventType}</p>
-          <img src="fotos_assets/${eventImg}.jpg">
+          <img src="fotos_assets/${eventImg}.jpg" alt="">
           <p>Event discription: ${eventAbout}</p>
           <p>time: ${eventTime}</p>
           <p>place: ${eventPlace}</p>
           <div class="owner" id="${userId}">
-            <img src="fotos_assets/${userAvatar}.jpg">
+            <img src="fotos_assets/${userAvatar}.jpg" alt="">
             <p>Created by_${userName}</p>
           </div>
           <p>followees count: ${eventTotalFollowees}</p>
@@ -106,7 +122,7 @@ function doAppendEvent(event) {
           <div id="comments_${eventId}" class="comments"></div>
           <div>
             <form onsubmit="return false">
-              
+              <input type="hidden" name="csrf" value="${id}">
               <input id="eventId" name="eventId" value="${eventId}" type="hidden">
               <input id="commentText" name="commentText" type="text">
               <button onclick="sendComment()">Send</button>
@@ -300,7 +316,7 @@ async function signup(){
       body : new FormData(form)
     })
     console.log(connection)
-    if( connection.status != 200 ){
+    if( connection.status !== 200 ){
       alert('contact system admin')
       return
     }

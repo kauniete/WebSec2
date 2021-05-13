@@ -58,7 +58,7 @@
 	if(isset($_POST['check_code'])){
     	 $otp_num = $_SESSION['vKey'];
          $email = $_SESSION['email'];
-      	 $otp = $_POST['otp_code'];
+      	 $otp = htmlspecialchars($_POST['otp_code']);
       	 if($otp_num != $otp){
          	?>
             <script>

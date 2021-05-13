@@ -28,9 +28,9 @@ if(! $_POST['poassword'] == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/',
 $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
-try {
-    
-    $q = $db->prepare(" SELECT * FROM users WHERE users.userUserName = :userUserName LIMIT 1");
+try {    
+    $q = $db->prepare("CALL getUserByUserName(:username)");
+
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
@@ -41,9 +41,10 @@ try {
             return;
         }
         
+
         $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, :userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
-        
-        $q->bindValue(':userId', null);
+       
+          $q->bindValue(':userId', null);
         $q->bindValue(':userFullName', 'test');
         $q->bindValue(':userUserName', $_POST['username']);
         $q->bindValue(':userEmail', $_POST['email']);

@@ -8,10 +8,18 @@ $_SESSION['userId'] = 1; // For testing via postman, delete later
 
 $db = require_once (__DIR__.'/../private/db.php');
 
+function is_csrf_valid(){
+  if(session_status() == 1){ session_start(); }
+  if( ! isset($_SESSION['csrf']) || ! isset($_POST['csrf'])){ return false; }
+  if( $_SESSION['csrf'] != $_POST['csrf']){ return false; }
+  return true;
+}
+
 try{
   if(!isset($_POST['commentText']) ){ http_status_code(400);  }
   if(strlen($_POST['commentText']) < 1 ){ http_status_code(400);  }
   if(strlen($_POST['commentText']) > 280 ){ http_status_code(400);  }
+  
 
   $eventId = $_POST['eventId'];
   $text = $_POST['commentText'];
