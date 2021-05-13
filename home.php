@@ -21,7 +21,7 @@ if( ! isset($_SESSION['userId']) ){
     <link rel="stylesheet" href="app.css">
 </head>
 
-<body>
+<body onload="doStartFetchingEventsData();">
 <header>
     <h1>Yellow Mellow</h1>
 </header>
@@ -119,5 +119,4 @@ if( ! isset($_SESSION['userId']) ){
     </div>
 </div>
     <script src="app.js"></script>
-    <script>doStartFetchingEventsData()</script>
 </html>

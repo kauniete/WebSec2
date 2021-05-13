@@ -116,16 +116,17 @@ try {
     }
 
     $_SESSION['userId'] = $currentUser->userId;
-    $_SESSION['username'] = $currentUser->userUserName;
+    $_SESSION['userName'] = $currentUser->userUserName;
     $_SESSION['password'] = $currentUser->userPassword;
+    $_SESSION['userAvatar'] = '';
 
 
 
-    header('Content-Type: application/json');
-    http_response_code(200); // default is this line
-    header('Location: '.__DIR__.'/home.php');
+    // header('Content-Type: application/json');
+    // http_response_code(200); // default is this line
+    header('Location: ../home.php');
 
-    echo 'you are logged in!';
+   // echo 'you are logged in!';
 
 } catch (Exception $ex) {
     header('Content-Type: application/json');
