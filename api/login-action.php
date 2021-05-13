@@ -1,10 +1,13 @@
 <?php
 $dbHandler = require_once (__DIR__.'/../private/db.php');
+require_once (__DIR__.'/../utils/sendError.php');
 require_once (__DIR__.'/../utils/csrfHelper.php');
+
 if(! csrfHelper::is_csrf_valid()) {
     header('Content-Type: application/json');
     sendError(400, 'Invalid session', __LINE__);
 }
+
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 
@@ -131,12 +134,6 @@ try {
 
 // ############################################################
 // ############################################################
-function sendError($iErrorCode, $sMessage, $iLine){
-    http_response_code($iErrorCode);
-    header('Content-Type: application/json');
-    echo '{"message":"'.$sMessage.'", "error":"'.$iLine.'"}';
-    exit();
-}
 
 function doCheckTimeDiff(DateTime $dateTime) {
     $secondDate = new DateTime();

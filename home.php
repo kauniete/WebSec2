@@ -1,8 +1,10 @@
 <?php
 session_start();
+
 $_SESSION['userAvatar'] = '';
-$_SESSION['userName'] = 'MonaMi';
-$_SESSION['userId'] = '1';
+//$_SESSION['userName'] = 'MonaMi';
+//$_SESSION['userId'] = '1';
+
 if( ! isset($_SESSION['userId']) ){
   header('Location: index.php');
   exit;
@@ -108,14 +110,14 @@ if( ! isset($_SESSION['userId']) ){
     </main>
 
     <div id="top">
-        <img src="<?=$_SESSION['userAvatar']?>">
+        <img src="<?=$_SESSION['userAvatar']?>" alt="">
         <p><strong><?=$_SESSION['userName']?></strong></p>
         <div onclick="openLogout()">
             <svg viewBox="0 0 24 24"><path d="M20.207 8.147c-.39-.39-1.023-.39-1.414 0L12 14.94 5.207 8.147c-.39-.39-1.023-.39-1.414 0-.39.39-.39 1.023 0 1.414l7.5 7.5c.195.196.45.294.707.294s.512-.098.707-.293l7.5-7.5c.39-.39.39-1.022 0-1.413z"></path></svg>
-            <a href="logout-action.php">Log out</a> 
+            <a href="api/logout-action.php">Log out</a>
         </div>
     </div>
 </div>
-
     <script src="app.js"></script>
+    <script>doStartFetchingEventsData()</script>
 </html>

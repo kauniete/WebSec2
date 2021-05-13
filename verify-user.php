@@ -1,6 +1,6 @@
 <?php
- session_start();
-?>
+//session_start();
+//?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,10 +21,10 @@
     <div class="container">
       <div class="forms-container">
         <div class="reset-password">
-          <form action="#" class="sign-in-form" method="POST">
+          <form action="api/api-verify-user.php" class="sign-in-form" method="POST">
           <?php
                 require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf();
+                csrfHelper::set_csrf('verify_user');
             ?>
             <h2 class="title">Verify your Account</h2>
            	<div class="input-field">
@@ -51,31 +51,4 @@
   </div>
 </body>
 </html>
-
-<?php
-	
-
-	if(isset($_POST['check_code'])){
-    	 $otp_num = $_SESSION['vKey'];
-         $email = $_SESSION['email'];
-      	 $otp = htmlspecialchars($_POST['otp_code']);
-      	 if($otp_num != $otp){
-         	?>
-            <script>
-                alert("Invalid OTP code");
-            </script>
-            <?php
-         }else{
-         	
-             ?>
-              <script>
-                  alert("Verfiy account done, you may sign in now");
-                	<?php
-                    header('Location: home.php');
-                    exit();
-                    ?>
-              </script>
-              <?php
-         }
-    }
 ?>

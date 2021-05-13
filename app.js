@@ -2,6 +2,8 @@
 
 const localStates = {
   lastEventId: 0,
+  iLatestCommentId: 0
+
 }
 
 
@@ -133,12 +135,14 @@ function doAppendEvent(event) {
   eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
 }
 
-let iLatestCommentId = 0
-setInterval( () => {
+//TODO: Call this once a user is logged in
+function doStartFetchingEventsData() {
+  setInterval( () => {
     getLatestEvents().then(() => {
-        getLatestComments();
+      getLatestComments();
     })
-} , 1000 )
+  } , 1000 )
+}
 
 
 // Delete User Comments
