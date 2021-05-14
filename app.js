@@ -1,4 +1,3 @@
-  
 
 const localStates = {
   lastEventId: 0,

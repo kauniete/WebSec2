@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2021 at 04:38 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: May 14, 2021 at 01:30 AM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -121,7 +121,10 @@ INSERT INTO `comments` (`commentId`, `commentEventFk`, `commentUserFk`, `comment
 (129, 1, 1, 'ggg', '2021-05-13 03:31:16', 1, NULL, NULL, 0, 0),
 (130, 2, 1, 'ggg', '2021-05-13 03:31:22', 1, NULL, NULL, 0, 0),
 (131, 3, 1, 'ggg', '2021-05-13 03:31:26', 1, NULL, NULL, 0, 0),
-(132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0);
+(132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0),
+(141, 2, 8, 'gg', '2021-05-14 01:12:27', 1, NULL, NULL, 0, 0),
+(146, 1, 8, 'gg', '2021-05-14 01:19:16', 1, NULL, NULL, 0, 0),
+(147, 1, 7, 'hhhh', '2021-05-14 01:28:08', 1, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -226,7 +229,9 @@ CREATE TABLE `loggs` (
 
 INSERT INTO `loggs` (`logId`, `logUserFk`, `logLogCount`, `logLastLog`) VALUES
 (1, 2, 0, '2021-05-14 10:14:44'),
-(2, 1, 0, '2021-05-14 10:14:44');
+(2, 1, 0, '2021-05-14 10:14:44'),
+(3, 8, 3, '2021-05-14 01:23:53'),
+(4, 7, 0, '2021-05-14 01:25:14');
 
 -- --------------------------------------------------------
 
@@ -334,7 +339,7 @@ CREATE TABLE `users` (
   `userPassword` varchar(255) NOT NULL,
   `userAvatar` varchar(40) DEFAULT NULL,
   `userAbout` varchar(500) DEFAULT NULL,
-  `userVeryfyCode` varchar(6) NOT NULL,
+  `userVeryfyCode` varchar(40) NOT NULL,
   `userActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `userCity` varchar(60) DEFAULT NULL,
   `userLanguage` varchar(5) DEFAULT NULL,
@@ -356,7 +361,9 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (3, 'e ee', 'eee', 'e@2.com', 'pass3', 'photo-1489424731084-a5d8b219a5bb', NULL, 'code3', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
 (4, 'x xx', 'xxx', 'x@x.com', 'pass4', 'photo-1499996860823-5214fcc65f8f', NULL, 'code4', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
 (5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0),
-(6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0);
+(6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0),
+(7, 'test', 'aiais', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dE1zeW9ueTBLQzAvN2dPNQ$9YRcWpeNNd6Rp2OrgUn1HTT5z62JEUvbg7tXQG5+zhI', 'testasd', 'about me', '0a26ab', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(8, 'test', 'qweqwe', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SHFEZVlKNlcvSlVTT0NWSA$3nmCZTl81pVtjVaFTMR2rAwvCaIbUvk5+tpsi4YKFyA', 'testasd', 'about me', '1e7cc2d6c99a39e8085f25861d92adda', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20);
 
 -- --------------------------------------------------------
 
@@ -553,7 +560,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -571,7 +578,7 @@ ALTER TABLE `galeries`
 -- AUTO_INCREMENT for table `loggs`
 --
 ALTER TABLE `loggs`
-  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -607,8 +614,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

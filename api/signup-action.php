@@ -62,7 +62,7 @@ try {
     $q->bindValue(':userUserName', $_POST['username']);
     $q->bindValue(':userEmail', $_POST['email']);
     $q->bindValue(':userPassword', $pwd_hashed);
-    $q->bindValue(':userAvatar','testasd');
+    $q->bindValue(':userAvatar','photo-1580489944761-15a19d654956');
     $q->bindValue(':userAbout', 'about me');
     $q->bindValue(':userVerifyCode', $vKey);
     $q->bindValue(':userActive', 1);
@@ -79,7 +79,6 @@ try {
     // $last_id= mysqli_insert_id($conn);
     // $url = 'https://localhost/Second Semester/WebSec/ExamProject/api/signup-action.php?id='.$last_id.'$token='.$vKey;
     // $output = '<div>Please click the link'.$url.'</div>';
-
 
    $q->execute();
 

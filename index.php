@@ -1,7 +1,7 @@
 <?php
 if( isset($_SESSION['userId']) ){
     header('Location: home.php');
-    exit;
+    exit();
 }
 ?>
 <!doctype html>
