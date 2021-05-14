@@ -16,6 +16,10 @@
             ?>
             <script>
                 alert("Invalid OTP code");
+                <?php
+                header('Location: ../index.php');
+                exit();
+                ?>
             </script>
             <?php
         }else{

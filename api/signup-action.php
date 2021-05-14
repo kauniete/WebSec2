@@ -127,7 +127,7 @@ try {
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
-    $sUsername = $aRow[0]->userUserName;
+    $sUsername = $aRow[0]->userId;
 
     $_SESSION['userId'] = $sUsername;
     $_SESSION['userName'] = $_POST['username'];
