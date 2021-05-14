@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-//echo $_SESSION['userAvatar'] = '';
+$_SESSION['userAvatar'] = '';
 //$_SESSION['userName'] = 'MonaMi';
 //$_SESSION['userId'] = '1';
 
 if( ! isset($_SESSION['userId']) ){
     header('Location: index.php');
-  exit;
+  exit();
 }
 ?>
 
