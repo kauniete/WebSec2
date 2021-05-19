@@ -2,8 +2,6 @@
 session_start();
 
 $_SESSION['userAvatar'] = '';
-//$_SESSION['userName'] = 'MonaMi';
-//$_SESSION['userId'] = '1';
 
 if( ! isset($_SESSION['userId']) ){
     header('Location: index.php');
@@ -87,7 +85,16 @@ if( ! isset($_SESSION['userId']) ){
         <section id="chat">
             <header>
                     <h3>Chat</h3>
-            </header>        
+            </header>
+            <form id="startChat" onsubmit="return false">
+                <input id="searchText" name="userProfileName" type="text" placeholder="Searching for the user ?"
+                    onfocus="showSearchResults()"
+                    oninput="startSearch()"
+                >
+            </form>    
+            <div id="searchResults"></div>
+            <div id="roomId" class="room"></div>
+            <div id="sendMessage"></div>
         </section>
 <!-- end of Chat page--> 
 
@@ -109,6 +116,7 @@ if( ! isset($_SESSION['userId']) ){
 <!-- end of Calendar page--> 
     </main>
 
+<!-- start of top page--> 
     <div id="top">
         <img src="<?=$_SESSION['userAvatar']?>" alt="">
         <p><strong><?=$_SESSION['userName']?></strong></p>
@@ -117,6 +125,14 @@ if( ! isset($_SESSION['userId']) ){
             <a href="api/logout-action.php">Log out</a>
         </div>
     </div>
+<!-- end of top page-->
+
+<!-- start of right page--> 
+    <div id="right">
+
+    </div>
+<!-- end of right page-->
+
 </div>
     <script src="app.js"></script>
 </html>
