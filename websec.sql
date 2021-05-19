@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2021 at 01:30 AM
+-- Generation Time: May 19, 2021 at 04:59 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -25,13 +25,22 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addRecieverToRoom` (IN `roId` INT(20) UNSIGNED, IN `recId` INT(20) UNSIGNED)  INSERT INTO inrooms (inroomRoomFk, inroomUserFk)
+VALUES (roId, recId)$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createComment` (IN `eId` INT(20) UNSIGNED, IN `uId` INT(20) UNSIGNED, IN `cText` VARCHAR(280))  INSERT INTO comments (commentEventFk, commentUserFk, commentText) 
   VALUES (eId, uId, cText)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createLogs` (IN `uId` INT(20) UNSIGNED, IN `tNow` DATETIME)  INSERT INTO loggs VALUES(null, uId, 0, tNow)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uId` INT(20) UNSIGNED, IN `uFullName` VARCHAR(50), IN `uNick` VARCHAR(25), IN `uEmail` VARCHAR(50), IN `uPass` VARCHAR(255), IN `uAvatar` VARCHAR(40), IN `uCode` VARCHAR(6), IN `uActive` INT(1) UNSIGNED)  INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userAvatar, userVeryfyCode, userActive)
-VALUES(uId, uFullName, uNick, uEmail, uPass, uAvatar, uCode, uActive)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createMessage` (IN `sId` INT(20) UNSIGNED, IN `rId` INT(20) UNSIGNED, IN `mtext` VARCHAR(640), IN `mImg` VARCHAR(40))  INSERT INTO messages (messageFromUserFk, messageToRoomFk, messageText, messageImg)
+VALUES (sId, rId, mtext, mImg)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createRoom` (IN `roId` INT(20) UNSIGNED, IN `uOwnId` INT(20) UNSIGNED, IN `rName` VARCHAR(40))  INSERT INTO rooms (rooms.roomId, rooms.roomOwnerFk, rooms.roomName)
+VALUES (roId, uOwnId, rName)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser` (IN `uId` INT(20) UNSIGNED, IN `uFullName` VARCHAR(50), IN `uNick` VARCHAR(25), IN `uEmail` VARCHAR(50), IN `uPass` VARCHAR(255), IN `uCode` VARCHAR(6), IN `uActive` INT(1) UNSIGNED)  INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userVeryfyCode, userActive)
+VALUES(uId, uFullName, uNick, uEmail, uPass, uCode, uActive)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteComment` (IN `cId` INT(20) UNSIGNED, IN `uId` INT(20) UNSIGNED)  DELETE comments FROM comments 
 INNER JOIN users 
@@ -49,6 +58,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastEvents` (IN `iLatestId` INT(
 WHERE eventId > iLatestId 
 LIMIT 10$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastMessages` (IN `sId` INT(20) UNSIGNED, IN `rId` INT(20) UNSIGNED, IN `LastmId` INT(20) UNSIGNED)  SELECT * FROM view_messages
+WHERE senderId = sId <> reciverId
+AND roomId = rId
+AND messageId > LastmId
+LIMIT 25$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastRooms` (IN `LastrId` INT(20) UNSIGNED, IN `ownId` INT(20) UNSIGNED)  SELECT * FROM view_rooms 
+WHERE roomId > LastrId
+AND senderId = ownId
+LIMIT 15$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `uId` INT(20) UNSIGNED)  SELECT * FROM users 
 WHERE userId = uId 
 LIMIT 1$$
@@ -60,6 +80,17 @@ LIMIT 1$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserLog` (IN `uName` VARCHAR(25))  SELECT * FROM logtry
 WHERE logtry.userName = uName 
 LIMIT 1$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `searchUser` (IN `searchString` VARCHAR(25))  SELECT userId AS id, 
+	   userUserName AS userNick, 
+       userFullName AS userName, 
+       userAvatar AS avatar, 
+       userEmail AS email 
+FROM users
+WHERE userUserName LIKE searchString 
+OR userEmail LIKE searchString
+OR userFullName LIKE searchString
+LIMIT 5$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateLogToIncrement` (IN `tNow` DATETIME, IN `uName` VARCHAR(25))  UPDATE logtry
 SET logtry.logCount = logtry.logCount + 1, 
@@ -122,9 +153,7 @@ INSERT INTO `comments` (`commentId`, `commentEventFk`, `commentUserFk`, `comment
 (130, 2, 1, 'ggg', '2021-05-13 03:31:22', 1, NULL, NULL, 0, 0),
 (131, 3, 1, 'ggg', '2021-05-13 03:31:26', 1, NULL, NULL, 0, 0),
 (132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0),
-(141, 2, 8, 'gg', '2021-05-14 01:12:27', 1, NULL, NULL, 0, 0),
-(146, 1, 8, 'gg', '2021-05-14 01:19:16', 1, NULL, NULL, 0, 0),
-(147, 1, 7, 'hhhh', '2021-05-14 01:28:08', 1, NULL, NULL, 0, 0);
+(148, 1, 7, 'hhhh', '2021-05-14 02:10:10', 1, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -204,11 +233,23 @@ CREATE TABLE `galeries` (
 --
 
 CREATE TABLE `inrooms` (
+  `inroomId` bigint(20) UNSIGNED NOT NULL,
   `inroomRoomFk` bigint(20) UNSIGNED NOT NULL,
   `inroomUserFk` bigint(20) UNSIGNED NOT NULL,
   `inroomCreated` datetime NOT NULL DEFAULT current_timestamp(),
   `inroomActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `inrooms`
+--
+
+INSERT INTO `inrooms` (`inroomId`, `inroomRoomFk`, `inroomUserFk`, `inroomCreated`, `inroomActive`) VALUES
+(1, 3, 1, '2021-05-18 04:30:09', 1),
+(2, 2, 1, '2021-05-18 04:31:06', 1),
+(3, 1, 2, '2021-05-18 05:05:52', 1),
+(4, 2, 8, '2021-05-18 05:05:52', 1),
+(66, 71, 12, '2021-05-19 03:33:50', 1);
 
 -- --------------------------------------------------------
 
@@ -230,8 +271,9 @@ CREATE TABLE `loggs` (
 INSERT INTO `loggs` (`logId`, `logUserFk`, `logLogCount`, `logLastLog`) VALUES
 (1, 2, 0, '2021-05-14 10:14:44'),
 (2, 1, 0, '2021-05-14 10:14:44'),
-(3, 8, 3, '2021-05-14 01:23:53'),
-(4, 7, 0, '2021-05-14 01:25:14');
+(3, 8, 1, '2021-05-14 15:30:21'),
+(4, 7, 0, '2021-05-14 01:25:14'),
+(5, 12, 1, '2021-05-14 15:34:47');
 
 -- --------------------------------------------------------
 
@@ -266,6 +308,17 @@ CREATE TABLE `messages` (
   `messageActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`messageId`, `messageFromUserFk`, `messageToRoomFk`, `messageText`, `messageCreated`, `messageImg`, `messageHref`, `messageQuoteFk`, `messageActive`) VALUES
+(1, 1, 1, 'hola hola', '2021-05-17 16:50:41', '', '', NULL, 1),
+(2, 1, 1, 'top top', '2021-05-17 17:14:30', '', '', NULL, 1),
+(8, 2, 1, 'hi hi hi', '2021-05-17 22:06:40', NULL, NULL, NULL, 1),
+(11, 1, 1, 'plum plum', '2021-05-19 03:28:14', NULL, NULL, NULL, 1),
+(19, 1, 1, '.................', '2021-05-19 04:56:32', NULL, NULL, NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -278,6 +331,17 @@ CREATE TABLE `reactions` (
   `reactionCount` int(10) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `reactions`
+--
+
+INSERT INTO `reactions` (`reactionId`, `reactionName`, `reactionCount`) VALUES
+(1, 'OK', 0),
+(2, 'Happy', 0),
+(3, 'Love', 0),
+(4, 'Sad', 0),
+(5, 'Angry', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -286,13 +350,27 @@ CREATE TABLE `reactions` (
 
 CREATE TABLE `recivers` (
   `reciverId` bigint(20) UNSIGNED NOT NULL,
+  `reciverRoomFk` bigint(20) UNSIGNED NOT NULL,
   `reciverUserFk` bigint(20) UNSIGNED NOT NULL,
-  `reciverRoomFk` bigint(20) UNSIGNED DEFAULT NULL,
   `reciverMessageFk` bigint(20) UNSIGNED NOT NULL,
   `reciverReactionFk` bigint(20) UNSIGNED DEFAULT NULL,
   `reciverRead` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `reciverActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `recivers`
+--
+
+INSERT INTO `recivers` (`reciverId`, `reciverRoomFk`, `reciverUserFk`, `reciverMessageFk`, `reciverReactionFk`, `reciverRead`, `reciverActive`) VALUES
+(1, 1, 2, 1, NULL, 0, 1),
+(2, 1, 2, 2, NULL, 0, 1),
+(3, 1, 2, 2, NULL, 0, 1),
+(4, 1, 2, 3, NULL, 0, 1),
+(5, 1, 2, 3, NULL, 0, 1),
+(6, 1, 8, 2, NULL, 0, 1),
+(7, 1, 1, 3, NULL, 0, 1),
+(8, 1, 2, 3, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -320,10 +398,22 @@ CREATE TABLE `replays` (
 
 CREATE TABLE `rooms` (
   `roomId` bigint(20) UNSIGNED NOT NULL,
-  `roomName` varchar(40) NOT NULL,
+  `roomOwnerFk` bigint(20) UNSIGNED NOT NULL,
+  `roomName` varchar(40) DEFAULT NULL,
   `roomCreated` datetime NOT NULL DEFAULT current_timestamp(),
   `roomActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`roomId`, `roomOwnerFk`, `roomName`, `roomCreated`, `roomActive`) VALUES
+(1, 1, 'FirstOne', '2021-05-17 17:08:20', 1),
+(2, 1, 'SecondOne', '2021-05-17 17:45:16', 1),
+(4, 3, '0', '2021-05-17 20:26:39', 1),
+(12, 8, '0', '2021-05-18 03:15:11', 1),
+(71, 1, '', '2021-05-19 03:33:50', 1);
 
 -- --------------------------------------------------------
 
@@ -363,7 +453,13 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0),
 (6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0),
 (7, 'test', 'aiais', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dE1zeW9ueTBLQzAvN2dPNQ$9YRcWpeNNd6Rp2OrgUn1HTT5z62JEUvbg7tXQG5+zhI', 'testasd', 'about me', '0a26ab', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(8, 'test', 'qweqwe', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SHFEZVlKNlcvSlVTT0NWSA$3nmCZTl81pVtjVaFTMR2rAwvCaIbUvk5+tpsi4YKFyA', 'testasd', 'about me', '1e7cc2d6c99a39e8085f25861d92adda', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20);
+(8, 'test', 'qweqwe', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SHFEZVlKNlcvSlVTT0NWSA$3nmCZTl81pVtjVaFTMR2rAwvCaIbUvk5+tpsi4YKFyA', 'photo-1580489944761-15a19d654956', 'about me', '1e7cc2d6c99a39e8085f25861d92adda', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(9, 'test', 'poipoi', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$azQudXpaZkx2SUpVd2REUw$po9Q0eM9FIXfaro8CaLMZSYE++FV4mxp6jsG+od4yzY', 'photo-1580489944761-15a19d654956', 'about me', 'b5ec0fb194f07820ce17b919e143ca1c', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(10, 'test', 'poipoi2', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$RE02N29Dai41QmdRNnF1TA$nyQvrn23sN/MPuQA9U1HEUM1WyWRc7g6PnaLKHDM93I', 'photo-1580489944761-15a19d654956', 'about me', '007894d500686f7ee806d939393b010a', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(11, 'test', 'qweqwe34', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SmtONlQxRnNYSkJvbi4xYw$7UwkUA0R/DyH5iYQu4wGB5xqE+35r1GK01UnsqqQBJY', 'photo-1580489944761-15a19d654956', 'about me', '25daf37391ca6cdda13731f058fa06f4', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(12, 'test', 'poipoi89', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$TGV6QzRBbDZZTDQxWTl4Lg$n7VrO4CxTgTfNqvNiEKo29DUsnUxuCJDDMciPiV82W0', 'photo-1580489944761-15a19d654956', 'about me', 'c5ba5f3ac040b07578e43d1f113b508f', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(13, 'test', 'qweqwe09', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$WHQ1eFRBMnYvdlNpejBQeQ$+2WpOnn92UTfWyOvgc2RCVxcqx+kfy34AFytRpXwRBc', 'photo-1580489944761-15a19d654956', 'about me', '6fdd71888b04d1b1d5831cc3588053ba', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(14, 'test', 'evebra12', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dm5vYUpyN1huOUdMeTRkVg$/gSINflQ/uzFpsuLrxwadSQns7MD19z0zVjlEmtrWUo', 'photo-1580489944761-15a19d654956', 'about me', 'd90ad21cf9ba84db8bd5706031df2664', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20);
 
 -- --------------------------------------------------------
 
@@ -407,6 +503,63 @@ CREATE TABLE `view_events` (
 ,`userId` bigint(20) unsigned
 ,`userName` varchar(25)
 ,`userAvatar` varchar(40)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_messages`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_messages` (
+`senderId` bigint(20) unsigned
+,`senderNick` varchar(25)
+,`senderAvatar` varchar(40)
+,`roomId` bigint(20) unsigned
+,`roomName` varchar(40)
+,`reciverId` bigint(20) unsigned
+,`reciverNick` varchar(25)
+,`reciverAvatar` varchar(40)
+,`messageId` bigint(20) unsigned
+,`messageText` varchar(640)
+,`messageImg` varchar(40)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_messages2`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_messages2` (
+`senderId` bigint(20) unsigned
+,`senderNick` varchar(25)
+,`senderAvatar` varchar(40)
+,`roomId` bigint(20) unsigned
+,`roomName` varchar(40)
+,`reciverId` bigint(20) unsigned
+,`reciverNick` varchar(25)
+,`reciverAvatar` varchar(40)
+,`messageId` bigint(20) unsigned
+,`messageText` varchar(640)
+,`messageImg` varchar(40)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_rooms`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_rooms` (
+`senderId` bigint(20) unsigned
+,`senderNick` varchar(25)
+,`senderAvatar` varchar(40)
+,`roomId` bigint(20) unsigned
+,`roomName` varchar(40)
+,`reciverId` bigint(20) unsigned
+,`reciverNick` varchar(25)
+,`reciverAvatar` varchar(40)
 );
 
 -- --------------------------------------------------------
@@ -459,6 +612,33 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `view_messages`
+--
+DROP TABLE IF EXISTS `view_messages`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar`, `messages`.`messageId` AS `messageId`, `messages`.`messageText` AS `messageText`, `messages`.`messageImg` AS `messageImg` FROM ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `inrooms`) WHERE `messages`.`messageFromUserFk` = `sender`.`userId` AND `messages`.`messageToRoomFk` = `rooms`.`roomId` AND `inrooms`.`inroomRoomFk` = `rooms`.`roomId` AND `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_messages2`
+--
+DROP TABLE IF EXISTS `view_messages2`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages2`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar`, `messages`.`messageId` AS `messageId`, `messages`.`messageText` AS `messageText`, `messages`.`messageImg` AS `messageImg` FROM ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `recivers`) WHERE `sender`.`userId` <> `reciver`.`userId` AND `messages`.`messageFromUserFk` = `sender`.`userId` AND `messages`.`messageToRoomFk` = `rooms`.`roomId` AND `recivers`.`reciverMessageFk` = `messages`.`messageId` AND `recivers`.`reciverRoomFk` = `rooms`.`roomId` AND `recivers`.`reciverUserFk` = `reciver`.`userId` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_rooms`
+--
+DROP TABLE IF EXISTS `view_rooms`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_rooms`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar` FROM (((`users` `sender` join `users` `reciver`) join `rooms`) join `inrooms`) WHERE `sender`.`userId` <> `reciver`.`userId` AND `rooms`.`roomOwnerFk` = `sender`.`userId` AND `rooms`.`roomId` = `inrooms`.`inroomRoomFk` AND `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `view_users`
 --
 DROP TABLE IF EXISTS `view_users`;
@@ -496,6 +676,13 @@ ALTER TABLE `events`
 ALTER TABLE `galeries`
   ADD PRIMARY KEY (`galeryId`),
   ADD UNIQUE KEY `galeryId` (`galeryId`);
+
+--
+-- Indexes for table `inrooms`
+--
+ALTER TABLE `inrooms`
+  ADD PRIMARY KEY (`inroomId`),
+  ADD UNIQUE KEY `inroomId` (`inroomId`);
 
 --
 -- Indexes for table `loggs`
@@ -560,7 +747,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -575,28 +762,34 @@ ALTER TABLE `galeries`
   MODIFY `galeryId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `inrooms`
+--
+ALTER TABLE `inrooms`
+  MODIFY `inroomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+
+--
 -- AUTO_INCREMENT for table `loggs`
 --
 ALTER TABLE `loggs`
-  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `reactions`
 --
 ALTER TABLE `reactions`
-  MODIFY `reactionId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `reactionId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `recivers`
 --
 ALTER TABLE `recivers`
-  MODIFY `reciverId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `reciverId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `replays`
@@ -608,13 +801,13 @@ ALTER TABLE `replays`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

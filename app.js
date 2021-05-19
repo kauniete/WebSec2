@@ -146,7 +146,7 @@ function doStartFetchingEventsData() {
 
 // Delete User Comments
 async function deleteComment(commentId) {
-event.target.parentElement.remove();
+let box = event.target.parentElement;
 let con = await fetch('api/api-delete-comment.php?commentId='+commentId, {
   headers:{
     'Cache-Control': 'no-cache'
@@ -155,7 +155,189 @@ let con = await fetch('api/api-delete-comment.php?commentId='+commentId, {
 if( ! con.ok ){ alert() }
 let response = await con.json();
 console.log(response);
+box.remove();
 }
+
+  
+// Search Users in Chat
+function showSearchResults(){
+  document.querySelector('#searchResults').style.display = "grid"
+}
+
+function hideSearchResults(){
+  document.querySelector('#searchResults').style.display = "none"
+}
+
+async function startSearch(){
+     // Check that the input has data
+  if( document.querySelector('#searchText').value.length == 0 ){
+    return
+  }
+  
+  let sSearchFor = document.querySelector('#searchText').value
+  let conn = await fetch('api/api-search-user.php?user='+sSearchFor)
+  if( ! conn.ok ){ }
+  let ajData = await conn.json()
+     // Clear previous data
+  document.querySelector('#searchResults').innerHTML = ""
+  ajData.forEach( jItem => {
+    let sResultDiv = `
+    <div class="result" id="${jItem.id}">
+      <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
+      <p>${jItem.userNick}</p>
+      <button onclick="createRoom('${jItem.id}', '${jItem.userNick}', '${jItem.avatar}')" data-addUserId='${jItem.id}' data-addUserNick='${jItem.userNick}' data-addUserImg='${jItem.avatar}'>+ add User</button>
+    </div>
+    `
+    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
+  })
+}
+
+
+// Create Room in Chat
+async function createRoom(addUserId, addUserNick, addUserImg){
+  //let roId = document.querySelector('#roomId').id
+  //let resultId = document.querySelector('div.result').id
+  let con = await fetch('api/api-create-room.php', {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! con.ok ){ alert() }
+  let response = await con.json();
+  console.log(response);
+  let sRoomDiv = `
+    <div class="rooms" id="${response}">
+      <img src="fotos_assets/${addUserImg}.jpg" alt="">
+      <form onsubmit="return false">
+        <input id="LastMid" name="LastMid" value="${response}" type="hidden">
+        <button onclick="showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}" >Chat with</button>
+      </form>
+      <p><strong>${addUserNick}</strong></p>
+    </div>
+    `
+    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
+    roId = `${response}`
+    addUser(roId, addUserId)
+  }
+
+
+  // Add Users to Chat
+async function addUser(roId, addUserId){
+  let con = await fetch('api/api-add-reciver.php?room='+roId+'&to='+addUserId, {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! con.ok ){ alert() }
+  let response = await con.json();
+  hideSearchResults();
+  }
+
+
+// Get all User Rooms
+async function getUsersRooms(){
+  let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if( ! conn.ok ){ }
+  let ajData = await conn.json()
+  ajData.forEach( jItem => {
+  let sRoomDiv = `
+    <div class="rooms" id="${jItem.roomId}">
+      <img src="fotos_assets/${jItem.reciverAvatar}.jpg" alt="">
+      <form onsubmit="return false">
+        <input id="LastMid" name="LastMid" value="${jItem.roomId}" type="hidden">
+        <button  onclick="showChatRoom(${jItem.roomId}), goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
+      </form>
+      <p><strong>${jItem.reciverNick}</strong></p>
+    </div>
+    `
+    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
+    iLatestRoomId = jItem.roomId
+  })
+}
+
+let iLatestRoomId = 0
+  setInterval( () => { getUsersRooms()  } , 1000 )
+
+
+// Show Chat in Room
+  async function showChatRoom(roomId){
+  let form = new FormData(event.target.parentNode);
+  let conn = await fetch('api/api-get-latest-message.php?room='+roomId, {
+    method : "POST",
+    body : form
+  })
+  if( ! conn.ok ){ }
+  let ajData = await conn.json()
+  ajData.forEach( jItem => {
+    let sMessageDiv = `
+    <div class="message" id="${jItem.messageId}">
+      <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
+      <p class="${jItem.senderNick}">${jItem.messageText}</p>
+    </div>
+    `
+    document.querySelector('#roomId').insertAdjacentHTML('beforeend', sMessageDiv)
+    iLatestRoomId = jItem.roomId
+    let aMessages = document.querySelectorAll(`p.${jItem.senderNick}`)
+    aMessages.forEach(message => {
+      message.style.backgroundColor = "rgba(212, 175, 55, .3)";
+      message.style.justifySelf = "right";
+  })
+
+})
+}
+
+
+// Go To Room
+function goToRoom(roId){
+    addToken();
+    const { id } = event;
+    let sMessForm = `
+    <form onsubmit="return false">
+    <input type="hidden" name="csrf" value="${id}">
+    <input id="${roId}" name="roomId" value="${roId}" type="hidden">
+    <input id="" name="messageText" type="text">
+    <button onclick="sendMessage(${roId})" data-roomId="${roId}">Send</button>
+    </form>
+    `
+    document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm)
+}
+
+
+// Create Message in Room
+async function sendMessage(roId){
+  let form = new FormData(event.target.parentNode);
+  let conn = await fetch('api/api-create-message.php', {
+    method : "POST",
+    body : form
+  })
+  if( ! conn.ok ){ alert() }
+  let response = await conn.json();
+  showChatRoom(roId)
+}
+
+
+// Signup
+async function signup(){
+  // AJAX only if there are no errors
+  var form = event.target
+    console.log(form);
+  
+    var connection = await fetch("../api/signup-action.php", {
+      method : "POST",
+      body : new FormData(form)
+    })
+    console.log(connection)
+    if( connection.status !== 200 ){
+      alert('contact system admin')
+      return
+    }
+    location.href="home.php"
+  }
+  //karolina i have a problem with the ajax. Iff you have time could you take a look please? thanks
 
 
 // Page Change
@@ -309,20 +491,3 @@ serchField.addEventListener('focusout', (event) => {
   serchIcon.style.fill = "rgba(0, 0, 0, 0.5)";    
 });
 
-async function signup(){
-  // AJAX only if there are no errors
-  var form = event.target
-    console.log(form);
-  
-    var connection = await fetch("../api/signup-action.php", {
-      method : "POST",
-      body : new FormData(form)
-    })
-    console.log(connection)
-    if( connection.status !== 200 ){
-      alert('contact system admin')
-      return
-    }
-    location.href="home.php"
-  }
-  //karolina i have a problem with the ajax. Iff you have time could you take a look please? thanks

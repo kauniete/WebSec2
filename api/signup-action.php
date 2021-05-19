@@ -55,25 +55,15 @@ try {
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
     $pwd_hashed = password_hash($pwd_peppered, PASSWORD_ARGON2ID); // hashing again and keep in mind that salt is now added by default with password_hash
 
-    $q=$db->prepare('INSERT INTO users VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userAvatar, :userAbout, :userVerifyCode, :userActive, :userCity, :userLanguage, :userCreated, :userTotalMessages, :userTotalImg, :userTotalFollowers, :userTotalFollowees, :userTotalFollowing)');
+    $q=$db->prepare('CALL createUser(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive)');
 
     $q->bindValue(':userId', null);
     $q->bindValue(':userFullName', 'test');
     $q->bindValue(':userUserName', $_POST['username']);
     $q->bindValue(':userEmail', $_POST['email']);
     $q->bindValue(':userPassword', $pwd_hashed);
-    $q->bindValue(':userAvatar','photo-1580489944761-15a19d654956');
-    $q->bindValue(':userAbout', 'about me');
     $q->bindValue(':userVerifyCode', $vKey);
     $q->bindValue(':userActive', 1);
-    $q->bindValue(':userCity', 'test');
-    $q->bindValue(':userLanguage', 'test');
-    $q->bindValue(':userCreated', '2021-05-10 00:12:18');
-    $q->bindValue(':userTotalMessages', '20');
-    $q->bindValue(':userTotalImg', '20');
-    $q->bindValue(':userTotalFollowers', '20');
-    $q->bindValue(':userTotalFollowees', '20');
-    $q->bindValue(':userTotalFollowing', '20');
 
     // echo $last_id;
     // $last_id= mysqli_insert_id($conn);
@@ -127,9 +117,9 @@ try {
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
-    $sUsername = $aRow[0]->userId;
+    $sUserId = $aRow[0]->userId;
 
-    $_SESSION['userId'] = $sUsername;
+    $_SESSION['userId'] = $sUserId;
     $_SESSION['userName'] = $_POST['username'];
     $_SESSION['userAvatar'] = '';
     $_SESSION['email'] = $_POST['email'];

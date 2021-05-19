@@ -5,7 +5,7 @@ require_once(__DIR__.'/router.php');
 // #####################################
 // #####################################
 // #####################################
-get('/login', '/index.php');
+get('/login', 'index.php');
 get('/signup', '/verify-user.php');
 get('/home', '/home.php');
 
