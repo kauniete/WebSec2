@@ -7,11 +7,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-    <title>H-hotel verify account</title>
+    <title>Verify account</title>
     <!-- Social media CDN -->
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+     <!--<script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <!-- favicon icon -->
-    <link rel="shortcut icon" type="image/png" href="../images/favicon.png">
+     <!--<link rel="shortcut icon" type="image/png" href="../images/favicon.png">
     <!-- css -->
   </head>
 
