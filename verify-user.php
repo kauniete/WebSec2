@@ -28,7 +28,7 @@
             ?>
             <h2 class="title">Verify your Account</h2>
            	<div class="input-field">
-              <i class="fas fa-key"></i>
+              <!--<i class="fas fa-key"></i>-->
               <input type="text" placeholder="OTP code" name="otp_code" id="code">
             </div>   
             <input type="submit" value="Verify" class="btn solid" name="check_code">
