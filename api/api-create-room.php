@@ -5,14 +5,15 @@ if( ! isset($_SESSION['userId']) ){
   header('Location: ../index.php');
 }
 
+$_SESSION['userId'] = 1;
 $db = require_once (__DIR__.'/../private/db.php');
 
 try{
-  $q = $db->prepare('INSERT INTO rooms (rooms.roomId, rooms.roomOwnerFk, rooms.roomName)
+  $q = $db->prepare('INSERT INTO rooms (roomId, roomOwnerFk, roomName)
   VALUES (:roomId, :roomOwner, :roomName)');
   $q->bindValue('roomId', null);
   $q->bindValue('roomOwner', $_SESSION['userId']);
-  $q->bindValue('roomName', '');
+  $q->bindValue('roomName', null);
   $q->execute();
   $iLastInsertedId = $db->lastInsertId();
   echo $iLastInsertedId;

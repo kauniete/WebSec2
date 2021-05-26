@@ -23,7 +23,8 @@ try{
   $eventId = $_POST['eventId'];
   $text = $_POST['commentText'];
 
-  $q = $db->prepare("CALL createComment(:eventId, :userId, :commentText)");
+  $q = $db->prepare("INSERT INTO comments (commentEventFk, commentUserFk, commentText) 
+  VALUES (:eventId, :userId, :commentText)");
   $q->bindValue(':eventId', htmlspecialchars($eventId));
   $q->bindValue(':userId', $_SESSION['userId']);
   $q->bindValue(':commentText', htmlspecialchars($text));

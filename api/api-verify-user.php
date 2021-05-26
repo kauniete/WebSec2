@@ -7,31 +7,17 @@
         sendError(400, 'Invalid session', __LINE__);
     }
 
-
 	if(isset($_POST['otp_code'])){
         $otp_num = $_SESSION['vKey'];
         $email = $_SESSION['email'];
         $otp = htmlspecialchars($_POST['otp_code']);
-        if($otp_num != $otp){
-            ?>
-            <script>
-                alert("Invalid OTP code");
-                <?php
-                header('Location: ../index.php');
-                exit();
-                ?>
-            </script>
-            <?php
-        }else{
 
-            ?>
-            <script>
-                alert("Verfiy account done, you may sign in now");
-                <?php
-                header('Location: ../home.php');
-                exit();
-                ?>
-            </script>
-            <?php
+        if($otp_num != $otp){
+            header('Location: ../index.php');
+            exit();
+
+        }else{
+            header('Location: ../home.php');
+            exit();
         }
     }
