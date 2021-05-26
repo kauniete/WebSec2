@@ -316,7 +316,7 @@ async function sendMessage(roId){
   })
   if( ! conn.ok ){ alert() }
   let response = await conn.json();
-  showChatRoom(roId)
+  //showChatRoom(roId)
 }
 
 

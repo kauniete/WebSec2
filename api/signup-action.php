@@ -11,13 +11,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-$email = $_POST['email'];
-
-
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
+$email = htmlspecialchars($_POST['email']);
 
 if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
 if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
@@ -28,7 +24,7 @@ if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer
 if( strlen($_POST['email']) > 50 ){ sendError(400, 'Email cannot be longer than 50 characters', __LINE__); }
 if( strlen($_POST['email']) < 3 ){ sendError(400, 'Email must be at least 3 characters long', __LINE__); }
 // Check password format
-if(! $_POST['password'] == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $_POST['password'])){
+if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
     echo 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
     exit();
 }
@@ -51,16 +47,17 @@ try {
     // adding hash, salt and pepper to the password
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
     $pepper = $aData[0]->key;
-    $pwd = $_POST['password'];
+    $pwd = htmlspecialchars($_POST['password']);
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
     $pwd_hashed = password_hash($pwd_peppered, PASSWORD_ARGON2ID); // hashing again and keep in mind that salt is now added by default with password_hash
 
-    $q=$db->prepare('CALL createUser(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive)');
+    $q=$db->prepare('INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userVeryfyCode, userActive)
+    VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive)');
 
     $q->bindValue(':userId', null);
     $q->bindValue(':userFullName', 'test');
-    $q->bindValue(':userUserName', $_POST['username']);
-    $q->bindValue(':userEmail', $_POST['email']);
+    $q->bindValue(':userUserName', $username);
+    $q->bindValue(':userEmail', $email);
     $q->bindValue(':userPassword', $pwd_hashed);
     $q->bindValue(':userVerifyCode', $vKey);
     $q->bindValue(':userActive', 1);
@@ -120,9 +117,9 @@ try {
     $sUserId = $aRow[0]->userId;
 
     $_SESSION['userId'] = $sUserId;
-    $_SESSION['userName'] = $_POST['username'];
+    $_SESSION['userName'] = $username;
     $_SESSION['userAvatar'] = '';
-    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['email'] = $email;
     $_SESSION['vKey'] = $vKey;
 
     if($mail->send()){

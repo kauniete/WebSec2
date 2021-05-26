@@ -7,13 +7,14 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestEventId = $_GET['iLatestEventId'] ?? 0;
+$iLatestEventId = htmlspecialchars($_GET['iLatestEventId']) ?? 0;
 
 try{
     $q = $db->prepare('CALL getLastEvents(:iLatestEventId)');
     $q->bindValue(':iLatestEventId', $iLatestEventId);
     $q->execute();
     $ajRows = $q->fetchAll();
+    header('Content-Type: application/json');
     echo json_encode($ajRows);
 
 }catch(Exception $ex){

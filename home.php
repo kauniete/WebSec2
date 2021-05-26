@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-$_SESSION['userAvatar'] = '';
 
 if( ! isset($_SESSION['userId']) ){
     header('Location: index.php');
