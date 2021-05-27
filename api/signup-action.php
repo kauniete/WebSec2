@@ -28,6 +28,12 @@ if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password
     echo 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
     exit();
 }
+// Check email format
+if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
+    echo 'email not valid';
+    exit();
+}
+
 $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
