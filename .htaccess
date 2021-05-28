@@ -2,5 +2,7 @@
 RewriteEngine On
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI}  [L,R=301]
+# Tell the server to allow direct access to files ending with specific extensions. 
+# Also tell the server to redirect all requests to the routes file. 
 RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.php)$
 RewriteRule (.*) routes.php [QSA,L]
