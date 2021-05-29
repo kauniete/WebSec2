@@ -3,8 +3,9 @@
 require_once (__DIR__.'/../utils/csrfHelper.php');
 require_once (__DIR__.'/../utils/sendError.php');
 if(! csrfHelper::is_csrf_valid()) {
-    header('Content-Type: application/json');
-    sendError(400, 'Invalid session: '.$_SESSION['csrf'], __LINE__);
+//    header('Content-Type: application/json');
+
+    sendError(400, 'Invalid csrf token', __LINE__);
 }
 
 use PHPMailer\PHPMailer\PHPMailer;
