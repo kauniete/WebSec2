@@ -26,7 +26,7 @@ async function sendComment(){
     method : "POST",
     body : form
   })
-  if( ! conn.ok ){ alert() }
+  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest comments') }
 
     getLatestComments()
 }
@@ -39,7 +39,7 @@ let conn = await fetch('api/api-get-latest-comments.php?iLatestCommentId='+local
     'Cache-Control': 'no-cache'
   }
 })
-if( ! conn.ok ){ alert() }
+if( ! conn.ok ){ doShowToastMessage('Failed to load the latest comments') }
 let ajComments = await conn.json()
 let articles = document.querySelectorAll('article.event > div')
 let commentBox = document.querySelectorAll('#comments')
@@ -57,7 +57,7 @@ async function getLatestEvents(){
           'Cache-Control': 'no-cache'
       }
   })
-  if( ! conn.ok ){ alert() }
+  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest events') }
   let ajEvents;
   try {
     ajEvents = await conn.json()
@@ -95,7 +95,7 @@ function doAppendCommentByEventId(comment) {
 // Get Token
 async function addToken(){
 	let request = await fetch('api/api-add-token.php')
-  if( ! request.ok ){ alert() }
+  if( ! request.ok ){ doShowToastMessage('Failed to add token') }
 	let response = await request.json();
   }
   
@@ -152,7 +152,7 @@ let con = await fetch('api/api-delete-comment.php?commentId='+commentId, {
     'Cache-Control': 'no-cache'
   }
 })
-if( ! con.ok ){ alert() }
+if( ! con.ok ){ doShowToastMessage('Failed to delete the comment') }
 let response = await con.json();
 console.log(response);
 box.remove();
@@ -176,7 +176,7 @@ async function startSearch(){
   
   let sSearchFor = document.querySelector('#searchText').value
   let conn = await fetch('api/api-search-user.php?user='+sSearchFor)
-  if( ! conn.ok ){ }
+  if( ! conn.ok ){ doShowToastMessage('Failed to load users') }
   let ajData = await conn.json()
      // Clear previous data
   document.querySelector('#searchResults').innerHTML = ""
@@ -202,7 +202,7 @@ async function createRoom(addUserId, addUserNick, addUserImg){
       'Cache-Control': 'no-cache'
     }
   })
-  if( ! con.ok ){ alert() }
+  if( ! con.ok ){ doShowToastMessage('Failed to create room') }
   let response = await con.json();
   console.log(response);
   let sRoomDiv = `
@@ -210,7 +210,7 @@ async function createRoom(addUserId, addUserNick, addUserImg){
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
       <form onsubmit="return false">
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
-        <button onclick="showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}" >Chat with</button>
+        <button onclick="showChatRoom(${response}) goToRoom(${response})" data-roomId="${response}" >Chat with</button>
       </form>
       <p><strong>${addUserNick}</strong></p>
     </div>
@@ -228,7 +228,7 @@ async function addUser(roId, addUserId){
       'Cache-Control': 'no-cache'
     }
   })
-  if( ! con.ok ){ alert() }
+  if( ! con.ok ){ doShowToastMessage('Failed to add receiver') }
   let response = await con.json();
   hideSearchResults();
   }
@@ -241,7 +241,7 @@ async function getUsersRooms(){
       'Cache-Control': 'no-cache'
     }
   })
-  if( ! conn.ok ){ }
+  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest rooms') }
   let ajData = await conn.json()
   ajData.forEach( jItem => {
   let sRoomDiv = `
@@ -270,7 +270,7 @@ let iLatestRoomId = 0
     method : "POST",
     body : form
   })
-  if( ! conn.ok ){ }
+  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
   ajData.forEach( jItem => {
     let sMessageDiv = `
@@ -314,9 +314,9 @@ async function sendMessage(roId){
     method : "POST",
     body : form
   })
-  if( ! conn.ok ){ alert() }
+  if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
-  //showChatRoom(roId)
+  showChatRoom(roId)
 }
 
 
@@ -332,7 +332,7 @@ async function signup(){
     })
     console.log(connection)
     if( connection.status !== 200 ){
-      alert('contact system admin')
+      doShowToastMessage('Something went wrong, contact system admin')
       return
     }
     location.href="home.php"
@@ -491,3 +491,15 @@ serchField.addEventListener('focusout', (event) => {
   serchIcon.style.fill = "rgba(0, 0, 0, 0.5)";    
 });
 
+function doShowToastMessage(message) {
+  const toastMessageElem = document.createElement('div');
+  toastMessageElem.classList.add('toast-message')
+
+  toastMessageElem.textContent = message;
+
+  document.body.appendChild(toastMessageElem);
+  toastMessageElem.classList.add('show');
+  setTimeout(() => {
+    toastMessageElem.remove()
+  }, 3000)
+}
