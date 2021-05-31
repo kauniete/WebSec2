@@ -145,5 +145,6 @@ if( ! isset($_SESSION['userId']) ){
 <!-- end of right page-->
 
 </div>
-    <script src="app.js"></script>
+</body>
+<script src="app.js"></script>
 </html>

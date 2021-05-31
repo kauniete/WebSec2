@@ -5,7 +5,6 @@ if( ! isset($_SESSION['userId']) ){
   header('Location: ../index.php');
 }
 
-$_SESSION['userId'] = 1;
 $db = require_once (__DIR__.'/../private/db.php');
 
 try{

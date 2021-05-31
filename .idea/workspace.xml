@@ -29,26 +29,30 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="added XSS protection to login api">
-      <change afterPath="$PROJECT_DIR$/api/api-get-latest-events.php" afterDir="false" />
+    <list default="true" id="18cf9da1-5a6c-476c-b805-b97f43ff4e9a" name="Default Changelist" comment="fixed signup session userId error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api-create-comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api-create-comment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api-get-latest-comments.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/api-get-latest-comments.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/login-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/login-action.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/signup-action.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/signup-action.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/home.php" beforeDir="false" afterPath="$PROJECT_DIR$/home.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router.php" beforeDir="false" afterPath="$PROJECT_DIR$/router.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/websec.sql" beforeDir="false" afterPath="$PROJECT_DIR$/websec.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
+    <pharConfigPath>$PROJECT_DIR$/PHPMailer/composer.json</pharConfigPath>
     <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="beata" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,6 +61,12 @@
     <servers>
       <server host="localhost" id="71db52bd-5a9e-4475-9d6c-94c4f1f3f289" name="Local server" />
     </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/../php/PEAR" />
+      <path value="$PROJECT_DIR$/arangodb/arangodb/lib" />
+    </include_path>
   </component>
   <component name="ProjectId" id="1pWdm0ZHKCo7v7YQGTBF1OnFdI2" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -95,7 +105,35 @@
       <workItem from="1620309379559" duration="853000" />
       <workItem from="1620410919012" duration="138000" />
       <workItem from="1620423741696" duration="1792000" />
+      <workItem from="1621274359229" duration="1070000" />
+      <workItem from="1621347370934" duration="11000" />
+      <workItem from="1621684808520" duration="3021000" />
+      <workItem from="1621803121785" duration="48000" />
+      <workItem from="1622239700631" duration="5227000" />
+      <workItem from="1622252392122" duration="11727000" />
     </task>
+    <task id="LOCAL-00001" summary="changed db user">
+      <created>1620944915274</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620944915274</updated>
+    </task>
+    <task id="LOCAL-00002" summary="changed db user">
+      <created>1620944959570</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1620944959570</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fixed signup session userId error">
+      <created>1620948732564</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1620948732564</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,7 +150,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="feature/karo" />
+                        <option value="origin/feature/karo" />
                       </list>
                     </value>
                   </entry>
@@ -128,7 +166,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated .gitignore" />
     <MESSAGE value="added XSS protection to login api" />
-    <option name="LAST_COMMIT_MESSAGE" value="added XSS protection to login api" />
+    <MESSAGE value="changed db user" />
+    <MESSAGE value="fixed signup session userId error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed signup session userId error" />
   </component>
   <component name="WindowStateProjectService">
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1615418123406">
@@ -187,15 +227,17 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1615417425937" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1620300594350">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1620949762892">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1615302982927" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1620949762892" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1620300594350" />
-    <state x="667" y="224" width="585" height="592" key="find.popup" timestamp="1620428411697">
+    <state x="667" y="224" width="585" height="592" key="find.popup" timestamp="1622315378286">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1620428411697" />
+    <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040/1920.-94.1920.1040@0.0.1920.1040" timestamp="1622315378286" />
+    <state x="667" y="224" width="585" height="592" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1620947883159" />
+    <state x="667" y="224" width="585" height="592" key="find.popup/1920.-94.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1621274415418" />
     <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1620428638307">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
