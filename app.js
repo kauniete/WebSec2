@@ -491,3 +491,33 @@ serchField.addEventListener('focusout', (event) => {
   serchIcon.style.fill = "rgba(0, 0, 0, 0.5)";    
 });
 
+async function addImage(){
+  var form = event.target
+  var connection = await fetch("api/api-add-image.php", {
+    method : "POST",
+    body : new FormData(form)
+  })
+
+  if( connection.status != 200 ){
+    alert('contact system admin')
+    return
+  }
+}
+
+async function getImage(){
+  var form = event.target
+  var connection = await fetch("api/api-get-image.php")
+  let ajData = await connection.json()
+  console.log(ajData)
+  ajData.forEach( jItem => {
+    let sResultDiv = `
+    <div class="result">
+    <img src="../images/${jItem.galeryImage}" >
+    </div>
+
+    `
+    console.log(document.querySelector('#searchResults'))
+    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
+  })
+  
+}
