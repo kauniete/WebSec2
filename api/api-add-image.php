@@ -44,17 +44,18 @@ try{
     if ($uploadOk == true){
         if (move_uploaded_file($_FILES['image']['tmp_name'],$target)){
             echo "Image uploaded successfully";
+            
+            $q=$db->prepare('INSERT INTO galeries (galeryUserFk, galeryImage, galeryImgSize)
+            VALUES(:galeryUserFk, :galeryImage, :galeryImgSize)');
+            $q->bindValue(':galeryUserFk', $_SESSION['userId']);
+            $q->bindValue(':galeryImage', $image);
+            $q->bindValue(':galeryImgSize', $imageInfo);
+            $q->execute();
+
         } else {
             echo "Failed to upload image";
         }
     }
-    
-    $q=$db->prepare('INSERT INTO galeries (galeryUserFk, galeryImage, galeryImgSize)
-    VALUES(:galeryUserFk, :galeryImage, :galeryImgSize)');
-    $q->bindValue(':galeryUserFk', $_SESSION['userId']);
-    $q->bindValue(':galeryImage', $image);
-    $q->bindValue(':galeryImgSize', $imageInfo);
-    $q->execute();
 
 
 }catch(Exception $ex){
