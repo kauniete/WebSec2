@@ -7,7 +7,7 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestCommentId = htmlspecialchars($_GET['iLatestCommentId']) ?? 0;
+$iLatestCommentId = $_GET['iLatestCommentId'] ?? 0;
 
 try{
 $q = $db->prepare('CALL getLastComments(:iLatestCommentId)');

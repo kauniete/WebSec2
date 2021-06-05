@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2021 at 04:59 AM
+-- Generation Time: Jun 05, 2021 at 08:14 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -59,7 +59,7 @@ WHERE eventId > iLatestId
 LIMIT 10$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastMessages` (IN `sId` INT(20) UNSIGNED, IN `rId` INT(20) UNSIGNED, IN `LastmId` INT(20) UNSIGNED)  SELECT * FROM view_messages
-WHERE senderId = sId <> reciverId
+WHERE senderId = sId
 AND roomId = rId
 AND messageId > LastmId
 LIMIT 25$$
@@ -222,9 +222,17 @@ CREATE TABLE `galeries` (
   `galeryUserFk` bigint(20) UNSIGNED NOT NULL,
   `galeryImage` varchar(40) NOT NULL,
   `galeryImgSize` int(5) UNSIGNED NOT NULL,
-  `galeryImgCount` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `galeryCreated` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `galeries`
+--
+
+INSERT INTO `galeries` (`galeryId`, `galeryUserFk`, `galeryImage`, `galeryImgSize`, `galeryCreated`) VALUES
+(5, 1, 'hoho', 2000, '2021-06-05 01:36:23'),
+(7, 1, 'lalalala', 2000, '2021-06-05 01:43:51'),
+(34, 8, 'arangodb-logo.png', 27091, '2021-06-05 13:32:23');
 
 -- --------------------------------------------------------
 
@@ -245,11 +253,11 @@ CREATE TABLE `inrooms` (
 --
 
 INSERT INTO `inrooms` (`inroomId`, `inroomRoomFk`, `inroomUserFk`, `inroomCreated`, `inroomActive`) VALUES
-(1, 3, 1, '2021-05-18 04:30:09', 1),
 (2, 2, 1, '2021-05-18 04:31:06', 1),
 (3, 1, 2, '2021-05-18 05:05:52', 1),
 (4, 2, 8, '2021-05-18 05:05:52', 1),
-(66, 71, 12, '2021-05-19 03:33:50', 1);
+(72, 81, 2, '2021-05-31 12:58:16', 1),
+(74, 83, 13, '2021-06-05 20:13:05', 1);
 
 -- --------------------------------------------------------
 
@@ -317,7 +325,11 @@ INSERT INTO `messages` (`messageId`, `messageFromUserFk`, `messageToRoomFk`, `me
 (2, 1, 1, 'top top', '2021-05-17 17:14:30', '', '', NULL, 1),
 (8, 2, 1, 'hi hi hi', '2021-05-17 22:06:40', NULL, NULL, NULL, 1),
 (11, 1, 1, 'plum plum', '2021-05-19 03:28:14', NULL, NULL, NULL, 1),
-(19, 1, 1, '.................', '2021-05-19 04:56:32', NULL, NULL, NULL, 1);
+(19, 1, 1, '.................', '2021-05-19 04:56:32', NULL, NULL, NULL, 1),
+(66, 8, 81, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-06-05 19:53:00', NULL, NULL, NULL, 1),
+(67, 8, 81, 'plum plum', '2021-06-05 19:58:26', NULL, NULL, NULL, 1),
+(69, 8, 81, 'ghghghg', '2021-06-05 20:08:15', NULL, NULL, NULL, 1),
+(70, 8, 81, '.................', '2021-06-05 20:09:34', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -409,11 +421,11 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`roomId`, `roomOwnerFk`, `roomName`, `roomCreated`, `roomActive`) VALUES
+(0, 3, '0', '2021-05-17 20:26:39', 1),
 (1, 1, 'FirstOne', '2021-05-17 17:08:20', 1),
 (2, 1, 'SecondOne', '2021-05-17 17:45:16', 1),
-(4, 3, '0', '2021-05-17 20:26:39', 1),
-(12, 8, '0', '2021-05-18 03:15:11', 1),
-(71, 1, '', '2021-05-19 03:33:50', 1);
+(81, 8, NULL, '2021-05-31 12:58:16', 1),
+(83, 16, NULL, '2021-06-05 20:13:05', 1);
 
 -- --------------------------------------------------------
 
@@ -459,7 +471,8 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (11, 'test', 'qweqwe34', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SmtONlQxRnNYSkJvbi4xYw$7UwkUA0R/DyH5iYQu4wGB5xqE+35r1GK01UnsqqQBJY', 'photo-1580489944761-15a19d654956', 'about me', '25daf37391ca6cdda13731f058fa06f4', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
 (12, 'test', 'poipoi89', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$TGV6QzRBbDZZTDQxWTl4Lg$n7VrO4CxTgTfNqvNiEKo29DUsnUxuCJDDMciPiV82W0', 'photo-1580489944761-15a19d654956', 'about me', 'c5ba5f3ac040b07578e43d1f113b508f', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
 (13, 'test', 'qweqwe09', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$WHQ1eFRBMnYvdlNpejBQeQ$+2WpOnn92UTfWyOvgc2RCVxcqx+kfy34AFytRpXwRBc', 'photo-1580489944761-15a19d654956', 'about me', '6fdd71888b04d1b1d5831cc3588053ba', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(14, 'test', 'evebra12', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dm5vYUpyN1huOUdMeTRkVg$/gSINflQ/uzFpsuLrxwadSQns7MD19z0zVjlEmtrWUo', 'photo-1580489944761-15a19d654956', 'about me', 'd90ad21cf9ba84db8bd5706031df2664', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20);
+(14, 'test', 'evebra12', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dm5vYUpyN1huOUdMeTRkVg$/gSINflQ/uzFpsuLrxwadSQns7MD19z0zVjlEmtrWUo', 'photo-1580489944761-15a19d654956', 'about me', 'd90ad21cf9ba84db8bd5706031df2664', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
+(16, 'test', 'poipoi69', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$eGlpcm5POWoySFBSTWp4cw$BlrESefN0BHOOa6EveFQ4ZnMyqnI5bqVQFEK69Mzo5A', NULL, NULL, '234d7adbcc78f4ed465702b289bf8298', 1, NULL, NULL, '2021-06-05 20:11:01', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -747,7 +760,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -759,13 +772,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `galeries`
 --
 ALTER TABLE `galeries`
-  MODIFY `galeryId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `galeryId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `inrooms`
 --
 ALTER TABLE `inrooms`
-  MODIFY `inroomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `inroomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `loggs`
@@ -777,7 +790,7 @@ ALTER TABLE `loggs`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `reactions`
@@ -801,13 +814,13 @@ ALTER TABLE `replays`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

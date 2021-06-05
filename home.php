@@ -7,6 +7,7 @@ if( ! isset($_SESSION['userId']) ){
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,7 +105,7 @@ if( ! isset($_SESSION['userId']) ){
             <div id="galeryContainer"></div>        
             <form action="api/api-add-image.php" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image">
-                <button onclick="getImage()" type="submit" name="submit">submit</button>
+                <button onclick="getImage();" type="submit" name="submit">submit</button>
             </form>
             <div id="imgUploaded"></div>
         </section>

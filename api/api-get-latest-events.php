@@ -7,7 +7,7 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestEventId = htmlspecialchars($_GET['iLatestEventId']) ?? 0;
+$iLatestEventId = $_GET['iLatestEventId'] ?? 0;
 
 try{
     $q = $db->prepare('CALL getLastEvents(:iLatestEventId)');

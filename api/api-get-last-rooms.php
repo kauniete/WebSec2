@@ -7,7 +7,7 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestRoomId = htmlspecialchars($_GET['room']) ?? 0;
+$iLatestRoomId = $_GET['room'] ?? 0;
 
 try{
 $q = $db->prepare('CALL getLastRooms(:iLatestRoomId, :ownerId)');

@@ -247,10 +247,7 @@ async function getUsersRooms(){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.reciverAvatar}.jpg" alt="">
-      <form onsubmit="return false">
-        <input id="LastMid" name="LastMid" value="${jItem.roomId}" type="hidden">
-        <button  onclick="showChatRoom(${jItem.roomId}), goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
-      </form>
+      <button  onclick="showChatRoom(${jItem.roomId}), goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
       <p><strong>${jItem.reciverNick}</strong></p>
     </div>
     `
@@ -265,10 +262,10 @@ let iLatestRoomId = 0
 
 // Show Chat in Room
   async function showChatRoom(roomId){
-  let form = new FormData(event.target.parentNode);
-  let conn = await fetch('api/api-get-latest-message.php?room='+roomId, {
-    method : "POST",
-    body : form
+  let conn = await fetch('api/api-get-latest-message.php?room='+roomId,  {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
@@ -281,14 +278,16 @@ let iLatestRoomId = 0
     `
     document.querySelector('#roomId').insertAdjacentHTML('beforeend', sMessageDiv)
     iLatestRoomId = jItem.roomId
+    iLatestMessageId = jItem.messageId
     let aMessages = document.querySelectorAll(`p.${jItem.senderNick}`)
     aMessages.forEach(message => {
       message.style.backgroundColor = "rgba(212, 175, 55, .3)";
       message.style.justifySelf = "right";
   })
-
 })
 }
+let iLatestMessageId = 0
+  setInterval( () => { showChatRoom(roomId)  } , 1000 )
 
 
 // Go To Room
@@ -316,7 +315,7 @@ async function sendMessage(roId){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
-  showChatRoom(roId)
+  showChatRoom(roId);
 }
 
 
@@ -357,7 +356,6 @@ async function getImage(){
     </div>
 
     `
-    console.log(document.querySelector('#galeryContainer'))
     document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv)
   })
   
