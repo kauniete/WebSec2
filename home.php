@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 if( ! isset($_SESSION['userId']) ){
     header('Location: index.php');
   exit();
@@ -100,20 +99,14 @@ if( ! isset($_SESSION['userId']) ){
 <!-- star of Galery page--> 
         <section id="galery">
             <header>
-                    <h3>Galerxxy</h3>
+                    <h3>Gallery</h3>
             </header>
-            <div id="galeryContainer">
-                <form enctype="multipart/form-data" onsubmit="addImage(); getImage(); return false">
-                    <input type="hidden" name="size" value="100000">
-                    <div>
-                        <input type="file" name="image">
-                    </div>
-                    <button type="submit" name="submit">uplaod</button>
-                    <div id="searchResults"></div>
-                </form>
-                <form onsubmit="getImage(); return false">
-                <button type="submit" name="submit">submit</button></form>
-            </div>        
+            <div id="galeryContainer"></div>        
+            <form action="api/api-add-image.php" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" id="image">
+                <button onclick="getImage()" type="submit" name="submit">submit</button>
+            </form>
+            <div id="imgUploaded"></div>
         </section>
 <!-- end of Galery page--> 
 

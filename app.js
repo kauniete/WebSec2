@@ -326,7 +326,7 @@ async function signup(){
   var form = event.target
     console.log(form);
   
-    var connection = await fetch("../api/signup-action.php", {
+    var connection = await fetch("api/signup-action.php", {
       method : "POST",
       body : new FormData(form)
     })
@@ -338,6 +338,43 @@ async function signup(){
     location.href="home.php"
   }
   //karolina i have a problem with the ajax. Iff you have time could you take a look please? thanks
+
+
+// get Img
+async function getImage(){
+  let form = event.target
+  let connection = await fetch("api/api-get-image.php",  {
+    headers:{
+      'Cache-Control': 'no-cache'
+    }
+  })
+  let ajData = await connection.json()
+  console.log(ajData)
+  ajData.forEach( jItem => {
+    let sResultDiv = `
+    <div class="result">
+      <img src="images/${jItem.galeryImage}">
+    </div>
+
+    `
+    console.log(document.querySelector('#galeryContainer'))
+    document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv)
+  })
+  
+}
+
+function doShowToastMessage(message) {
+  const toastMessageElem = document.createElement('div');
+  toastMessageElem.classList.add('toast-message')
+
+  toastMessageElem.textContent = message;
+
+  document.body.appendChild(toastMessageElem);
+  toastMessageElem.classList.add('show');
+  setTimeout(() => {
+    toastMessageElem.remove()
+  }, 3000)
+}
 
 
 // Page Change
@@ -492,47 +529,4 @@ serchField.addEventListener('focusout', (event) => {
 });
 
 
-async function addImage(){
-  var form = event.target
-  var connection = await fetch("api/api-add-image.php", {
-    method : "POST",
-    body : new FormData(form)
-  })
-
-  if( connection.status != 200 ){
-    alert('contact system admin')
-    return
-  }
-}
-
-async function getImage(){
-  var form = event.target
-  var connection = await fetch("api/api-get-image.php")
-  let ajData = await connection.json()
-  console.log(ajData)
-  ajData.forEach( jItem => {
-    let sResultDiv = `
-    <div class="result">
-    <img src="../images/${jItem.galeryImage}" >
-    </div>
-
-    `
-    console.log(document.querySelector('#searchResults'))
-    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-  })
-  
-}
-
-function doShowToastMessage(message) {
-  const toastMessageElem = document.createElement('div');
-  toastMessageElem.classList.add('toast-message')
-
-  toastMessageElem.textContent = message;
-
-  document.body.appendChild(toastMessageElem);
-  toastMessageElem.classList.add('show');
-  setTimeout(() => {
-    toastMessageElem.remove()
-  }, 3000)
-}
 
