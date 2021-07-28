@@ -56,7 +56,7 @@ try {
     $pepper = $aData[0]->key;
     $pwd = htmlspecialchars($_POST['password']);
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
-    $pwd_hashed = password_hash($pwd_peppered, PASSWORD_ARGON2ID); // hashing again and keep in mind that salt is now added by default with password_hash
+    $pwd_hashed = password_hash($pwd_peppered, PASSWORD_BCRYPT); // hashing again and keep in mind that salt is now added by default with password_hash
 
     $q=$db->prepare('INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userVeryfyCode, userActive)
     VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive)');
@@ -86,7 +86,7 @@ $last_id = $db->lastInsertid();
 try {
     $mail = new PHPMailer(true);
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->SMTPDebug = false; //= SMTP::DEBUG_SERVER;                      //Enable verbose debug output
     $mail->isSMTP(true);                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -130,12 +130,8 @@ try {
     $_SESSION['vKey'] = $vKey;
 
     if($mail->send()){
-        ?>
-        <script>
-            alert("<?php echo "OTP code has been sending to " . $email ?>");
-            window.location.replace("./../verify-user.php");
-        </script>
-        <?php
+        header('Location: ./../verify-user.php');
+        
     }
 } catch (Exception $e) {
     echo $e;
