@@ -3,10 +3,9 @@
 require_once (__DIR__.'/../utils/csrfHelper.php');
 require_once (__DIR__.'/../utils/sendError.php');
 if(! csrfHelper::is_csrf_valid()) {
-//    header('Content-Type: application/json');
+  header('Content-Type: application/json');
 
-    sendError(400, 'Invalid csrf token', __LINE__);
-}
+    sendError(400, 'Invalid csrf token', __LINE__);}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -67,7 +66,7 @@ try {
     $q->bindValue(':userEmail', $email);
     $q->bindValue(':userPassword', $pwd_hashed);
     $q->bindValue(':userVerifyCode', $vKey);
-    $q->bindValue(':userActive', 1);
+    $q->bindValue(':userActive', 0);
     $q->bindValue(':userAvatar', default_profile_reasonably_small);
 
     // echo $last_id;

@@ -12,23 +12,20 @@ if( isset($_SESSION['userId']) ){
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
-    <title>Login</title>
+    <title>Verify email</title>
 <!--    <link rel="stylesheet" href="app.css">-->
 </head>
 <body>
     <div>
-        <form id="loginForm" method="post" action="https://localhost/login">
-            <h3>Login</h3>
+        <form id="verifyForm" method="post" action="https://localhost/api/api-email-verification-action.php">
+            <h3>Verify email</h3>
             <?php
                 require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf("login");
+                csrfHelper::set_csrf("verify_user");
             ?>
-            <?php if(isset($verification_error)){echo "<a href='email-verification.php' style='background-color:pink'>".$verification_error."</a>";}?>
+            <?php if(isset($verification_error)){echo "<p style='background-color:pink'>".$verification_error."</p>";}?>
             <?php if(isset($validation_error)){?>
                 <p style="background-color:pink"><?php echo $validation_error?></p>
-                <?php } ?>
-                <?php if(isset($login_timeout)){?>
-                <p style="background-color:pink"><?php echo $login_timeout?></p>
                 <?php } ?>
                 <?php if(isset($psst_error)){?>
                 <p style="background-color:pink"><?php echo $psst_error?></p>
@@ -39,10 +36,12 @@ if( isset($_SESSION['userId']) ){
                 <?php } ?>
             <input type="password" name="password" placeholder="password">
             <?php if(isset($pass_error)){echo "<p style='background-color:pink'>".$pass_error."</p>";}?>
-            <button type="submit" form="loginForm">Log in</button>
+            <input type="text" placeholder="OTP code" name="otp_code" id="code">
+            <?php if(isset($otp_error)){echo "<p style='background-color:pink'>".$otp_error."</p>";}?>
+            </div>   
+            <button type="submit" form="verifyForm">Submit</button>
         </form>
     </div>
-    <a href="signup.php">Sign up</a> 
 </body>
 <!--<script src="app.js"></script>-->
 

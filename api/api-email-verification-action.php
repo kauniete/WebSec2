@@ -5,6 +5,7 @@ $validation_error = '';
 $login_timeout = '';
 $psst_error = '';
 $verification_error = '';
+$otp_error = '';
 $dbHandler = require_once (__DIR__.'/../private/db.php');
 require_once (__DIR__.'/../utils/sendError.php');
 require_once (__DIR__.'/../utils/csrfHelper.php');
@@ -17,12 +18,13 @@ if(! csrfHelper::is_csrf_valid()) {
 
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
+$otpcode = htmlspecialchars($_POST['otp_code']);
 
 if( ! isset($username)  || empty($username )) { $username_error = 'Missing username'; }
 if (! isset($password) || empty($password ) ) { $pass_error = 'Missing password'; }
 if( strlen($username) > 50 ){ $username_error = 'Username cannot be longer than 50 characters'; }
 if( strlen($password) > 50 ){ $pass_error = 'Password cannot be longer than 50 characters'; }
-
+if (! isset($otpcode) || empty($otpcode) ) { $otp_error = 'Missing otp code'; }
 
 class LoginHandler {
     static function doGetUserByUsername($db, $userUserName) {
@@ -36,9 +38,16 @@ class LoginHandler {
             return null;
         }
     }
-    
+    static function doIncrementLoginAttempt($db, $userUserName) {
+        $tmpDate = new DateTime();
+        $now = date ('Y-m-d H:i:s', $tmpDate->getTimestamp());
+        /** @var PDO $db */
+        $q = $db->prepare("CALL updateLogToIncrement(:timeNow, :userName)");
+        $q->bindValue(':userName', $userUserName);
+        $q->bindValue(':timeNow', $now);
+        $q->execute();
+    }
 }
-//removed timeout for now.indre
     // check if the user exists
     $currentUser = LoginHandler::doGetUserByUsername($dbHandler, $username);
     if($currentUser === null) {
@@ -46,7 +55,7 @@ class LoginHandler {
         //sendError(400, 'Invalid email or password', __LINE__);
         $validation_error = 'Invalid login credentials, please try again';
         //echo 'haha';
-        include (__DIR__.'/../index.php');
+        include (__DIR__.'/../email-verification.php');
         return;
     }
     
@@ -58,29 +67,39 @@ class LoginHandler {
     $pwd_hashed = $currentUser->userPassword;
 
     //If current user password and posted password do not match
-    if( ! password_verify($pwd_peppered, $pwd_hashed) ) {
-        //LoginHandler::doIncrementLoginAttempt($dbHandler, $currentUser->userUserName);
+    if( password_verify($pwd_peppered, $pwd_hashed) ) {
+        LoginHandler::doIncrementLoginAttempt($dbHandler, $currentUser->userUserName);
         //header('Content-Type: application/json');
         //sendError(400, 'Invalid email or password', __LINE__);
+    }else {    
         $validation_error = 'Invalid login credentials, please try again';
-        include (__DIR__.'/../index.php');
+        include (__DIR__.'/../email-verification.php');
     }
-    if($currentUser->userActive === 1){
+
+    if($currentUser->userVeryfyCode === $otpcode)
+    {$q = $dbHandler->prepare('SELECT * FROM users');
+            $q->execute();
+            $aUsers = $q->fetchAll();
+            //print_r($aUsers);
+            for ($i = 0; $i < count($aUsers); $i++) {
+                if ($currentUser->userId == $aUsers[$i]->userId){
+            $q = $dbHandler->prepare(
+                'UPDATE `users` SET `userActive` = :newValue;'
+            );
+            $q->bindValue('newValue',1);
+            $q->execute();  
+        }
+        }
         $_SESSION['userId'] = $currentUser->userId;
         $_SESSION['userName'] = $currentUser->userUserName;
         $_SESSION['password'] = $currentUser->userPassword;
         $_SESSION['userAvatar'] = '';
-        header('Location: /../home.php');
+            header('Location: ../home.php');
+            exit();
     } else {
-        $verification_error = 'Please verify your email';
-        include (__DIR__.'/../index.php');
+        $otp_error = 'Invalid otp code, please try again';
     }
+      
 
-    // header('Content-Type: application/json');
-    // http_response_code(200); // default is this line
-   // echo 'you are logged in!';
-// ############################################################
-// ############################################################
-
-
+   
 
