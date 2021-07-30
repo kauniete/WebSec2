@@ -7,7 +7,7 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestMessageId = $_GET['me'] ?? 0;
+$iLatestMessageId = $_GET['iLatestMessageId'] ?? 0;
 
 try{
 $q = $db->prepare('CALL getLastMessages(:sendreId, :roomId, :iLatestMessageId)');

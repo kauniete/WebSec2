@@ -15,19 +15,21 @@ function is_csrf_valid(){
 }
 
 try{
-  if(!isset($_POST['messageText']) ){ http_status_code(400);  }
-  if(strlen($_POST['messageText']) < 1 ){ http_status_code(400);  }
-  if(strlen($_POST['messageText']) > 640 ){ http_status_code(400);  }
+  if(!isset($_POST['messageText']) ){ http_response_code(400);  }
+  if(strlen($_POST['messageText']) < 1 ){ http_response_code(400);  }
+  if(strlen($_POST['messageText']) > 640 ){ http_response_code(400);  }
 
   $q = $db->prepare("INSERT INTO messages (messageFromUserFk, messageToRoomFk, messageText, messageImg)
   VALUES (:senderId, :roomId, :messageText, :messageImg)");
   $q->bindValue(':senderId', $_SESSION['userId']);
   $q->bindValue(':roomId', htmlspecialchars($_POST['roomId']));
   $q->bindValue(':messageText', htmlspecialchars($_POST['messageText']));
-  $q->bindValue(':messageImg', NULL);
+  $q->bindValue(':messageImg', 'default_profile_reasonably_small');
   $q->execute();
   $iLastInsertedId = $db->lastInsertId();
   echo $iLastInsertedId;
+  
+
 
 }catch (Exception $ex) {
     header('Content-Type: application/json');

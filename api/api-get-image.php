@@ -12,7 +12,7 @@ try{
     
     $ajData = $q->fetchAll();
     echo json_encode($ajData);
-    header('Content-Type: appliation/json');
+    header('Content-Type: application/json');
 
 
 

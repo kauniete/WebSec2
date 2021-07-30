@@ -58,8 +58,8 @@ try {
     $pwd_peppered = hash_hmac("sha256", $pwd, $pepper); // hashing the password and adding a pepper
     $pwd_hashed = password_hash($pwd_peppered, PASSWORD_BCRYPT); // hashing again and keep in mind that salt is now added by default with password_hash
 
-    $q=$db->prepare('INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userVeryfyCode, userActive)
-    VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive)');
+    $q=$db->prepare('INSERT INTO users (userId, userFullName, userUserName, userEmail, userPassword, userVeryfyCode, userActive,userAvatar)
+    VALUES(:userId, :userFullName, :userUserName, :userEmail, :userPassword, :userVerifyCode, :userActive, :userAvatar)');
 
     $q->bindValue(':userId', null);
     $q->bindValue(':userFullName', 'test');
@@ -68,6 +68,7 @@ try {
     $q->bindValue(':userPassword', $pwd_hashed);
     $q->bindValue(':userVerifyCode', $vKey);
     $q->bindValue(':userActive', 1);
+    $q->bindValue(':userAvatar', default_profile_reasonably_small);
 
     // echo $last_id;
     // $last_id= mysqli_insert_id($conn);

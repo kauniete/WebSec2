@@ -7,7 +7,7 @@ if(! csrfHelper::is_csrf_valid()) {
     header('Content-Type: application/json');
     sendError(400, 'Invalid csrf token', __LINE__);
 }
-
+print_r($_SESSION);
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 

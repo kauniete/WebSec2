@@ -6,18 +6,6 @@ const localStates = {
 }
 
 
-// Logout Open and Close
-function openLogout(){
-  var logoutBox = document.getElementById("LogoutModal");
-      logoutBox.style.display = "grid";
-
-  window.onclick = function(event) {
-      if (event.target === logoutBox) {
-          logoutBox.style.display = "none";
-      }
-  }
-}
-
 
 // Create Comments to Events
 async function sendComment(){
@@ -197,7 +185,7 @@ async function startSearch(){
 async function createRoom(addUserId, addUserNick, addUserImg){
   //let roId = document.querySelector('#roomId').id
   //let resultId = document.querySelector('div.result').id
-  let con = await fetch('api/api-create-room.php', {
+  let con = await fetch('api/api-create-room.php?to='+addUserId, {
     headers:{
       'Cache-Control': 'no-cache'
     }
@@ -213,6 +201,8 @@ async function createRoom(addUserId, addUserNick, addUserImg){
         <button onclick="showChatRoom(${response}) goToRoom(${response})" data-roomId="${response}" >Chat with</button>
       </form>
       <p><strong>${addUserNick}</strong></p>
+      <p><strong name="user2">${addUserId}</strong></p>
+      <p><strong>xxx</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
@@ -251,7 +241,7 @@ async function getUsersRooms(){
       <p><strong>${jItem.reciverNick}</strong></p>
     </div>
     `
-    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
+    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
     iLatestRoomId = jItem.roomId
   })
 }
@@ -274,8 +264,8 @@ let iLatestRoomId = 0
     <div class="message" id="${jItem.messageId}">
       <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
-    </div>
-    `
+    </div>`
+    console.log(ajData);
     document.querySelector('#roomId').insertAdjacentHTML('beforeend', sMessageDiv)
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
@@ -302,7 +292,7 @@ function goToRoom(roId){
     <button onclick="sendMessage(${roId})" data-roomId="${roId}">Send</button>
     </form>
     `
-    document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm)
+    document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
 }
 
 
@@ -315,29 +305,9 @@ async function sendMessage(roId){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
+  //console.log(response);
   showChatRoom(roId);
 }
-
-
-// Signup
-async function signup(){
-  // AJAX only if there are no errors
-  var form = event.target
-    console.log(form);
-  
-    var connection = await fetch("api/signup-action.php", {
-      method : "POST",
-      body : new FormData(form)
-    })
-    console.log(connection)
-    if( connection.status !== 200 ){
-      doShowToastMessage('Something went wrong, contact system admin')
-      return
-    }
-    location.href="home.php"
-  }
-  //karolina i have a problem with the ajax. Iff you have time could you take a look please? thanks
-
 
 // get Img
 async function getImage(){
@@ -353,12 +323,9 @@ async function getImage(){
     let sResultDiv = `
     <div class="result">
       <img src="images/${jItem.galeryImage}">
-    </div>
-
-    `
-    document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv)
+    </div>`
+    document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv);
   })
-  
 }
 
 function doShowToastMessage(message) {
