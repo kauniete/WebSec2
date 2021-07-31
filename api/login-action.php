@@ -65,10 +65,11 @@ class LoginHandler {
         $validation_error = 'Invalid login credentials, please try again';
         include (__DIR__.'/../index.php');
     }
-    if($currentUser->userActive === 1){
+    if($currentUser->userActive == 1){
         $_SESSION['userId'] = $currentUser->userId;
         $_SESSION['userName'] = $currentUser->userUserName;
-        $_SESSION['password'] = $currentUser->userPassword;
+        //$_SESSION['password'] = $currentUser->userPassword;
+        $_SESSION['userActive'] = $currentUser->userActive;
         $_SESSION['userAvatar'] = '';
         header('Location: /../home.php');
     } else {

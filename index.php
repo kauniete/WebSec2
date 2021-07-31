@@ -3,6 +3,7 @@ if( isset($_SESSION['userId']) ){
     header('Location: home.php');
     exit();
 }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,7 +40,7 @@ if( isset($_SESSION['userId']) ){
                 <?php } ?>
             <input type="password" name="password" placeholder="password">
             <?php if(isset($pass_error)){echo "<p style='background-color:pink'>".$pass_error."</p>";}?>
-            <button type="submit" form="loginForm">Log in</button>
+            <button name="submit" type="submit" form="loginForm">Log in</button>
         </form>
     </div>
     <a href="signup.php">Sign up</a> 

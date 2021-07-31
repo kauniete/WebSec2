@@ -28,7 +28,7 @@ if( isset($_SESSION['userId']) ){
             <input type="text" name="username" placeholder="username">
             <input type="password" name="password" placeholder="password">
             <input type="email" name="email" placeholder="email">
-            <button type="submit" form="signupForm">Sign up</button>
+            <button name="submit" type="submit" form="signupForm">Sign up</button>
         </form>
     </div>
 </body>

@@ -15,6 +15,7 @@ $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 $email = htmlspecialchars($_POST['email']);
 
+
 if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
 if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
 if( strlen($_POST['username']) < 4 ){ sendError(400, 'Username must be at least 4 characters long', __LINE__); }
@@ -27,7 +28,7 @@ if( strlen($_POST['email']) < 3 ){ sendError(400, 'Email must be at least 3 char
 if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
     echo 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
     exit();
-}
+} 
 // Check email format
 if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
     echo 'email not valid';
@@ -113,7 +114,7 @@ try {
     $mail->isHTML(true);
 
     //Set email format to HTML
-    $mail->Subject = 'test';
+    $mail->Subject = 'Welcome to YellowMellow. We sent you a verification code';
     $mail->Body    = $vKey;
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
@@ -122,12 +123,14 @@ try {
     $q->execute();
     $aRow = $q->fetchAll();
     $sUserId = $aRow[0]->userId;
+    $ifActive = $aRow[0]->userActive;
 
     $_SESSION['userId'] = $sUserId;
     $_SESSION['userName'] = $username;
     $_SESSION['userAvatar'] = '';
     $_SESSION['email'] = $email;
     $_SESSION['vKey'] = $vKey;
+    $_SESSION['userActive'] = $ifActive;
 
     if($mail->send()){
         header('Location: ./../verify-user.php');
