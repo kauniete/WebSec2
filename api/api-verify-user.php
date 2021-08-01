@@ -1,5 +1,6 @@
 
 <?php
+session_start();
     require_once (__DIR__.'/../utils/csrfHelper.php');
     if(! csrfHelper::is_csrf_valid()) {
         header('Content-Type: application/json');
@@ -12,12 +13,7 @@
         $email = $_SESSION['email'];
         $otp = htmlspecialchars($_POST['otp_code']);
 
-        if($otp_num != $otp){
-            header('Location: ../index.php');
-            exit();
-            //add error msg for user here.indre
-
-        }else{
+        if($otp_num == $otp){
             $db = require_once (__DIR__.'./../private/db.php');
             $q = $db->prepare(
                 'SELECT * FROM users'
@@ -32,11 +28,14 @@
             );
             $q->bindValue('newValue',1);
             $q->execute();
-            header('Location: ../home.php');
+            //header('Location: /../home.php');
+            header('Location: https://localhost/home');
+
             exit();
-        }}}   
-    } else {
-            session_destroy();
-header('Location: ../index.php');
-        }
+        }}}  else {
+            header('Location: /../index.php');
+            exit();
+            //add error msg for user here.indre
+        } 
+    } 
     

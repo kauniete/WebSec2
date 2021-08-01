@@ -1,40 +1,48 @@
 <?php
-
+$pass_error = '';
+$username_error = '';
+$validation_error = '';
+$email_error = '';
+$login_timeout = '';
+$psst_error = '';
+$verification_error = '';
+$exception_error = '';
+$pass_validation_error ='';
+$email_validation_error ='';
 require_once (__DIR__.'/../utils/csrfHelper.php');
 require_once (__DIR__.'/../utils/sendError.php');
-if(! csrfHelper::is_csrf_valid()) {
-  header('Content-Type: application/json');
 
-    sendError(400, 'Invalid csrf token', __LINE__);}
+if(! csrfHelper::is_csrf_valid()) {
+  $psst_error ='Invalid csrf token';}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+///if (isset($_POST['submit'])){
 $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 $email = htmlspecialchars($_POST['email']);
 
-
-if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
-if(! (isset($_POST['username'])) ) { sendError(400, 'Missing username or password', __LINE__); }
-if( strlen($_POST['username']) < 4 ){ sendError(400, 'Username must be at least 4 characters long', __LINE__); }
-if( strlen($_POST['password']) < 10 ){ sendError(400, 'Password must be at least 10 characters long', __LINE__); }
-if( strlen($_POST['username']) > 50 ){ sendError(400, 'Username cannot be longer than 50 characters', __LINE__); }
-if( strlen($_POST['password']) > 50 ){ sendError(400, 'Password cannot be longer than 50 characters', __LINE__); }
-if( strlen($_POST['email']) > 50 ){ sendError(400, 'Email cannot be longer than 50 characters', __LINE__); }
-if( strlen($_POST['email']) < 3 ){ sendError(400, 'Email must be at least 3 characters long', __LINE__); }
+if(! isset($password) || empty($password) ) { $username_error = 'Missing username'; }
+if(! isset($password) || empty($password) ) { $pass_error = 'Missing password'; }
+if( strlen($username) < 4 ){ $username_error ='Username must be at least 4 characters long'; }
+if( strlen($password) < 10 ){  $pass_error ='Password must be at least 10 characters long'; }
+if( strlen($username) > 50 ){ $username_error = 'Username cannot be longer than 50 characters'; }
+if( strlen($password) > 50 ){  $pass_error = 'Password cannot be longer than 50 characters'; }
+if( strlen($email) > 50 ){ $email_error ='Email cannot be longer than 50 characters'; }
+if( strlen($email) < 3 ){ $email_error = 'Email must be at least 3 characters long'; }
 // Check password format
 if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
-    echo 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
-    exit();
+    $pass_validation_error = 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
+    //exit();
 } 
 // Check email format
 if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
-    echo 'email not valid';
-    exit();
+    $email_validation_error = 'email not valid';
+    //exit();
 }
-
+else{
 $db = require_once (__DIR__.'./../private/db.php');
 $vKey = md5(time());
 
@@ -87,7 +95,7 @@ $last_id = $db->lastInsertid();
 try {
     $mail = new PHPMailer(true);
     //Server settings
-    $mail->SMTPDebug = false; //= SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->SMTPDebug = false;     // = SMTP::DEBUG_SERVER;                     //Enable verbose debug output
     $mail->isSMTP(true);                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -133,7 +141,7 @@ try {
     $_SESSION['userActive'] = $ifActive;
 
     if($mail->send()){
-        header('Location: ./../verify-user.php');
+        header('Location: /../verify-user');
         
     }
 } catch (Exception $e) {
@@ -150,22 +158,6 @@ try {
     echo '{"message":"error '.$ex.'"}';
 }
 
-// ############################################################
-// ############################################################
-
-function doCheckTimeDiff(DateTime $dateTime) {
-    $secondDate = new DateTime();
-
-    $diff = $dateTime->diff($secondDate);
-
-    $hours   = intval($diff->format('%h'));
-    $minutes = intval($diff->format('%i'));
-    $diffInMin = ($hours * 60 + $minutes);
-
-    return $diffInMin >= 5;
+//}
 }
-
-
-//IF NEW.username LIKE'%jpg%' THEN
-//signal sqlstate '45000';
-//END IF
+include (__DIR__.'/../signup.php');

@@ -1,5 +1,6 @@
 <?php
-//session_start();
+session_start();
+print_r($_SESSION);
 //?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,7 @@
     <div class="container">
       <div class="forms-container">
         <div class="reset-password">
-          <form action="api/api-verify-user.php" class="sign-in-form" method="POST">
+          <form action="https://localhost/api/api-verify-user.php" class="sign-in-form" method="POST">
           <?php
                 require_once("utils/csrfHelper.php");
                 csrfHelper::set_csrf('verify_user');

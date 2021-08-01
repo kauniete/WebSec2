@@ -93,9 +93,10 @@ class LoginHandler {
         $_SESSION['userId'] = $currentUser->userId;
         $_SESSION['userName'] = $currentUser->userUserName;
         $_SESSION['password'] = $currentUser->userPassword;
+        $_SESSION['userActive'] = $currentUser->userActive;
         $_SESSION['userAvatar'] = '';
-            header('Location: ../home.php');
-            exit();
+        header('Location: ../home.php');
+        exit();
     } else {
         $otp_error = 'Invalid otp code, please try again';
     }
