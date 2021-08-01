@@ -249,35 +249,37 @@ async function getUsersRooms(){
 let iLatestRoomId = 0
   setInterval( () => { getUsersRooms()  } , 1000 )
 
-
-// Show Chat in Room
-  async function showChatRoom(roomId){
-  let conn = await fetch('api/api-get-latest-message.php?room='+roomId,  {
-    headers:{
+//Show Chat in Room
+async function showChatRoom(roomId) {
+  let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
+    headers: {
       'Cache-Control': 'no-cache'
     }
   })
-  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest message') }
+  if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
-  ajData.forEach( jItem => {
-    let sMessageDiv = `
+  let sMessageDiv = '';
+  ajData.forEach(jItem => {
+    //+= and empty array
+    sMessageDiv += `
     <div class="message" id="${jItem.messageId}">
       <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
-    console.log(ajData);
-    document.querySelector('#roomId').insertAdjacentHTML('beforeend', sMessageDiv)
+    //console.log(ajData);
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
     let aMessages = document.querySelectorAll(`p.${jItem.senderNick}`)
     aMessages.forEach(message => {
       message.style.backgroundColor = "rgba(212, 175, 55, .3)";
       message.style.justifySelf = "right";
+    })
   })
-})
+  document.querySelector('#roomId').innerHTML = sMessageDiv
 }
-let iLatestMessageId = 0
-  setInterval( () => { showChatRoom(roomId)  } , 1000 )
+
+//let iLatestMessageId = 0
+  //setInterval( () => { showChatRoom(roomId)  } , 1000 )
 
 
 // Go To Room
