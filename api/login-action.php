@@ -12,8 +12,6 @@ require_once (__DIR__.'/../utils/csrfHelper.php');
 
 
 if(! csrfHelper::is_csrf_valid()) {
-    //header('Content-Type: application/json');
-    //sendError(400, 'Invalid csrf token', __LINE__);
     $psst_error = 'Your session is invalid, but try to log in again here or from private browser window';
 }
 
@@ -46,8 +44,6 @@ class LoginHandler {
     // check if the user exists
     $currentUser = LoginHandler::doGetUserByUsername($dbHandler, $username);
     if($currentUser === null) {
-        //header('Content-Type: application/json');
-        //sendError(400, 'Invalid email or password', __LINE__);
         $validation_error = 'Invalid login credentials, please try again';
         //return;
     } else{
@@ -62,8 +58,6 @@ class LoginHandler {
     //If current user password and posted password do not match
     if( ! password_verify($pwd_peppered, $pwd_hashed) ) {
         //LoginHandler::doIncrementLoginAttempt($dbHandler, $currentUser->userUserName);
-        //header('Content-Type: application/json');
-        //sendError(400, 'Invalid email or password', __LINE__);
         $validation_error = 'Invalid login credentials, please try again';}
         
     else{
