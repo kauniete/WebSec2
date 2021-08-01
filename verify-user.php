@@ -8,12 +8,7 @@ print_r($_SESSION);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
      <title>Verify account</title>
-     <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-    <!-- Social media CDN -->
-     <!--<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <!-- favicon icon -->
-     <!--<link rel="shortcut icon" type="image/png" href="../images/favicon.png">
-    <!-- css -->
+     
   </head>
 
 <body>
@@ -41,9 +36,9 @@ print_r($_SESSION);
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>Verify Your Account?</h3>
+           
             <p>
-                Dear User, Kindly fill up your OTP code that you received by email<br>
+                Dear User, Kindly fill up your OTP code that you received by email.<br>
                 We will help you to verify your account ASAP.
             </p>
           </div>

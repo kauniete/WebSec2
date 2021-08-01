@@ -52,7 +52,7 @@ try {
     $q->execute();
     $aRow = $q->fetchAll();
     if($q->rowCount() === 1) {
-        $validation_error = 'Invalid login credentials, please try again';
+        $validation_error = 'Invalid signup credentials, please try again';
         //return;
     } else {
         $q = $db->prepare("CALL getUserByUserName(:userUserName)");
@@ -61,7 +61,7 @@ try {
     $aRow = $q->fetchAll();
     
     if($q->rowCount() === 1) {
-        $validation_error = 'Invalid login credentials, please try again';
+        $validation_error = 'Invalid signup credentials, please try again';
         //return;
     }else {
 
@@ -152,8 +152,9 @@ try {
         
     }
 } catch (Exception $e) {
-    echo $e;
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    //echo $e;
+    //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    $email_error = 'Message could not be sent. Mailer Error: {$mail->ErrorInfo}';
 }            
         
 //$result = $q->rowCount();
@@ -161,8 +162,9 @@ try {
 //echo 'you are signed up now!';
 
 }}} catch (Exception $ex) {
-    header('Content-Type: application/json');
-    echo '{"message":"error '.$ex.'"}';
+    //header('Content-Type: application/json');
+    //echo '{"message":"error '.$ex.'"}';
+    $exception_error = 'Something went wrong';
 }
 
 //}
