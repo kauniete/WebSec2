@@ -13,7 +13,7 @@ require_once (__DIR__.'/../utils/csrfHelper.php');
 require_once (__DIR__.'/../utils/sendError.php');
 
 if(! csrfHelper::is_csrf_valid()) {
-  $psst_error ='Invalid csrf token';}
+  $psst_error ='Your session is invalid, but try to log in again here or from private browser window';}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

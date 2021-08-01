@@ -5,14 +5,16 @@ $validation_error = '';
 $login_timeout = '';
 $psst_error = '';
 $verification_error = '';
-$dbHandler = require_once (__DIR__.'/../private/db.php');
+$exception_error = '';
+
 require_once (__DIR__.'/../utils/sendError.php');
 require_once (__DIR__.'/../utils/csrfHelper.php');
+
 
 if(! csrfHelper::is_csrf_valid()) {
     //header('Content-Type: application/json');
     //sendError(400, 'Invalid csrf token', __LINE__);
-    $psst_error = 'Your session is invalid, try again later';
+    $psst_error = 'Your session is invalid, but try to log in again here or from private browser window';
 }
 
 $username = htmlspecialchars($_POST['username']);
@@ -23,7 +25,10 @@ if (! isset($password) || empty($password ) ) { $pass_error = 'Missing password'
 if( strlen($username) > 50 ){ $username_error = 'Username cannot be longer than 50 characters'; }
 if( strlen($password) > 50 ){ $pass_error = 'Password cannot be longer than 50 characters'; }
 
-
+else{
+    
+    try{
+        $dbHandler = require_once (__DIR__.'/../private/db.php');
 class LoginHandler {
     static function doGetUserByUsername($db, $userUserName) {
         $q = $db->prepare("CALL getUserByUserName(:userUserName)");
@@ -36,7 +41,6 @@ class LoginHandler {
             return null;
         }
     }
-    
 }
 //removed timeout for now.indre
     // check if the user exists
@@ -45,10 +49,8 @@ class LoginHandler {
         //header('Content-Type: application/json');
         //sendError(400, 'Invalid email or password', __LINE__);
         $validation_error = 'Invalid login credentials, please try again';
-        //echo 'haha';
-        include (__DIR__.'/../index.php');
-        return;
-    }
+        //return;
+    } else{
     
     // hash pepper to the password so it could match
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
@@ -62,9 +64,9 @@ class LoginHandler {
         //LoginHandler::doIncrementLoginAttempt($dbHandler, $currentUser->userUserName);
         //header('Content-Type: application/json');
         //sendError(400, 'Invalid email or password', __LINE__);
-        $validation_error = 'Invalid login credentials, please try again';
-        include (__DIR__.'/../index.php');
-    }
+        $validation_error = 'Invalid login credentials, please try again';}
+        
+    else{
     if($currentUser->userActive == 1){
         $_SESSION['userId'] = $currentUser->userId;
         $_SESSION['userName'] = $currentUser->userUserName;
@@ -73,15 +75,16 @@ class LoginHandler {
         $_SESSION['userAvatar'] = '';
         header('Location: /../home.php');
     } else {
-        $verification_error = 'Please verify your email';
-        include (__DIR__.'/../index.php');
+        $verification_error = 'Please verify your email via this link';
+        
     }
-
-    // header('Content-Type: application/json');
+}}} catch (Exception $ex) {
+    //echo '{"message":"error '.$ex.'"}';
+    $exception_error = 'Something went wrong';
+} }
     // http_response_code(200); // default is this line
-   // echo 'you are logged in!';
 // ############################################################
 // ############################################################
-
+include (__DIR__.'/../index.php');
 
 

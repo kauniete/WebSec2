@@ -1,9 +1,9 @@
 <?php
+
 if( isset($_SESSION['userId']) ){
     header('Location: home.php');
     exit();
 }
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,6 +25,7 @@ if( isset($_SESSION['userId']) ){
                 csrfHelper::set_csrf("login");
             ?>
             <?php if(isset($verification_error)){echo "<a href='email-verification.php' style='background-color:pink'>".$verification_error."</a>";}?>
+            <?php if(isset($exception_error)){echo "<a href='email-verification.php' style='background-color:pink'>".$exception_error."</a>";}?>
             <?php if(isset($validation_error)){?>
                 <p style="background-color:pink"><?php echo $validation_error?></p>
                 <?php } ?>
