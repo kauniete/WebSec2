@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2021 at 08:14 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.6
+-- Generation Time: Aug 01, 2021 at 03:04 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,6 +68,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getLastRooms` (IN `LastrId` INT(20)
 WHERE roomId > LastrId
 AND senderId = ownId
 LIMIT 15$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByEmail` (IN `uEmail` VARCHAR(50))  SELECT * FROM users 
+WHERE userEmail = uEmail
+LIMIT 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `uId` INT(20) UNSIGNED)  SELECT * FROM users 
 WHERE userId = uId 
@@ -153,7 +157,14 @@ INSERT INTO `comments` (`commentId`, `commentEventFk`, `commentUserFk`, `comment
 (130, 2, 1, 'ggg', '2021-05-13 03:31:22', 1, NULL, NULL, 0, 0),
 (131, 3, 1, 'ggg', '2021-05-13 03:31:26', 1, NULL, NULL, 0, 0),
 (132, 1, 1, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-05-13 04:06:02', 1, NULL, NULL, 0, 0),
-(148, 1, 7, 'hhhh', '2021-05-14 02:10:10', 1, NULL, NULL, 0, 0);
+(148, 1, 7, 'hhhh', '2021-05-14 02:10:10', 1, NULL, NULL, 0, 0),
+(185, 1, 17, 'hey', '2021-06-06 18:06:02', 1, NULL, NULL, 0, 0),
+(186, 1, 17, 'hey', '2021-06-07 10:39:04', 1, NULL, NULL, 0, 0),
+(187, 1, 30, 'dd', '2021-07-22 20:25:57', 1, NULL, NULL, 0, 0),
+(188, 1, 30, 'ss', '2021-07-22 20:26:28', 1, NULL, NULL, 0, 0),
+(192, 1, 53, 'hey', '2021-07-30 13:49:59', 1, NULL, NULL, 0, 0),
+(193, 1, 53, 'hey', '2021-07-30 14:10:41', 1, NULL, NULL, 0, 0),
+(194, 1, 53, 'hey', '2021-07-30 14:10:41', 1, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -232,7 +243,12 @@ CREATE TABLE `galeries` (
 INSERT INTO `galeries` (`galeryId`, `galeryUserFk`, `galeryImage`, `galeryImgSize`, `galeryCreated`) VALUES
 (5, 1, 'hoho', 2000, '2021-06-05 01:36:23'),
 (7, 1, 'lalalala', 2000, '2021-06-05 01:43:51'),
-(34, 8, 'arangodb-logo.png', 27091, '2021-06-05 13:32:23');
+(34, 8, 'arangodb-logo.png', 27091, '2021-06-05 13:32:23'),
+(39, 17, 'a3ad6d4d-0ec0-4ab8-a619-50b97e44ab09-ori', 56656, '2021-06-06 15:40:26'),
+(40, 17, '143351776_149563320307290_13230104346098', 61323, '2021-06-06 15:42:33'),
+(41, 17, '143299312_1469604130072415_2685182826010', 78223, '2021-06-06 15:57:52'),
+(42, 43, '26754429_10213430620672400_919054584_n.j', 37297, '2021-07-27 22:34:08'),
+(43, 43, 'hi.jpg', 37297, '2021-07-27 22:38:33');
 
 -- --------------------------------------------------------
 
@@ -253,11 +269,9 @@ CREATE TABLE `inrooms` (
 --
 
 INSERT INTO `inrooms` (`inroomId`, `inroomRoomFk`, `inroomUserFk`, `inroomCreated`, `inroomActive`) VALUES
-(2, 2, 1, '2021-05-18 04:31:06', 1),
-(3, 1, 2, '2021-05-18 05:05:52', 1),
-(4, 2, 8, '2021-05-18 05:05:52', 1),
-(72, 81, 2, '2021-05-31 12:58:16', 1),
-(74, 83, 13, '2021-06-05 20:13:05', 1);
+(96, 120, 52, '2021-07-29 23:12:06', 1),
+(97, 121, 53, '2021-07-29 23:12:23', 1),
+(98, 122, 53, '2021-07-30 13:40:39', 1);
 
 -- --------------------------------------------------------
 
@@ -278,10 +292,19 @@ CREATE TABLE `loggs` (
 
 INSERT INTO `loggs` (`logId`, `logUserFk`, `logLogCount`, `logLastLog`) VALUES
 (1, 2, 0, '2021-05-14 10:14:44'),
-(2, 1, 0, '2021-05-14 10:14:44'),
+(2, 1, 1, '2021-07-30 15:40:29'),
 (3, 8, 1, '2021-05-14 15:30:21'),
 (4, 7, 0, '2021-05-14 01:25:14'),
-(5, 12, 1, '2021-05-14 15:34:47');
+(5, 12, 1, '2021-05-14 15:34:47'),
+(6, 17, 0, '2021-06-06 15:51:27'),
+(7, 38, 1, '2021-07-24 21:38:07'),
+(8, 41, 3, '2021-07-27 21:20:26'),
+(9, 42, 0, '2021-07-27 22:11:40'),
+(10, 44, 0, '2021-07-28 17:31:10'),
+(11, 48, 0, '2021-07-28 17:42:30'),
+(12, 43, 0, '2021-07-28 18:11:47'),
+(13, 52, 0, '2021-07-29 14:49:04'),
+(14, 53, 10, '2021-07-30 18:45:55');
 
 -- --------------------------------------------------------
 
@@ -321,15 +344,19 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`messageId`, `messageFromUserFk`, `messageToRoomFk`, `messageText`, `messageCreated`, `messageImg`, `messageHref`, `messageQuoteFk`, `messageActive`) VALUES
-(1, 1, 1, 'hola hola', '2021-05-17 16:50:41', '', '', NULL, 1),
-(2, 1, 1, 'top top', '2021-05-17 17:14:30', '', '', NULL, 1),
-(8, 2, 1, 'hi hi hi', '2021-05-17 22:06:40', NULL, NULL, NULL, 1),
-(11, 1, 1, 'plum plum', '2021-05-19 03:28:14', NULL, NULL, NULL, 1),
-(19, 1, 1, '.................', '2021-05-19 04:56:32', NULL, NULL, NULL, 1),
-(66, 8, 81, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '2021-06-05 19:53:00', NULL, NULL, NULL, 1),
-(67, 8, 81, 'plum plum', '2021-06-05 19:58:26', NULL, NULL, NULL, 1),
-(69, 8, 81, 'ghghghg', '2021-06-05 20:08:15', NULL, NULL, NULL, 1),
-(70, 8, 81, '.................', '2021-06-05 20:09:34', NULL, NULL, NULL, 1);
+(289, 53, 120, 'hi', '2021-07-29 23:14:11', 'default_profile_reasonably_small', NULL, NULL, 1),
+(290, 52, 121, 'hi', '2021-07-29 23:14:20', 'default_profile_reasonably_small', NULL, NULL, 1),
+(291, 52, 121, 'hello', '2021-07-29 23:14:25', 'default_profile_reasonably_small', NULL, NULL, 1),
+(292, 53, 120, 'yeyee', '2021-07-29 23:14:42', 'default_profile_reasonably_small', NULL, NULL, 1),
+(293, 53, 120, 'door', '2021-07-29 23:14:58', 'default_profile_reasonably_small', NULL, NULL, 1),
+(294, 52, 121, 'whats up', '2021-07-30 13:30:38', 'default_profile_reasonably_small', NULL, NULL, 1),
+(295, 52, 121, 'he', '2021-07-30 13:31:36', 'default_profile_reasonably_small', NULL, NULL, 1),
+(296, 52, 121, 'hel', '2021-07-30 13:31:39', 'default_profile_reasonably_small', NULL, NULL, 1),
+(297, 53, 120, 'hh', '2021-07-30 13:31:50', 'default_profile_reasonably_small', NULL, NULL, 1),
+(298, 52, 122, 'a', '2021-07-30 13:40:44', 'default_profile_reasonably_small', NULL, NULL, 1),
+(299, 52, 122, 'aa', '2021-07-30 13:40:46', 'default_profile_reasonably_small', NULL, NULL, 1),
+(300, 52, 122, 'aaa', '2021-07-30 13:40:48', 'default_profile_reasonably_small', NULL, NULL, 1),
+(301, 52, 122, 'how are you', '2021-07-30 13:43:43', 'default_profile_reasonably_small', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -411,6 +438,7 @@ CREATE TABLE `replays` (
 CREATE TABLE `rooms` (
   `roomId` bigint(20) UNSIGNED NOT NULL,
   `roomOwnerFk` bigint(20) UNSIGNED NOT NULL,
+  `user2` bigint(20) UNSIGNED NOT NULL,
   `roomName` varchar(40) DEFAULT NULL,
   `roomCreated` datetime NOT NULL DEFAULT current_timestamp(),
   `roomActive` tinyint(1) UNSIGNED NOT NULL DEFAULT 1
@@ -420,12 +448,10 @@ CREATE TABLE `rooms` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`roomId`, `roomOwnerFk`, `roomName`, `roomCreated`, `roomActive`) VALUES
-(0, 3, '0', '2021-05-17 20:26:39', 1),
-(1, 1, 'FirstOne', '2021-05-17 17:08:20', 1),
-(2, 1, 'SecondOne', '2021-05-17 17:45:16', 1),
-(81, 8, NULL, '2021-05-31 12:58:16', 1),
-(83, 16, NULL, '2021-06-05 20:13:05', 1);
+INSERT INTO `rooms` (`roomId`, `roomOwnerFk`, `user2`, `roomName`, `roomCreated`, `roomActive`) VALUES
+(120, 53, 52, NULL, '2021-07-29 23:12:06', 1),
+(121, 52, 53, NULL, '2021-07-29 23:12:23', 1),
+(122, 52, 53, NULL, '2021-07-30 13:40:39', 1);
 
 -- --------------------------------------------------------
 
@@ -463,16 +489,16 @@ INSERT INTO `users` (`userId`, `userFullName`, `userUserName`, `userEmail`, `use
 (3, 'e ee', 'eee', 'e@2.com', 'pass3', 'photo-1489424731084-a5d8b219a5bb', NULL, 'code3', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
 (4, 'x xx', 'xxx', 'x@x.com', 'pass4', 'photo-1499996860823-5214fcc65f8f', NULL, 'code4', 1, NULL, NULL, '2021-05-10 00:14:12', 0, 0, 0, 0, 0),
 (5, 'z zz', 'zzz', 'z@z.com', 'Pass5', 'photo-1519613273847-6daa1d54e198', NULL, 'code5', 1, NULL, NULL, '2021-05-12 18:41:55', 0, 0, 0, 0, 0),
-(6, 'test', 'test', 'test.com', 'test', 'test', NULL, 'code', 1, NULL, NULL, '2021-05-13 02:18:02', 0, 0, 0, 0, 0),
-(7, 'test', 'aiais', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dE1zeW9ueTBLQzAvN2dPNQ$9YRcWpeNNd6Rp2OrgUn1HTT5z62JEUvbg7tXQG5+zhI', 'testasd', 'about me', '0a26ab', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(8, 'test', 'qweqwe', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SHFEZVlKNlcvSlVTT0NWSA$3nmCZTl81pVtjVaFTMR2rAwvCaIbUvk5+tpsi4YKFyA', 'photo-1580489944761-15a19d654956', 'about me', '1e7cc2d6c99a39e8085f25861d92adda', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(9, 'test', 'poipoi', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$azQudXpaZkx2SUpVd2REUw$po9Q0eM9FIXfaro8CaLMZSYE++FV4mxp6jsG+od4yzY', 'photo-1580489944761-15a19d654956', 'about me', 'b5ec0fb194f07820ce17b919e143ca1c', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(10, 'test', 'poipoi2', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$RE02N29Dai41QmdRNnF1TA$nyQvrn23sN/MPuQA9U1HEUM1WyWRc7g6PnaLKHDM93I', 'photo-1580489944761-15a19d654956', 'about me', '007894d500686f7ee806d939393b010a', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(11, 'test', 'qweqwe34', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$SmtONlQxRnNYSkJvbi4xYw$7UwkUA0R/DyH5iYQu4wGB5xqE+35r1GK01UnsqqQBJY', 'photo-1580489944761-15a19d654956', 'about me', '25daf37391ca6cdda13731f058fa06f4', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(12, 'test', 'poipoi89', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$TGV6QzRBbDZZTDQxWTl4Lg$n7VrO4CxTgTfNqvNiEKo29DUsnUxuCJDDMciPiV82W0', 'photo-1580489944761-15a19d654956', 'about me', 'c5ba5f3ac040b07578e43d1f113b508f', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(13, 'test', 'qweqwe09', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$WHQ1eFRBMnYvdlNpejBQeQ$+2WpOnn92UTfWyOvgc2RCVxcqx+kfy34AFytRpXwRBc', 'photo-1580489944761-15a19d654956', 'about me', '6fdd71888b04d1b1d5831cc3588053ba', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(14, 'test', 'evebra12', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$dm5vYUpyN1huOUdMeTRkVg$/gSINflQ/uzFpsuLrxwadSQns7MD19z0zVjlEmtrWUo', 'photo-1580489944761-15a19d654956', 'about me', 'd90ad21cf9ba84db8bd5706031df2664', 1, 'test', 'test', '2021-05-10 00:12:18', 20, 20, 20, 20, 20),
-(16, 'test', 'poipoi69', 'cvb@cv.pl', '$argon2id$v=19$m=65536,t=4,p=1$eGlpcm5POWoySFBSTWp4cw$BlrESefN0BHOOa6EveFQ4ZnMyqnI5bqVQFEK69Mzo5A', NULL, NULL, '234d7adbcc78f4ed465702b289bf8298', 1, NULL, NULL, '2021-06-05 20:11:01', 0, 0, 0, 0, 0);
+(160, 'test', 'regina', 'regina@regina.com', '$2y$10$X62MMsMPbjfIFnPLE9r5x.3DWtPxptau/IscYq2exsde1ZPLOTr.O', 'default_profile_reasonably_small', NULL, '7dea52fef0095c6a9e3ac993d3da5ca2', 1, NULL, NULL, '2021-07-31 22:59:58', 0, 0, 0, 0, 0),
+(161, 'test', 'nijole', 'nijole@nijole.com', '$2y$10$oK/O5iLqiB82z9SOMtaUz.7K65zhz6KdQ85i0aYOpq7qOIB4.7F/a', 'default_profile_reasonably_small', NULL, '12374a240d871121eb7c2f1f36a10e25', 1, NULL, NULL, '2021-07-31 23:04:06', 0, 0, 0, 0, 0),
+(162, 'test', 'dovile', 'dovile@dovile.com', '$2y$10$85YrBwx/W0z1oT2tAxExTeeApZiXz/O25d6qt.Ynny2L1d4ArobO2', 'default_profile_reasonably_small', NULL, '6fdc1562566ec58fb9975ca5acc1bcaa', 1, NULL, NULL, '2021-07-31 23:08:24', 0, 0, 0, 0, 0),
+(163, 'test', 'soneta', 'soneta@soneta.com', '$2y$10$KbkUAcYwgzuMOtMwGKdVheRY6gG9mTj.VHSGbFVm/D1jGfZYsBu76', 'default_profile_reasonably_small', NULL, '314d608625c6555bc51ea1fae258c39c', 1, NULL, NULL, '2021-07-31 23:11:12', 0, 0, 0, 0, 0),
+(164, 'test', 'simona', 'simona@simona.com', '$2y$10$qeUTw.qjjq2uhg0nZ2z/WuXx2zptA8cy6dQTmgXRvE2Vhkl/8v7Ze', 'default_profile_reasonably_small', NULL, '3d7aef923e56a6c783ee97a07bf6bb51', 1, NULL, NULL, '2021-07-31 23:15:10', 0, 0, 0, 0, 0),
+(165, 'test', 'aldona', 'aldona@aldona.com', '$2y$10$VhZOfsxjirPigGrFqvilD.Cbl.Kv.MDykVL2XP8OpBMCfd9ZQeIkK', 'default_profile_reasonably_small', NULL, '7850987b893f7940ee022d008b7ac98f', 1, NULL, NULL, '2021-07-31 23:19:49', 0, 0, 0, 0, 0),
+(166, 'test', 'dagnis', 'dagnis@dagnis.com', '$2y$10$9Ul4KW01e0qkZrQNNt19XuTwPl.uXmHzvdRD6fh3k4O3THCUoWw5e', 'default_profile_reasonably_small', NULL, 'c9682c8341fdf5de3ccf2a9bac89cb50', 1, NULL, NULL, '2021-07-31 23:26:18', 0, 0, 0, 0, 0),
+(167, 'test', 'sandra', 'sandra@sandra.com', '$2y$10$7Q0P1IM/Bhgqr.zaoNaIzedFLNuJuW.txLWWNicka3qotEnjNEBrS', 'default_profile_reasonably_small', NULL, 'd95511b8812561348c98f3c56fb21bb9', 1, NULL, NULL, '2021-07-31 23:28:15', 0, 0, 0, 0, 0),
+(170, 'test', 'svetlana', 'svetlana@svetlana.com', '$2y$10$VtWHwTdAnA5o3iGSrJ5k4e0K/Mqda8rwx8sdp5.E5BYBnEcGs2jUC', 'default_profile_reasonably_small', NULL, 'b51c4d28840b8f9c532887ae9f44ab13', 1, NULL, NULL, '2021-08-01 12:59:24', 0, 0, 0, 0, 0),
+(179, 'test', 'dolores', 'indre.karalkeviciute@gmail.com', '$2y$10$iiyM5D2W/Rf0gK7kXTnVfuxuLJSq5r8FjftS0lX7DNRpzzz6djnWq', 'default_profile_reasonably_small', NULL, '02b9e982311ed581f33f651a6a83a505', 1, NULL, NULL, '2021-08-01 13:56:28', 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -602,7 +628,7 @@ CREATE TABLE `view_users` (
 --
 DROP TABLE IF EXISTS `logtry`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `logtry`  AS SELECT `loggs`.`logId` AS `logId`, `loggs`.`logLogCount` AS `logCount`, `loggs`.`logLastLog` AS `lastLog`, `users`.`userId` AS `userId`, `users`.`userUserName` AS `userName`, `users`.`userEmail` AS `userEmail` FROM (`loggs` join `users`) WHERE `loggs`.`logUserFk` = `users`.`userId` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `logtry`  AS  select `loggs`.`logId` AS `logId`,`loggs`.`logLogCount` AS `logCount`,`loggs`.`logLastLog` AS `lastLog`,`users`.`userId` AS `userId`,`users`.`userUserName` AS `userName`,`users`.`userEmail` AS `userEmail` from (`loggs` join `users`) where `loggs`.`logUserFk` = `users`.`userId` ;
 
 -- --------------------------------------------------------
 
@@ -611,7 +637,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_comments`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_comments`  AS SELECT `comments`.`commentId` AS `commentId`, `comments`.`commentText` AS `commentText`, `comments`.`commentCreated` AS `commentCreated`, `comments`.`commentActive` AS `commentActive`, `comments`.`commentImg` AS `commentImg`, `comments`.`commentHref` AS `commentHref`, `comments`.`commentTotalLikes` AS `commentTotalLikes`, `comments`.`commentTotalReplays` AS `commentTotalReplays`, `users`.`userId` AS `userId`, `users`.`userUserName` AS `userName`, `users`.`userAvatar` AS `userAvatar`, `events`.`eventId` AS `eventId` FROM ((`comments` join `users` on(`comments`.`commentUserFk` = `users`.`userId`)) join `events` on(`comments`.`commentEventFk` = `events`.`eventId`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_comments`  AS  select `comments`.`commentId` AS `commentId`,`comments`.`commentText` AS `commentText`,`comments`.`commentCreated` AS `commentCreated`,`comments`.`commentActive` AS `commentActive`,`comments`.`commentImg` AS `commentImg`,`comments`.`commentHref` AS `commentHref`,`comments`.`commentTotalLikes` AS `commentTotalLikes`,`comments`.`commentTotalReplays` AS `commentTotalReplays`,`users`.`userId` AS `userId`,`users`.`userUserName` AS `userName`,`users`.`userAvatar` AS `userAvatar`,`events`.`eventId` AS `eventId` from ((`comments` join `users` on(`comments`.`commentUserFk` = `users`.`userId`)) join `events` on(`comments`.`commentEventFk` = `events`.`eventId`)) ;
 
 -- --------------------------------------------------------
 
@@ -620,7 +646,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_events`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_events`  AS SELECT `events`.`eventId` AS `eventId`, `events`.`eventName` AS `eventName`, `events`.`eventAbout` AS `eventAbout`, `events`.`eventTime` AS `eventTime`, `events`.`eventPlace` AS `eventPlace`, `events`.`eventImg` AS `eventImg`, `events`.`eventCreated` AS `eventCreated`, `events`.`eventActive` AS `eventActive`, `events`.`eventActivityType` AS `eventType`, `events`.`eventTotalFollowees` AS `eventTotalFollowees`, `events`.`eventTotalComments` AS `eventTotalComments`, `owner`.`userId` AS `userId`, `owner`.`userUserName` AS `userName`, `owner`.`userAvatar` AS `userAvatar` FROM (`events` join `users` `owner` on(`events`.`eventOwnerFk` = `owner`.`userId`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_events`  AS  select `events`.`eventId` AS `eventId`,`events`.`eventName` AS `eventName`,`events`.`eventAbout` AS `eventAbout`,`events`.`eventTime` AS `eventTime`,`events`.`eventPlace` AS `eventPlace`,`events`.`eventImg` AS `eventImg`,`events`.`eventCreated` AS `eventCreated`,`events`.`eventActive` AS `eventActive`,`events`.`eventActivityType` AS `eventType`,`events`.`eventTotalFollowees` AS `eventTotalFollowees`,`events`.`eventTotalComments` AS `eventTotalComments`,`owner`.`userId` AS `userId`,`owner`.`userUserName` AS `userName`,`owner`.`userAvatar` AS `userAvatar` from (`events` join `users` `owner` on(`events`.`eventOwnerFk` = `owner`.`userId`)) ;
 
 -- --------------------------------------------------------
 
@@ -629,7 +655,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_messages`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar`, `messages`.`messageId` AS `messageId`, `messages`.`messageText` AS `messageText`, `messages`.`messageImg` AS `messageImg` FROM ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `inrooms`) WHERE `messages`.`messageFromUserFk` = `sender`.`userId` AND `messages`.`messageToRoomFk` = `rooms`.`roomId` AND `inrooms`.`inroomRoomFk` = `rooms`.`roomId` AND `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages`  AS  select `sender`.`userId` AS `senderId`,`sender`.`userUserName` AS `senderNick`,`sender`.`userAvatar` AS `senderAvatar`,`rooms`.`roomId` AS `roomId`,`rooms`.`roomName` AS `roomName`,`reciver`.`userId` AS `reciverId`,`reciver`.`userUserName` AS `reciverNick`,`reciver`.`userAvatar` AS `reciverAvatar`,`messages`.`messageId` AS `messageId`,`messages`.`messageText` AS `messageText`,`messages`.`messageImg` AS `messageImg` from ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `inrooms`) where `messages`.`messageFromUserFk` = `sender`.`userId` and `messages`.`messageToRoomFk` = `rooms`.`roomId` and `inrooms`.`inroomRoomFk` = `rooms`.`roomId` and `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
 
 -- --------------------------------------------------------
 
@@ -638,7 +664,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_messages2`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages2`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar`, `messages`.`messageId` AS `messageId`, `messages`.`messageText` AS `messageText`, `messages`.`messageImg` AS `messageImg` FROM ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `recivers`) WHERE `sender`.`userId` <> `reciver`.`userId` AND `messages`.`messageFromUserFk` = `sender`.`userId` AND `messages`.`messageToRoomFk` = `rooms`.`roomId` AND `recivers`.`reciverMessageFk` = `messages`.`messageId` AND `recivers`.`reciverRoomFk` = `rooms`.`roomId` AND `recivers`.`reciverUserFk` = `reciver`.`userId` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_messages2`  AS  select `sender`.`userId` AS `senderId`,`sender`.`userUserName` AS `senderNick`,`sender`.`userAvatar` AS `senderAvatar`,`rooms`.`roomId` AS `roomId`,`rooms`.`roomName` AS `roomName`,`reciver`.`userId` AS `reciverId`,`reciver`.`userUserName` AS `reciverNick`,`reciver`.`userAvatar` AS `reciverAvatar`,`messages`.`messageId` AS `messageId`,`messages`.`messageText` AS `messageText`,`messages`.`messageImg` AS `messageImg` from ((((`users` `sender` join `users` `reciver`) join `messages`) join `rooms`) join `recivers`) where `sender`.`userId` <> `reciver`.`userId` and `messages`.`messageFromUserFk` = `sender`.`userId` and `messages`.`messageToRoomFk` = `rooms`.`roomId` and `recivers`.`reciverMessageFk` = `messages`.`messageId` and `recivers`.`reciverRoomFk` = `rooms`.`roomId` and `recivers`.`reciverUserFk` = `reciver`.`userId` ;
 
 -- --------------------------------------------------------
 
@@ -647,7 +673,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_rooms`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_rooms`  AS SELECT `sender`.`userId` AS `senderId`, `sender`.`userUserName` AS `senderNick`, `sender`.`userAvatar` AS `senderAvatar`, `rooms`.`roomId` AS `roomId`, `rooms`.`roomName` AS `roomName`, `reciver`.`userId` AS `reciverId`, `reciver`.`userUserName` AS `reciverNick`, `reciver`.`userAvatar` AS `reciverAvatar` FROM (((`users` `sender` join `users` `reciver`) join `rooms`) join `inrooms`) WHERE `sender`.`userId` <> `reciver`.`userId` AND `rooms`.`roomOwnerFk` = `sender`.`userId` AND `rooms`.`roomId` = `inrooms`.`inroomRoomFk` AND `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_rooms`  AS  select `sender`.`userId` AS `senderId`,`sender`.`userUserName` AS `senderNick`,`sender`.`userAvatar` AS `senderAvatar`,`rooms`.`roomId` AS `roomId`,`rooms`.`roomName` AS `roomName`,`reciver`.`userId` AS `reciverId`,`reciver`.`userUserName` AS `reciverNick`,`reciver`.`userAvatar` AS `reciverAvatar` from (((`users` `sender` join `users` `reciver`) join `rooms`) join `inrooms`) where `sender`.`userId` <> `reciver`.`userId` and `rooms`.`roomOwnerFk` = `sender`.`userId` and `rooms`.`roomId` = `inrooms`.`inroomRoomFk` and `inrooms`.`inroomUserFk` = `reciver`.`userId` ;
 
 -- --------------------------------------------------------
 
@@ -656,7 +682,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_users`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS SELECT `users`.`userId` AS `userId`, `users`.`userFullName` AS `userFullName`, `users`.`userUserName` AS `userUserName`, `users`.`userEmail` AS `userEmail`, `users`.`userAvatar` AS `userAvatar`, `users`.`userAbout` AS `userAbout`, `users`.`userActive` AS `userActive`, `users`.`userCity` AS `userCity`, `users`.`userLanguage` AS `userLanguage`, `users`.`userCreated` AS `userCreated`, `users`.`userTotalMessages` AS `userTotalMessages` FROM `users` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS  select `users`.`userId` AS `userId`,`users`.`userFullName` AS `userFullName`,`users`.`userUserName` AS `userUserName`,`users`.`userEmail` AS `userEmail`,`users`.`userAvatar` AS `userAvatar`,`users`.`userAbout` AS `userAbout`,`users`.`userActive` AS `userActive`,`users`.`userCity` AS `userCity`,`users`.`userLanguage` AS `userLanguage`,`users`.`userCreated` AS `userCreated`,`users`.`userTotalMessages` AS `userTotalMessages` from `users` ;
 
 --
 -- Indexes for dumped tables
@@ -760,7 +786,7 @@ ALTER TABLE `activities`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `commentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -772,25 +798,25 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `galeries`
 --
 ALTER TABLE `galeries`
-  MODIFY `galeryId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `galeryId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `inrooms`
 --
 ALTER TABLE `inrooms`
-  MODIFY `inroomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `inroomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `loggs`
 --
 ALTER TABLE `loggs`
-  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `logId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `messageId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
 
 --
 -- AUTO_INCREMENT for table `reactions`
@@ -814,13 +840,13 @@ ALTER TABLE `replays`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `roomId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
