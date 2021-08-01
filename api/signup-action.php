@@ -34,31 +34,38 @@ if( strlen($email) > 50 ){ $email_error ='Email cannot be longer than 50 charact
 if( strlen($email) < 3 ){ $email_error = 'Email must be at least 3 characters long'; }
 // Check password format
 if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
-    $pass_validation_error = 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
+    $pass_error = 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
     //exit();
 } 
+
 // Check email format
 if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
-    $email_validation_error = 'email not valid';
+    $email_error = 'email not valid';
     //exit();
 }
+    
 else{
-$db = require_once (__DIR__.'./../private/db.php');
-$vKey = md5(time());
-
-try {    
-    $q = $db->prepare("CALL getUserByUserName(:userUserName)");
-
+try {  
+    $db = require_once (__DIR__.'./../private/db.php');
+    $q = $db->prepare("CALL getUserByEmail(:userEmail)");
+    $q->bindValue(':userEmail', $email);
+    $q->execute();
+    $aRow = $q->fetchAll();
+    if($q->rowCount() === 1) {
+        $validation_error = 'Invalid login credentials, please try again';
+        //return;
+    } else {
+        $q = $db->prepare("CALL getUserByUserName(:userUserName)");
     $q->bindValue(':userUserName', $username);
     $q->execute();
     $aRow = $q->fetchAll();
     
     if($q->rowCount() === 1) {
-        header('Content-Type: application/json');
-        sendError(400, 'Username is taken', __LINE__);
-        return;
-    }
+        $validation_error = 'Invalid login credentials, please try again';
+        //return;
+    }else {
 
+    $vKey = md5(time());
     // adding hash, salt and pepper to the password
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
     $pepper = $aData[0]->key;
@@ -153,7 +160,7 @@ try {
 //
 //echo 'you are signed up now!';
 
-} catch (Exception $ex) {
+}}} catch (Exception $ex) {
     header('Content-Type: application/json');
     echo '{"message":"error '.$ex.'"}';
 }
