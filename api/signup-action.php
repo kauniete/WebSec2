@@ -24,7 +24,7 @@ $username = htmlspecialchars($_POST['username']);
 $password = htmlspecialchars($_POST['password']);
 $email = htmlspecialchars($_POST['email']);
 
-if(! isset($password) || empty($password) ) { $username_error = 'Missing username'; }
+if(! isset($username) || empty($username) ) { $username_error = 'Missing username'; }
 if(! isset($password) || empty($password) ) { $pass_error = 'Missing password'; }
 if( strlen($username) < 4 ){ $username_error ='Username must be at least 4 characters long'; }
 if( strlen($password) < 10 ){  $pass_error ='Password must be at least 10 characters long'; }
