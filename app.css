@@ -1,452 +1,531 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    width: 100%;
-    overflow: hidden;
-    overflow-y: scroll;
-    font-size: 1rem;
-    font-weight: 300;
-    font-family: 'Roboto', sans-serif;
+body {
+  width: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  font-size: 1rem;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+}
+/*login,signup, verify user and email verification pages*/
+input,
+button {
+  background-color: #efefef;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 10px;
+}
+button {
+  width: 100px;
+}
+button:hover {
+  background-color: #ddd;
+}
+/*#signupForm input,
+#loginForm input {
+  margin : 0 auto;
+}*/
+.forms button,
+input,
+h1,
+p {
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
+.wrapper {
+  padding-top: 10vh;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  display: flex;
+  flex: 1;
+}
+.columns {
+  display: flex;
+  flex: 1;
+}
+.sidebar-first {
+  /*width: 30%;*/
+  flex: 1;
+  order: 1;
+}
+.sidebar-second {
+  /*width: 30%;*/
+  flex: 1;
+  order: 3;
+}
+.forms {
+  /*flex: 1;*/
+  width: 300px;
+  order: 2;
+  padding: 70px 0;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+.signup-link,
+.login-link {
+  display: inline-block;
+  height: 50px;
+  padding-top: 5px;
+  /*text-decoration: none;
+  color: black;*/
+}
+/* ###########################################*/
+
+body > header {
+  position: fixed;
+  width: 100vw;
+  height: 3.4rem;
+  background-color: white;
+}
+
+body > header > h1 {
+  color: #ffdf00;
+  font-style: italic;
+  text-align: center;
+}
+
+#page {
+  display: grid;
+  grid-template-columns: 10fr 25fr 14fr;
+  gap: 1rem;
+  width: 100%;
+  height: 100vh;
+  padding: 50px 9% 0 9%;
+}
 
 /* ###########################################*/
 
-body > header{
-    position: fixed;
-    width: 100vw;
-    height: 3.4rem;
-    background-color: white;
-    }
-
-body > header > h1{
-    color: #FFDF00;
-    font-style: italic;
-    text-align: center;
-    }
-
-
-#page{
-    display: grid;
-    grid-template-columns: 10fr 25fr 14fr;
-    gap: 1rem;
-    width: 100%;
-    height: 100vh;
-    padding: 50px 9% 0 9%;
-}
-
-
-/* ###########################################*/
-
-nav{
-    grid-column: 1;
-    display: grid;
-    grid-template-rows: repeat(11, 1fr);
-    padding: 1rem 0px;
-    font-size: 1.4rem;
-    position: fixed;
-}
-
-nav > a{
-    display: flex;
-    flex-direction: row;
-    transition: 200ms ease-in-out;
-    border-radius: 50px;
-    padding: 0.8rem 1.2rem;
-}
-
-nav a{
-    color: black;
-    text-decoration: none;
-    align-self: center;
-    margin-right: auto;
-}
-
-nav > a:hover{
-    background: rgba(255, 223, 0, .1);
-    color: rgba(212, 175, 55, 1);
-    font-weight: 500;
-}
-nav > a > svg{
-    margin-right: 1.2rem;
-}
-
-nav > a:hover > svg{
-    fill: rgba(212, 175, 55, 1);
-}
-
-nav > a.active{
-    color: rgba(212, 175, 55, 1);
-    font-weight: 400;
-}
-
-
-/* ###########################################*/
-
-main{
-    grid-column: 2;   
-    display: grid;
-    grid-template-rows: 0.17fr auto;
-}
-
-div#serchBar{
-    grid-row: 1;
-    position: fixed;
-    width: 40.4vw;
-    height: 3.4rem;
-    background-color: white;
-}
-
-div#serchBar > input{
-    border: 0px solid;
-    width: 100%;
-    padding: .75rem 3rem;
-    margin: .4rem 0;
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(0, 0, 0, 0.5);
-    background-color: rgba(230, 236, 240, .3);
-    border-radius: 3rem;
-}
-
-div#serchBar > input:focus{
-    outline: none;
-    border: 1px solid rgba(255, 223, 0, 1); 
-    background-color: white;
-}
-
-div#serchBar > svg{
-    width: 1.4rem;
-    fill: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 1.1rem;
-    right: 36.5rem;
-}
-
-
-/* ###########################################*/
-
-#home{
-    display: block;
-    grid-row: 2; 
-}
-
-#home > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-#home > div{
-    padding: 1rem;
-}
-
-#home > div >h1{
-    color:rgba(255, 223, 0, 1);
-}
-
-#home > div >h2{
-    color:rgba(191, 166, 0, 1);
-    margin-top: 3rem;
-}
-
-#home > div >h2:last-of-type{
-    color: black;
-    margin-top: 3rem;
-}
-
-
-/* ###########################################*/
-
-#events{
-    display: none;
-    grid-row: 2; 
-}
-
-#events > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-article.event{
-    margin-top: 3rem;;
-}
-
-article.event > div > img{
-    height: 15rem;
-    width:38rem;
-}
-
-.owner > img{
-    height: 3.2rem;
-    width: 3.2rem;
-    border-radius: 50%;
-}
-
-
-/* ###########################################*/
-
-#users{
-    display: none;
-    grid-row: 2; 
-}
-
-#users > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-#users > p{
-    color: red;
-}
-
-
-/* ###########################################*/
-
-#profile{
-    display: none;
-    grid-row: 2; 
-}
-
-#profile > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-
-/* ###########################################*/
-
-#chat{
-    display: none;
-    grid-row: 2; 
-}
-
-#chat > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-#chat > form#startChat{
-    display: grid;
-}
-
-#chat > #searchResults{
-    display: none;
-    grid-gap: 1rem;
-    width: 100%;
-    height: 50%;
-    padding: 1rem;
-    background-color: rgba(220, 230, 240, 1);
-  }
-  
-#chat > #searchResults > .result{
-   display: grid;
-   grid-template-columns: 10fr 60fr;
-   grid-template-rows: 1fr 1fr;
-   grid-gap: 1rem;
-  }
-  
-#chat > #searchResults > .result > img{
+nav {
   grid-column: 1;
-  grid-row: 1 /span 2;
+  display: grid;
+  grid-template-rows: repeat(11, 1fr);
+  padding: 1rem 0px;
+  font-size: 1.4rem;
+  position: fixed;
+}
+
+nav > a {
+  display: flex;
+  flex-direction: row;
+  transition: 200ms ease-in-out;
+  border-radius: 50px;
+  padding: 0.8rem 1.2rem;
+}
+
+nav a {
+  color: black;
+  text-decoration: none;
+  align-self: center;
+  margin-right: auto;
+}
+
+nav > a:hover {
+  background: rgba(255, 223, 0, 0.1);
+  color: rgba(212, 175, 55, 1);
+  font-weight: 500;
+}
+nav > a > svg {
+  margin-right: 1.2rem;
+}
+
+nav > a:hover > svg {
+  fill: rgba(212, 175, 55, 1);
+}
+
+nav > a.active {
+  color: rgba(212, 175, 55, 1);
+  font-weight: 400;
+}
+
+/* ###########################################*/
+
+main {
+  grid-column: 2;
+  display: grid;
+  grid-template-rows: 0.17fr auto;
+}
+
+div#serchBar {
+  grid-row: 1;
+  position: fixed;
+  width: 40.4vw;
+  height: 3.4rem;
+  background-color: white;
+}
+
+div#serchBar > input {
+  border: 0px solid;
+  width: 100%;
+  padding: 0.75rem 3rem;
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(230, 236, 240, 0.3);
+  border-radius: 3rem;
+}
+
+div#serchBar > input:focus {
+  outline: none;
+  border: 1px solid rgba(255, 223, 0, 1);
+  background-color: white;
+}
+
+div#serchBar > svg {
+  width: 1.4rem;
+  fill: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 1.1rem;
+  right: 36.5rem;
+}
+
+/* ###########################################*/
+
+#home {
+  display: block;
+  grid-row: 2;
+}
+
+#home > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+#home > div {
+  padding: 1rem;
+}
+
+#home > div > h1 {
+  color: rgba(255, 223, 0, 1);
+}
+
+#home > div > h2 {
+  color: rgba(191, 166, 0, 1);
+  margin-top: 3rem;
+}
+
+#home > div > h2:last-of-type {
+  color: black;
+  margin-top: 3rem;
+}
+
+/* ###########################################*/
+
+#events {
+  display: none;
+  grid-row: 2;
+}
+
+#events > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+article.event {
+  margin-top: 3rem;
+}
+
+article.event > div > img {
+  height: 15rem;
+  width: 38rem;
+}
+
+.owner > img {
+  height: 3.2rem;
+  width: 3.2rem;
+  border-radius: 50%;
+}
+
+/* ###########################################*/
+
+#users {
+  display: none;
+  grid-row: 2;
+}
+
+#users > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+#users > p {
+  color: red;
+}
+
+/* ###########################################*/
+
+#profile {
+  display: none;
+  grid-row: 2;
+}
+
+#profile > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+/* ###########################################*/
+
+#chat {
+  display: none;
+  grid-row: 2;
+}
+
+#chat > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+#chat > form#startChat {
+  display: grid;
+}
+
+#chat > #searchResults {
+  display: none;
+  grid-gap: 1rem;
+  width: 100%;
+  height: 50%;
+  padding: 1rem;
+  background-color: rgba(220, 230, 240, 1);
+}
+
+#chat > #searchResults > .result {
+  display: grid;
+  grid-template-columns: 10fr 60fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+#chat > #searchResults > .result > img {
+  grid-column: 1;
+  grid-row: 1 / span 2;
   border-radius: 50%;
   height: 3.5rem;
-  } 
-  
-#chat > #searchResults > .result > p{
-    font-weight: bold;
-    font-size: 1.2rem;
-    } 
-
-#right{
-        grid-column: 3;
-        grid-row: 2;
-    }
-
-.rooms > img{
-    border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
-}    
-
-#roomId > .message > p{
-border-radius: 50px;
-padding: 0.2rem;
-background-color: white;
 }
 
-#roomId > .message > img{
-    border-radius: 50%;
-    height: 1rem;
-    width: 1rem;
-    }
-    
+#chat > #searchResults > .result > p {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.rooms > img {
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+}
+
+#roomId > .message > p {
+  border-radius: 50px;
+  padding: 0.2rem;
+  background-color: white;
+}
+
+#roomId > .message > img {
+  border-radius: 50%;
+  height: 1rem;
+  width: 1rem;
+}
+
 #roomId > .message {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}    
-
-/* ###########################################*/
-
-#galery{
-    display: none;
-    grid-row: 2; 
-}
-
-#galery > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-
-/* ###########################################*/
-
-#calendar{
-    display: none;
-    grid-row: 2; 
-}
-
-#calendar > header{
-    position: sticky;
-    top: 0;
-    width: 40.2vw;
-    height: 3.4rem;
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-header > h3{
-   margin-left: 1rem;  
-}
-
-#calendar > p{
-    color: red;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
 /* ###########################################*/
 
-#top{
-    grid-column: 3;
+#galery {
+  display: none;
+  grid-row: 2;
 }
 
-div#top > div > svg{
-    width: 1.4rem;
-    fill: rgba(0, 0, 0, 0.5);
-
+#galery > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+header > h3 {
+  margin-left: 1rem;
+}
 
 /* ###########################################*/
 
+#calendar {
+  display: none;
+  grid-row: 2;
+}
+
+#calendar > header {
+  position: sticky;
+  top: 0;
+  width: 40.2vw;
+  height: 3.4rem;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header > h3 {
+  margin-left: 1rem;
+}
+
+#calendar > p {
+  color: red;
+}
+
+/* ###########################################*/
+
+#top {
+  grid-column: 3;
+}
+
+div#top > div > svg {
+  width: 1.4rem;
+  fill: rgba(0, 0, 0, 0.5);
+}
+
+/* ###########################################*/
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
 .toast-message {
-    visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #f44336; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the toast-message */
-    bottom: 30px; /* 30px from the bottom */
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #f44336; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the toast-message */
+  bottom: 30px; /* 30px from the bottom */
 }
 
 /* Show the toast-message when clicking on a button (class added with JavaScript) */
 .toast-message.show {
-    visibility: visible; /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 /* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

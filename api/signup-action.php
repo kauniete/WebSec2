@@ -40,7 +40,7 @@ if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password
 
 // Check email format
 if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
-    $email_error = 'email not valid';
+    $email_error = 'Email is not valid';
     //exit();
 }
     

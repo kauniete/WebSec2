@@ -1,19 +1,23 @@
 
 <?php
-session_start();
+$verification_error = '';
+$psst_error = '';
+$exception_error = '';
     require_once (__DIR__.'/../utils/csrfHelper.php');
     if(! csrfHelper::is_csrf_valid()) {
-        header('Content-Type: application/json');
         require_once (__DIR__.'/../utils/sendError.php');
-        sendError(400, 'Invalid session', __LINE__);
+        $psst_error ='Your session is invalid, but try to log in again here or from private browser window';
     }
-
-	if(isset($_POST['otp_code']) || ! empty($_POST['otp_code'])){
+    $otpcode = htmlspecialchars($_POST['otp_code']);
+    if(! isset($otpcode) || empty($otpcode) ) { $verification_error = 'Missing OTP code'; } 
+    else{
+        try{
         $otp_num = $_SESSION['vKey'];
         $email = $_SESSION['email'];
         $otp = htmlspecialchars($_POST['otp_code']);
-
-        if($otp_num == $otp){
+        if($otp_num != $otp){
+            $verification_error = 'Invalid token. Please try again';}
+            else {
             $db = require_once (__DIR__.'./../private/db.php');
             $q = $db->prepare(
                 'SELECT * FROM users'
@@ -30,12 +34,11 @@ session_start();
             $q->execute();
             //header('Location: /../home.php');
             header('Location: https://localhost/home');
-
-            exit();
-        }}}  else {
-            header('Location: /../index.php');
-            exit();
-            //add error msg for user here.indre
-        } 
-    } 
+            exit();}
+        }}} 
+        catch (Exception $ex) {
+            //echo '{"message":"error '.$ex.'"}';
+            $exception_error = 'Something went wrong';
+        }}
     
+        include (__DIR__.'/../verify-user.php');

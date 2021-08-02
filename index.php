@@ -14,37 +14,46 @@ if( isset($_SESSION['userId']) ){
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <title>Login</title>
-<!--    <link rel="stylesheet" href="app.css">-->
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
-    <div>
+<div class="wrapper">
+<section class="content">
+    <div class="columns">
+<aside class="sidebar-first"></aside>
+    <div class="forms">
+    
         <form id="loginForm" method="post" action="https://localhost/login">
-            <h3>Login</h3>
+            <h1>Login</h1>
             <?php
                 require_once("utils/csrfHelper.php");
                 csrfHelper::set_csrf("login");
             ?>
-            <?php if(isset($verification_error)){echo "<a href='email-verification.php' style='background-color:pink'>".$verification_error."</a>";}?>
-            <?php if(isset($exception_error)){echo "<a href='email-verification.php' style='background-color:pink'>".$exception_error."</a>";}?>
+            <?php if(isset($verification_error)){echo "<a href='email-verification.php' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$verification_error."</a>";}?>
+            <?php if(isset($exception_error)){echo "<a href='email-verification.php' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$exception_error."</a>";}?>
             <?php if(isset($validation_error)){?>
-                <p style="background-color:pink"><?php echo $validation_error?></p>
+                <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $validation_error?></p>
                 <?php } ?>
                 <?php if(isset($login_timeout)){?>
-                <p style="background-color:pink"><?php echo $login_timeout?></p>
+                <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $login_timeout?></p>
                 <?php } ?>
                 <?php if(isset($psst_error)){?>
-                <p style="background-color:pink"><?php echo $psst_error?></p>
+                <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $psst_error?></p>
                 <?php } ?>
             <input type="text" name="username" placeholder="username">
             <?php if(isset($username_error)){?>
-                <p style="background-color:pink"><?php echo $username_error?></p>
+                <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $username_error?></p>
                 <?php } ?>
             <input type="password" name="password" placeholder="password">
-            <?php if(isset($pass_error)){echo "<p style='background-color:pink'>".$pass_error."</p>";}?>
+            <?php if(isset($pass_error)){echo "<p style='color:#E0245E; font-size: 16px;margin-bottom: 4px;'>".$pass_error."</p>";}?>
             <button name="submit" type="submit" form="loginForm">Log in</button>
         </form>
+    <a class="signup-link" href="signup.php">Sign up</a> 
     </div>
-    <a href="signup.php">Sign up</a> 
+    <aside class="sidebar-second"></aside>
+            </div>
+  </section>
+    </div>
 </body>
 <!--<script src="app.js"></script>-->
 
