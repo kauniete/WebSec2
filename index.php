@@ -1,5 +1,5 @@
 <?php
-
+require_once (__DIR__.'../utils/csrf.php');
 if( isset($_SESSION['userId']) ){
     header('Location: home.php');
     exit();
@@ -26,8 +26,10 @@ if( isset($_SESSION['userId']) ){
         <form id="loginForm" method="post" action="https://localhost/login">
             <h1>Login</h1>
             <?php
-                require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf("login");
+                //require_once("utils/csrfHelper.php");
+                //csrfHelper::set_csrf("login");
+                set_csrf();
+                print_r($_SESSION);
             ?>
             <?php if(isset($verification_error)){echo "<a href='/../email-verification' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$verification_error."</a>";}?>
             <?php if(isset($exception_error)){?>

@@ -3,7 +3,7 @@
     //header('Location: ../home.php');
     //exit();
 //}
-
+require_once (__DIR__.'../utils/csrf.php');
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,11 +23,13 @@
 <aside class="sidebar-first"></aside>
     <div class="forms">
     <!--api/signup-action.php-->
-    <form id="signupForm" method="POST" action="https://localhost/signup">
+    <form id="signupForm" method="POST" action="https://localhost/api/signup-action.php">
             <h1>Signup</h1>
             <?php
-                require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf("signup");
+                //require_once("utils/csrfHelper.php");
+                //csrfHelper::set_csrf("signup");
+                set_csrf();
+                print_r($_SESSION);
             ?>
             <?php if(isset($exception_error)){echo "<p style='color:#E0245E; font-size: 16px;margin-bottom: 4px;'>".$exception_error."</p>";}?>
             <?php if(isset($login_timeout)){?><p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $login_timeout?></p><?php } ?>

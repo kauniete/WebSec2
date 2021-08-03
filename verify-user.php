@@ -1,6 +1,7 @@
 <?php
 //print_r($_SESSION);
-//?>
+require_once (__DIR__.'../utils/csrf.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,8 +23,10 @@
         <div class="reset-password"> -->
           <form id="emailVerifyForm" action="https://localhost/verify-user" class="sign-in-form" method="POST">
           <?php
-                require_once("utils/csrfHelper.php");
-                csrfHelper::set_csrf('verify_user');
+                //require_once("utils/csrfHelper.php");
+                //csrfHelper::set_csrf('verify_user');
+                set_csrf();
+                print_r($_SESSION);
             ?>
             <h2 class="title">Verify your Account</h2>
             <p>

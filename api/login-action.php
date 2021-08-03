@@ -7,10 +7,11 @@ $psst_error = '';
 $verification_error = '';
 $exception_error = '';
 require_once (__DIR__.'/../utils/sendError.php');
-require_once (__DIR__.'/../utils/csrfHelper.php');
+//require_once (__DIR__.'/../utils/csrfHelper.php');
+require_once (__DIR__.'/../utils/csrf.php');
 
 if ($_POST){
-if(! csrfHelper::is_csrf_valid()) {
+    if(! is_csrf_valid()) {
     $psst_error = 'Your session is invalid, but try to log in again here or from private browser window';
 }
 
