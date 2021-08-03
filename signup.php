@@ -23,7 +23,7 @@
 <aside class="sidebar-first"></aside>
     <div class="forms">
     <!--api/signup-action.php-->
-    <form id="signupForm" method="POST" action="https://localhost/api/signup-action.php">
+    <form id="signupForm" method="POST" action="https://localhost/signup">
             <h1>Signup</h1>
             <?php
                 require_once("utils/csrfHelper.php");
@@ -43,7 +43,7 @@
             <?php if(isset($email_validation_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$email_validation_error."</p>";}?>
             <button name="submit" type="submit" form="signupForm">Sign up</button>
         </form>
-        <a class="login-link" href="/../index.php">Login</a> 
+        <a class="login-link" href="/../login">Login</a> 
         </div>
     <aside class="sidebar-second"></aside>
             </div>

@@ -4,6 +4,8 @@ $verification_error = '';
 $psst_error = '';
 $exception_error = '';
     require_once (__DIR__.'/../utils/csrfHelper.php');
+
+    if ($_POST){
     if(! csrfHelper::is_csrf_valid()) {
         require_once (__DIR__.'/../utils/sendError.php');
         $psst_error ='Your session is invalid, but try to log in again here or from private browser window';
@@ -33,12 +35,12 @@ $exception_error = '';
             $q->bindValue('newValue',1);
             $q->execute();
             //header('Location: /../home.php');
-            header('Location: https://localhost/home');
+            header('Location: /../home');
             exit();}
         }}} 
         catch (Exception $ex) {
             //echo '{"message":"error '.$ex.'"}';
             $exception_error = 'Something went wrong';
         }}
-    
+    }
         include (__DIR__.'/../verify-user.php');

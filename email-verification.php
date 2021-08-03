@@ -21,7 +21,7 @@ if( isset($_SESSION['userId']) ){
     <div class="columns">
 <aside class="sidebar-first"></aside>
     <div class="forms">
-        <form id="verifyForm2" method="post" action="https://localhost/api/api-email-verification-action.php">
+        <form id="verifyForm2" method="post" action="https://localhost/email-verification">
             <h1>Verify email</h1>
             <?php
                 require_once("utils/csrfHelper.php");

@@ -29,8 +29,10 @@ if( isset($_SESSION['userId']) ){
                 require_once("utils/csrfHelper.php");
                 csrfHelper::set_csrf("login");
             ?>
-            <?php if(isset($verification_error)){echo "<a href='email-verification.php' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$verification_error."</a>";}?>
-            <?php if(isset($exception_error)){echo "<a href='email-verification.php' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$exception_error."</a>";}?>
+            <?php if(isset($verification_error)){echo "<a href='/../email-verification' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$verification_error."</a>";}?>
+            <?php if(isset($exception_error)){?>
+                <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $exception_error?></p>
+                <?php } ?>
             <?php if(isset($validation_error)){?>
                 <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $validation_error?></p>
                 <?php } ?>
@@ -48,7 +50,7 @@ if( isset($_SESSION['userId']) ){
             <?php if(isset($pass_error)){echo "<p style='color:#E0245E; font-size: 16px;margin-bottom: 4px;'>".$pass_error."</p>";}?>
             <button name="submit" type="submit" form="loginForm">Log in</button>
         </form>
-    <a class="signup-link" href="signup.php">Sign up</a> 
+    <a class="signup-link" href="/../signup">Sign up</a> 
     </div>
     <aside class="sidebar-second"></aside>
             </div>

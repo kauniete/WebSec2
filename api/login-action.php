@@ -6,12 +6,10 @@ $login_timeout = '';
 $psst_error = '';
 $verification_error = '';
 $exception_error = '';
-
-
 require_once (__DIR__.'/../utils/sendError.php');
 require_once (__DIR__.'/../utils/csrfHelper.php');
 
-
+if ($_POST){
 if(! csrfHelper::is_csrf_valid()) {
     $psst_error = 'Your session is invalid, but try to log in again here or from private browser window';
 }
@@ -80,6 +78,7 @@ class LoginHandler {
     // http_response_code(200); // default is this line
 // ############################################################
 // ############################################################
-include (__DIR__.'/../index.php');
 
+}
+include (__DIR__.'/../index.php');
 
