@@ -61,15 +61,18 @@ async function getLatestEvents(){
 }
 
 function doAppendCommentByEventId(comment) {
-    const { eventId, commentText, userAvatar, userName, commentId} = comment;
+    const { eventId, userId, commentText, userAvatar, userName, commentId} = comment;
     const domEventEl = document.querySelector(`div.event[data-event-id="${eventId}"]`)
     if(!domEventEl) {
         console.error(`No DOM event element with id ${eventId}`)
         return;
     }
+    const currentUser = document.getElementById('currentUserId').innerText;
+//console.log(currentUser);
+if (currentUser == userId) {
     let tmpCommentElem = `
       <div class="comment">
-        <div class="owner">
+        <div id="${userId}" class="owner">
           <img src="fotos_assets/${userAvatar}.jpg" alt="">
           <p>Created by_${userName}</p>
         </div>
@@ -77,7 +80,16 @@ function doAppendCommentByEventId(comment) {
         <p>${commentText}</p>
       </div>`
     document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem)
-}
+} else {
+  let tmpCommentElem = `
+      <div class="comment">
+        <div id="${userId}" class="owner">
+          <img src="fotos_assets/${userAvatar}.jpg" alt="">
+          <p>Created by_${userName}</p>
+        </div>
+        <p>${commentText}</p>
+      </div>`
+    document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem) }}
 
   
 // Get Token

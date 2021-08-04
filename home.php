@@ -132,8 +132,8 @@ print_r($_SESSION);
     <div id="top">
         <img src="<?=$_SESSION['userAvatar']?>" alt="">
         <p><strong><?=$_SESSION['userName']?></strong></p>
-        
             <a href="https://localhost/logout">Log out</a>
+            <p id="currentUserId"><strong><?=$_SESSION['userId']?></strong></p>
         </div>
     
 <!-- end of top page-->

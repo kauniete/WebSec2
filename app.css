@@ -82,7 +82,10 @@ p {
   color: black;*/
 }
 /* ###########################################*/
-
+#currentUserId {
+  color: white;
+}
+/* */
 body > header {
   position: fixed;
   width: 100vw;
