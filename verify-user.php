@@ -37,6 +37,7 @@ require_once (__DIR__.'../utils/csrf.php');
             <?php if(isset($psst_error)){?>
                 <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $psst_error?></p>
                 <?php } ?>
+                <?php if(isset($signup_flow_error)){echo "<a href='/../signup' style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$signup_flow_error."</a>";}?>
                 <?php if(isset($exception_error)){?>
                 <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $exception_error?></p>
                 <?php } ?>
