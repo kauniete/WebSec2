@@ -1,7 +1,7 @@
 <?php
 require_once (__DIR__.'../utils/csrf.php');
 if( isset($_SESSION['userId']) ){
-    header('Location: home.php');
+    header('Location: home');
     exit();
 }
 ?>
@@ -14,6 +14,7 @@ if( isset($_SESSION['userId']) ){
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <title>Login</title>
+    <link rel="shortcut icon" type="image/jpg" href="fotos_assets/favicon.png"/>
 <link rel="stylesheet" href="app.css">
 </head>
 <body>

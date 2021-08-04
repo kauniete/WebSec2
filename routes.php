@@ -19,6 +19,7 @@ get('/email-verification', '/api/api-email-verification-action.php');
 post('/email-verification', '/api/api-email-verification-action.php');
 get('/home', '/home.php');
 post('/home', '/home.php');
+get('/logout', '/api/logout-action.php');
 // #####################################
 // #####################################
 any('/404','/page_404.php');

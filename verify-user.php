@@ -7,6 +7,7 @@ require_once (__DIR__.'../utils/csrf.php');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/jpg" href="fotos_assets/favicon.png"/>
      <title>Verify account</title>
      <link rel="stylesheet" href="https://localhost/app.css">
   </head>

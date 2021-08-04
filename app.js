@@ -85,13 +85,13 @@ async function addToken(){
 	let request = await fetch('api/api-add-token.php')
   if( ! request.ok ){ doShowToastMessage('Failed to add token') }
 	let response = await request.json();
+  //console.log(response.id);
   }
   
-
 // Get Events
 function doAppendEvent(event) {
   addToken();
-  const { id, eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
+  const {id, eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
   const eventsContainer = document.getElementById('events');
   const tmpEventElem = `
   <article class="event">

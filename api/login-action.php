@@ -67,7 +67,7 @@ class LoginHandler {
         //$_SESSION['password'] = $currentUser->userPassword;
         $_SESSION['userActive'] = $currentUser->userActive;
         $_SESSION['userAvatar'] = '';
-        header('Location: /../home.php');
+        header('Location: /../home');
     } else {
         $verification_error = 'Please verify your email via this link';
         

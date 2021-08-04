@@ -12,7 +12,7 @@ require_once (__DIR__.'../utils/csrf.php');
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <link rel="shortcut icon" type="image/jpg" href="fotos_assets/favicon.png"/>
     <title>Signup</title>
 <link rel="stylesheet" href="https://localhost/app.css">
 </head>
@@ -23,7 +23,7 @@ require_once (__DIR__.'../utils/csrf.php');
 <aside class="sidebar-first"></aside>
     <div class="forms">
     <!--api/signup-action.php-->
-    <form id="signupForm" method="POST" action="https://localhost/api/signup-action.php">
+    <form id="signupForm" method="POST" action="https://localhost/signup">
             <h1>Signup</h1>
             <?php
                 //require_once("utils/csrfHelper.php");
