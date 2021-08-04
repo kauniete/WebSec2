@@ -34,18 +34,17 @@ if( strlen($username) > 50 ){ $username_error = 'Username cannot be longer than 
 if( strlen($password) > 50 ){  $pass_error = 'Password cannot be longer than 50 characters'; }
 if( strlen($email) > 50 ){ $email_error ='Email cannot be longer than 50 characters'; }
 if( strlen($email) < 3 ){ $email_error = 'Email must be at least 3 characters long'; }
-// Check password format
-if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
-    $pass_error = 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
-    //exit();
-} 
-
 // Check email format
 if( ! filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL  )){ 
     $email_error = 'Email is not valid';
     //exit();
 }
     
+// Check password format
+if(! $password == preg_match('/(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{10,}/', $password)){
+    $pass_error = 'Password need to contain at least 10 characters, 1 uppercase letter, 1 lowercase letter and 1 digit';
+    //exit();
+} 
 else{
 try {  
     $db = require_once (__DIR__.'./../private/db.php');
@@ -66,7 +65,7 @@ try {
         $validation_error = 'Invalid signup credentials, please try again';
         //return;
     }else {
-
+    if ( ! empty($username)  &&  ! empty ($password)  &&  strlen($username) >= 4 &&  strlen($password) >= 10 && strlen($username) <= 50 && strlen($password) <= 50 && filter_var(  $_POST['email'],  FILTER_VALIDATE_EMAIL) ){
     $vKey = md5(time());
     // adding hash, salt and pepper to the password
     $aData = json_decode(file_get_contents(__DIR__.'./../private/data.txt'));
@@ -163,7 +162,7 @@ try {
 //
 //echo 'you are signed up now!';
 
-}}} catch (Exception $ex) {
+}}}} catch (Exception $ex) {
     //header('Content-Type: application/json');
     //echo '{"message":"error '.$ex.'"}';
     $exception_error = 'Something went wrong';
