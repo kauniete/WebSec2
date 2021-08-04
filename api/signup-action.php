@@ -84,7 +84,7 @@ try {
     $q->bindValue(':userPassword', $pwd_hashed);
     $q->bindValue(':userVerifyCode', $vKey);
     $q->bindValue(':userActive', 0);
-    $q->bindValue(':userAvatar', default_profile_reasonably_small);
+    $q->bindValue(':userAvatar', 'default_profile_reasonably_small');
 
     // echo $last_id;
     // $last_id= mysqli_insert_id($conn);
