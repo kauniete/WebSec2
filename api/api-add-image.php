@@ -35,8 +35,8 @@ try{
         echo "File already exists";
         $uploadOk = false;
     }
-
-    if ($_FILES["image"]["size"] > 100000 and $uploadOk == true) {
+// size was 100000
+    if ($_FILES["image"]["size"] > 1000000 and $uploadOk == true) {
         echo "File is too big";
         $uploadOk = false;
     }

@@ -29,10 +29,7 @@ button {
 button:hover {
   background-color: #ddd;
 }
-/*#signupForm input,
-#loginForm input {
-  margin : 0 auto;
-}*/
+
 .forms button,
 input,
 h1,
@@ -86,6 +83,15 @@ p {
   color: white;
 }
 /* */
+.result img {
+  width: 150px;
+  padding: 20px;
+}
+.result {
+  width: 200px;
+}
+/*//////*/
+
 body > header {
   position: fixed;
   width: 100vw;

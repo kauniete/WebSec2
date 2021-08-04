@@ -324,9 +324,26 @@ async function sendMessage(roId){
 }
 
 // get Img
-async function getImage(){
-  let form = event.target
-  let connection = await fetch("api/api-get-image.php",  {
+// async function getImage(){
+//   let form = event.target
+//   let connection = await fetch("api/api-get-image.php",  {
+//     headers:{
+//       'Cache-Control': 'no-cache'
+//     }
+//   })
+//   let ajData = await connection.json()
+//   console.log(ajData)
+//   ajData.forEach( jItem => {
+//     let sResultDiv = `
+//     <div class="result">
+//       <img src="images/${jItem.galeryImage}">
+//     </div>`
+//     document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv);
+//   })
+// }
+let populateGalleryImages = setInterval (async function(){
+  //let form = event.target
+  let connection = await fetch("api/api-get-gallery-images.php",  {
     headers:{
       'Cache-Control': 'no-cache'
     }
@@ -338,9 +355,12 @@ async function getImage(){
     <div class="result">
       <img src="images/${jItem.galeryImage}">
     </div>`
-    document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv);
+    document.querySelector('#imgUploaded').insertAdjacentHTML('afterbegin', sResultDiv);
   })
-}
+}, 2000);
+setTimeout(function () {
+  clearInterval(populateGalleryImages);
+}, 2500);
 
 function doShowToastMessage(message) {
   const toastMessageElem = document.createElement('div');
