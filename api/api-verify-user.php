@@ -8,7 +8,7 @@ $signup_flow_error = '';
 
     if ($_POST){
         if(! is_csrf_valid()) {
-        $psst_error ='Your session is invalid, but try to log in again here or from private browser window';
+        $psst_error ='Your session is invalid, but try here again';
     }
     $otpcode = htmlspecialchars($_POST['otp_code']);
     if(! isset($otpcode) || empty($otpcode) ) { $verification_error = 'Missing OTP code'; } 

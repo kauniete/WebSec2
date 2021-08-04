@@ -18,7 +18,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 if ($_POST){
 if(! is_csrf_valid()) {
-  $psst_error ='Your session is invalid, but try to log in again here or from private browser window';}
+  $psst_error ='Your session is invalid, but try to sign up again here';}
 
 
 ///if (isset($_POST['submit'])){

@@ -13,7 +13,7 @@ require_once (__DIR__.'/../utils/csrf.php');
 
 if ($_POST){
     if(! is_csrf_valid()) {
-    $psst_error = 'Your session is invalid, but try to log in again here or from private browser window';
+    $psst_error = 'Your session is invalid, but try to log in again here';
 }
 
 $username = htmlspecialchars($_POST['username']);

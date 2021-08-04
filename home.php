@@ -112,7 +112,7 @@ print_r($_SESSION);
             <div id="galeryContainer"></div>        
             <form action="api/api-add-image.php" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image">
-                <button onclick="getImage();" type="submit" name="submit">submit</button>
+                <button onclick="getImage();" type="submit" name="submit">Submit</button>
             </form>
             <div id="imgUploaded"></div>
         </section>
