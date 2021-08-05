@@ -375,12 +375,7 @@ var Galery = document.getElementById("galery");
 var btnGalery = document.querySelector("#btngalery");
 var Calendar = document.getElementById("calendar");
 var btnCalendar = document.querySelector("#btncalendar");
-//var btnGalery1 = document.querySelector("#btngalery1");
 
-// function openGallery(){
-//   Galery.style.display = "block";
-//   Home.style.display = "none";
-// }
   
 
 btnHome.onclick = function(){

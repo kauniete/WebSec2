@@ -118,7 +118,6 @@ include (__DIR__.'/api/api-add-image.php');
             <form action="" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image">
                 <button type="submit" name="submit">Submit</button>
-                <!-- <button onclick="openGallery();" type="submit" name="submit">Submit</button> -->
                 <!-- <button onclick="getImage();" type="submit" name="submit">Submit</button> -->
             </form>
             <?php if(isset($img_error)){?>
