@@ -323,24 +323,7 @@ async function sendMessage(roId){
   showChatRoom(roId);
 }
 
-// get Img
-// async function getImage(){
-//   let form = event.target
-//   let connection = await fetch("api/api-get-image.php",  {
-//     headers:{
-//       'Cache-Control': 'no-cache'
-//     }
-//   })
-//   let ajData = await connection.json()
-//   console.log(ajData)
-//   ajData.forEach( jItem => {
-//     let sResultDiv = `
-//     <div class="result">
-//       <img src="images/${jItem.galeryImage}">
-//     </div>`
-//     document.querySelector('#galeryContainer').insertAdjacentHTML('afterbegin', sResultDiv);
-//   })
-// }
+
 let populateGalleryImages = setInterval (async function(){
   //let form = event.target
   let connection = await fetch("api/api-get-gallery-images.php",  {
@@ -377,6 +360,7 @@ function doShowToastMessage(message) {
 
 
 // Page Change
+
 var Home = document.getElementById("home");
 var btnHome = document.querySelector("#btnhome");
 var Events = document.getElementById("events");
@@ -391,7 +375,13 @@ var Galery = document.getElementById("galery");
 var btnGalery = document.querySelector("#btngalery");
 var Calendar = document.getElementById("calendar");
 var btnCalendar = document.querySelector("#btncalendar");
+//var btnGalery1 = document.querySelector("#btngalery1");
 
+// function openGallery(){
+//   Galery.style.display = "block";
+//   Home.style.display = "none";
+// }
+  
 
 btnHome.onclick = function(){
   Home.style.display = "block";
@@ -513,6 +503,15 @@ btnCalendar.onclick = function(){
   Galery.style.display = "none";
   btnGalery.classList.remove("active");
 }
+
+
+
+setTimeout (function(){
+ if( document.URL.indexOf("localhost/home#galery") >= 0){ 
+//alert('hey!');
+Galery.style.display = "block";
+Home.style.display = "none";
+ }}, 10);
 
 
 // Serch Icone Yellow

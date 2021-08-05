@@ -10,6 +10,8 @@ if( ! isset($_SESSION['userId']) ){
 //     exit();
 // }
 print_r($_SESSION);
+include (__DIR__.'/api/api-add-image.php');
+
 ?>
 
 
@@ -26,8 +28,10 @@ print_r($_SESSION);
 </head>
 
 <body onload="doStartFetchingEventsData();">
+
 <header>
     <h1>Yellow Mellow</h1>
+    
 </header>
 <div id="page">
     <nav>
@@ -57,6 +61,7 @@ print_r($_SESSION);
                 <h1>Highlight upcoming events!!!</h1>
                 <h2>Upcoming events</h2>
                 <h2>More events</h2>
+                
             </div>            
         </section>
 <!-- end of Home page-->     
@@ -110,11 +115,16 @@ print_r($_SESSION);
                     <h3>Gallery</h3>
             </header>
             <div id="galeryContainer"></div>        
-            <form action="api/api-add-image.php" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image">
                 <button type="submit" name="submit">Submit</button>
+                <!-- <button onclick="openGallery();" type="submit" name="submit">Submit</button> -->
                 <!-- <button onclick="getImage();" type="submit" name="submit">Submit</button> -->
             </form>
+            <?php if(isset($img_error)){?>
+            <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $img_error?></p>
+                <?php } ?>
+                
             <div id="imgUploaded"></div>
         </section>
 <!-- end of Galery page--> 
