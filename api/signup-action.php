@@ -143,7 +143,7 @@ try {
 
     $_SESSION['userId'] = $sUserId;
     $_SESSION['userName'] = $username;
-    $_SESSION['userAvatar'] = '';
+    $_SESSION['userAvatar'] = 'default_profile_reasonably_small';
     $_SESSION['email'] = $email;
     $_SESSION['vKey'] = $vKey;
     $_SESSION['userActive'] = $ifActive;

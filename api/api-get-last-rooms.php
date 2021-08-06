@@ -7,12 +7,14 @@ if( ! isset($_SESSION['userId']) ){
 
 $db = require_once (__DIR__.'/../private/db.php');
 
-$iLatestRoomId = $_GET['room'] ?? 0;
+//$iLatestRoomId = $_GET['room'] ?? 0;
 
 try{
-$q = $db->prepare('CALL getLastRooms(:iLatestRoomId, :ownerId)');
-$q->bindValue(':iLatestRoomId', $iLatestRoomId);
-$q->bindValue(':ownerId', $_SESSION['userId']);
+//$q = $db->prepare('CALL getLastRooms(:iLatestRoomId, :ownerId)');
+//$q = $db->prepare('SELECT * FROM rooms WHERE roomId=:iLatestRoomId AND roomOwnerFk=:ownerId');
+$q = $db->prepare('SELECT * FROM rooms WHERE roomOwnerFk=:chatter OR user2=:chatter');
+//$q->bindValue(':iLatestRoomId', $iLatestRoomId);
+$q->bindValue(':chatter', $_SESSION['userId']);
 $q->execute();
 $ajRows = $q->fetchAll();
 header('Content-Type: application/json');
@@ -22,3 +24,9 @@ echo json_encode($ajRows);
   header('Content-Type: application/json');
   echo '{"message":"error '.$ex.'"}';
 }
+
+
+
+// $q = $db->prepare('INSERT INTO rooms (roomId, roomOwnerFk, user2, roomName, user2Avatar, user2Nick)
+// VALUES (:roomId, :roomOwner, :user2, :roomName, :user2Avatar, :user2Nick)');
+// $q->bindValue('roomId', null);

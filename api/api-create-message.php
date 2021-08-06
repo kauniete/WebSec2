@@ -19,12 +19,13 @@ try{
   if(strlen($_POST['messageText']) < 1 ){ http_response_code(400);  }
   if(strlen($_POST['messageText']) > 640 ){ http_response_code(400);  }
 
-  $q = $db->prepare("INSERT INTO messages (messageFromUserFk, messageToRoomFk, messageText, messageImg)
-  VALUES (:senderId, :roomId, :messageText, :messageImg)");
+  $q = $db->prepare("INSERT INTO messages (messageFromUserFk, messageToRoomFk, messageText, senderNick, senderAvatar)
+  VALUES (:senderId, :roomId, :messageText, :senderNick, :senderAvatar)");
   $q->bindValue(':senderId', $_SESSION['userId']);
   $q->bindValue(':roomId', htmlspecialchars($_POST['roomId']));
   $q->bindValue(':messageText', htmlspecialchars($_POST['messageText']));
-  $q->bindValue(':messageImg', 'default_profile_reasonably_small');
+  $q->bindValue(':senderNick', $_SESSION['userName']);
+  $q->bindValue(':senderAvatar', $_SESSION['userAvatar']);
   $q->execute();
   $iLastInsertedId = $db->lastInsertId();
   echo $iLastInsertedId;

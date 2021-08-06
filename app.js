@@ -191,13 +191,10 @@ async function startSearch(){
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
   })
 }
-
-
 // Create Room in Chat
-async function createRoom(addUserId, addUserNick, addUserImg){
-  //let roId = document.querySelector('#roomId').id
-  //let resultId = document.querySelector('div.result').id
-  let con = await fetch('api/api-create-room.php?to='+addUserId, {
+async function createRoom(addUserId,addUserNick, addUserImg){
+  let con = await fetch('api/api-create-room.php?to='+addUserId+'&nick='+addUserNick+'&img='+addUserImg, {
+    
     headers:{
       'Cache-Control': 'no-cache'
     }
@@ -210,35 +207,23 @@ async function createRoom(addUserId, addUserNick, addUserImg){
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
       <form onsubmit="return false">
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
-        <button onclick="showChatRoom(${response}) goToRoom(${response})" data-roomId="${response}" >Chat with</button>
+        <button onclick="showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}">Chat with</button>
       </form>
-      <p><strong>${addUserNick}</strong></p>
-      <p><strong name="user2">${addUserId}</strong></p>
-      <p><strong>xxx</strong></p>
+      <p><strong >${addUserNick}</strong></p>
+      <p><strong >${addUserId}</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
-    roId = `${response}`
-    addUser(roId, addUserId)
+  //roId = `${response}`
+  //   addUser(roId, addUserId)
   }
 
+//
 
-  // Add Users to Chat
-async function addUser(roId, addUserId){
-  let con = await fetch('api/api-add-reciver.php?room='+roId+'&to='+addUserId, {
-    headers:{
-      'Cache-Control': 'no-cache'
-    }
-  })
-  if( ! con.ok ){ doShowToastMessage('Failed to add receiver') }
-  let response = await con.json();
-  hideSearchResults();
-  }
-
-
-// Get all User Rooms
-async function getUsersRooms(){
-  let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
+  // Get all User Rooms
+let getUsersRooms = setInterval (async function (){
+  let conn = await fetch('api/api-get-last-rooms.php?room=',  {
+   // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
     headers:{
       'Cache-Control': 'no-cache'
     }
@@ -248,18 +233,23 @@ async function getUsersRooms(){
   ajData.forEach( jItem => {
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
-      <img src="fotos_assets/${jItem.reciverAvatar}.jpg" alt="">
-      <button  onclick="showChatRoom(${jItem.roomId}), goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
-      <p><strong>${jItem.reciverNick}</strong></p>
+      <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
+      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
+      <p><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
-    iLatestRoomId = jItem.roomId
+    //iLatestRoomId = jItem.roomId
   })
-}
+}, 2000);
+setTimeout(function () {
+  clearInterval(getUsersRooms);
+}, 2500);
 
-let iLatestRoomId = 0
-  setInterval( () => { getUsersRooms()  } , 1000 )
+ //let iLatestRoomId = 0
+   //setInterval( () => { getUsersRooms()  } , 1000 )
+//
+
 
 //Show Chat in Room
 async function showChatRoom(roomId) {
@@ -289,14 +279,15 @@ async function showChatRoom(roomId) {
   })
   document.querySelector('#roomId').innerHTML = sMessageDiv
 }
+// let iLatestMessageId = 0
+//    setInterval( () => { showChatRoom()  } , 1000 )
 
-//let iLatestMessageId = 0
-  //setInterval( () => { showChatRoom(roomId)  } , 1000 )
+
 
 
 // Go To Room
 function goToRoom(roId){
-    addToken();
+    //addToken();
     const { id } = event;
     let sMessForm = `
     <form onsubmit="return false">
@@ -309,8 +300,7 @@ function goToRoom(roId){
     document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
 }
 
-
-// Create Message in Room
+// // Create Message in Room
 async function sendMessage(roId){
   let form = new FormData(event.target.parentNode);
   let conn = await fetch('api/api-create-message.php', {
@@ -319,9 +309,11 @@ async function sendMessage(roId){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
-  //console.log(response);
+  console.log(response);
   showChatRoom(roId);
 }
+
+
 
 
 let populateGalleryImages = setInterval (async function(){
@@ -332,7 +324,7 @@ let populateGalleryImages = setInterval (async function(){
     }
   })
   let ajData = await connection.json()
-  console.log(ajData)
+  //console.log(ajData)
   ajData.forEach( jItem => {
     let sResultDiv = `
     <div class="result">
