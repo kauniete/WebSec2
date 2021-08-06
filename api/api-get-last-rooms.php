@@ -12,7 +12,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 try{
 //$q = $db->prepare('CALL getLastRooms(:iLatestRoomId, :ownerId)');
 //$q = $db->prepare('SELECT * FROM rooms WHERE roomId=:iLatestRoomId AND roomOwnerFk=:ownerId');
-$q = $db->prepare('SELECT * FROM rooms WHERE roomOwnerFk=:chatter OR user2=:chatter');
+$q = $db->prepare('SELECT * FROM rooms WHERE roomOwnerFk=:chatter OR user2Fk=:chatter');
 //$q->bindValue(':iLatestRoomId', $iLatestRoomId);
 $q->bindValue(':chatter', $_SESSION['userId']);
 $q->execute();

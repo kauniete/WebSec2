@@ -1,4 +1,3 @@
-
 const localStates = {
   lastEventId: 0,
   iLatestCommentId: 0
@@ -512,6 +511,3 @@ serchField.onfocus = function(){
 serchField.addEventListener('focusout', (event) => {
   serchIcon.style.fill = "rgba(0, 0, 0, 0.5)";    
 });
-
-
-

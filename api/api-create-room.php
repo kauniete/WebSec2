@@ -9,7 +9,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 
 
 try{
-  $q = $db->prepare('INSERT INTO rooms (roomId, roomOwnerFk, user2, roomName, user2Avatar, user2Nick,roomOwnerNick,roomOwnerAvatar)
+  $q = $db->prepare('INSERT INTO rooms (roomId, roomOwnerFk, user2Fk, roomName, user2Avatar, user2Nick,roomOwnerNick,roomOwnerAvatar)
   VALUES (:roomId, :roomOwner, :user2, :roomName, :user2Avatar, :user2Nick,:roomOwnerNick, :roomOwnerAvatar)');
   $q->bindValue('roomId', null);
   $q->bindValue('roomOwner', $_SESSION['userId']);
