@@ -221,7 +221,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
 
   // Get all User Rooms
 let getUsersRooms = setInterval (async function (){
-  let conn = await fetch('api/api-get-last-rooms.php?room=',  {
+  let conn = await fetch('api/api-get-last-rooms.php',  {
    // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
     headers:{
       'Cache-Control': 'no-cache'
@@ -229,7 +229,11 @@ let getUsersRooms = setInterval (async function (){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to load the latest rooms') }
   let ajData = await conn.json()
+  console.log(ajData);
+  var currentUser = document.getElementById("currentUserId").innerHTML;
+  console.log(currentUser);
   ajData.forEach( jItem => {
+    if (jItem.roomOwnerFk === currentUser){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
@@ -239,7 +243,16 @@ let getUsersRooms = setInterval (async function (){
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
     //iLatestRoomId = jItem.roomId
-  })
+  } else{
+    let sRoomDiv = `
+    <div class="rooms" id="${jItem.roomId}">
+      <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
+      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
+      <p><strong>${jItem.roomOwnerNick}</strong></p>
+    </div>
+    `
+    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
+  }})
 }, 2000);
 setTimeout(function () {
   clearInterval(getUsersRooms);

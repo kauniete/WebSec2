@@ -140,10 +140,10 @@ include (__DIR__.'/api/api-add-image.php');
 
 <!-- start of top page--> 
     <div id="top">
-        <img src="<?=$_SESSION['userAvatar']?>" alt="">
+        <img class="userProfileImg" src="fotos_assets/<?=$_SESSION['userAvatar']?>.jpg" alt="">
         <p><strong><?=$_SESSION['userName']?></strong></p>
             <a href="https://localhost/logout">Log out</a>
-            <p id="currentUserId"><strong><?=$_SESSION['userId']?></strong></p>
+            <p id="currentUserId"><?=$_SESSION['userId']?></p>
         </div>
     
 <!-- end of top page-->
