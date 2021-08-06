@@ -206,7 +206,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
       <form onsubmit="return false">
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
-        <button onclick="showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}">Chat with</button>
+        <button onclick=" goToRoom(${response})" data-roomId="${response}">Chat with</button>
       </form>
       <p><strong >${addUserNick}</strong></p>
       <p><strong >${addUserId}</strong></p>
@@ -216,7 +216,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
   //roId = `${response}`
   //   addUser(roId, addUserId)
   }
-
+//showChatRoom(${response}),
 //
 
   // Get all User Rooms
@@ -262,7 +262,6 @@ setTimeout(function () {
    //setInterval( () => { getUsersRooms()  } , 1000 )
 //
 
-
 //Show Chat in Room
 async function showChatRoom(roomId) {
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
@@ -273,26 +272,33 @@ async function showChatRoom(roomId) {
   if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
   let sMessageDiv = '';
+  var currentUser = document.getElementById("currentUserId").innerHTML;
+  console.log(currentUser);
   ajData.forEach(jItem => {
+    if (jItem.messageFromUserFk === currentUser){
     //+= and empty array
     sMessageDiv += `
     <div class="message" id="${jItem.messageId}">
       <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
-    //console.log(ajData);
+    document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
-    let aMessages = document.querySelectorAll(`p.${jItem.senderNick}`)
-    aMessages.forEach(message => {
-      message.style.backgroundColor = "rgba(212, 175, 55, .3)";
-      message.style.justifySelf = "right";
-    })
-  })
-  document.querySelector('#roomId').innerHTML = sMessageDiv
-}
+} else{
+  sMessageDiv += `
+    <div  class="message notme" id="${jItem.messageId}">
+    <img  src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
+      <p  class="${jItem.senderNick}">${jItem.messageText}</p>
+    
+    </div>`
+    document.querySelector('#roomId').innerHTML = sMessageDiv
+    iLatestRoomId = jItem.roomId
+    iLatestMessageId = jItem.messageId
+} })}
 // let iLatestMessageId = 0
 //    setInterval( () => { showChatRoom()  } , 1000 )
+//<p  >${jItem.senderNick}</p>
 
 
 
