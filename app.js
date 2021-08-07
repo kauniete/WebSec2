@@ -351,6 +351,7 @@ function goToRoom(roId){
     `
     document.querySelector('#sendMessage').innerHTML = sMessForm;
     //document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
+    //
 }
 
 // // Create Message in Room
