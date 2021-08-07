@@ -177,8 +177,44 @@ async function startSearch(){
   let conn = await fetch('api/api-search-user.php?user='+sSearchFor)
   if( ! conn.ok ){ doShowToastMessage('Failed to load users') }
   let ajData = await conn.json()
+  console.log(ajData[0].id);
+  console.log(ajData);
      // Clear previous data
   document.querySelector('#searchResults').innerHTML = ""
+  
+  let existingChat = document.querySelectorAll("div.rooms > p");
+  //let existingChat = document.querySelectorAll("div.rooms > p").item(0).className;
+  console.log(existingChat);
+  existingChat.forEach(item =>{
+//console.log(item.className);
+if (ajData[0].id === item.className){
+  console.log("exists");
+  let existingRoomUserNick = item.innerText;
+  let openRooms = document.querySelectorAll(".rooms");
+  //let openRoomsUser = document.querySelectorAll(".rooms > p");
+ for (var i=0; i<openRooms.length; i++){
+   console.log(openRooms);
+  //console.log(openRooms[i].childNodes[5].className);
+  if (ajData[0].id === openRooms[i].childNodes[5].className)
+  {
+  let existingRoomId = openRooms[i].id;
+  console.log( existingRoomId);
+  let existingRoomUserAvatar = openRooms[i].childNodes[1].src;
+  console.log(existingRoomUserAvatar);
+ 
+  
+console.log(existingRoomUserNick);
+  let sResultDiv = `
+  <div class="rooms" id="${existingRoomId}">
+  <img src="${existingRoomUserAvatar}" alt="">
+        <input id="LastMid" name="LastMid" value="${existingRoomId}" type="hidden">
+        <button onclick=" showChatRoom(${existingRoomId}),goToRoom(${existingRoomId})" data-roomId="${existingRoomId}">Chat with</button>
+       <p class="${ajData[0].id}"><strong >${existingRoomUserNick}</strong></p>
+     </div>
+    `
+    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
+} }
+} else{
   ajData.forEach( jItem => {
     let sResultDiv = `
     <div class="result" id="${jItem.id}">
@@ -189,6 +225,10 @@ async function startSearch(){
     `
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
   })
+}
+  })
+ 
+  
 }
 // Create Room in Chat
 async function createRoom(addUserId,addUserNick, addUserImg){
@@ -204,12 +244,11 @@ async function createRoom(addUserId,addUserNick, addUserImg){
   let sRoomDiv = `
     <div class="rooms" id="${response}">
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
-      <form onsubmit="return false">
+      
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
         <button onclick=" goToRoom(${response})" data-roomId="${response}">Chat with</button>
-      </form>
-      <p><strong >${addUserNick}</strong></p>
-      <p><strong >${addUserId}</strong></p>
+      
+      <p class="${addUserId}"><strong >${addUserNick}</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv)
@@ -217,7 +256,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
   //   addUser(roId, addUserId)
   }
 //showChatRoom(${response}),
-//
+//<form onsubmit="return false"> </form>
 
   // Get all User Rooms
 let getUsersRooms = setInterval (async function (){
@@ -231,14 +270,14 @@ let getUsersRooms = setInterval (async function (){
   let ajData = await conn.json()
   console.log(ajData);
   var currentUser = document.getElementById("currentUserId").innerHTML;
-  console.log(currentUser);
+  //console.log(currentUser);
   ajData.forEach( jItem => {
     if (jItem.roomOwnerFk === currentUser){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
       <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
-      <p><strong>${jItem.user2Nick}</strong></p>
+      <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
@@ -248,7 +287,7 @@ let getUsersRooms = setInterval (async function (){
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
       <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
-      <p><strong>${jItem.roomOwnerNick}</strong></p>
+      <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
     </div>
     `
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
