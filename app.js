@@ -312,7 +312,7 @@ async function showChatRoom(roomId) {
     if (jItem.messageFromUserFk === currentUser){
     //+= and empty array
     sMessageDiv += `
-    <div class="message" id="${jItem.messageId}">
+    <div class="message ${roomId}" id="${jItem.messageId}">
       <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
@@ -349,7 +349,8 @@ function goToRoom(roId){
     <button onclick="sendMessage(${roId})" data-roomId="${roId}">Send</button>
     </form>
     `
-    document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
+    document.querySelector('#sendMessage').innerHTML = sMessForm;
+    //document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
 }
 
 // // Create Message in Room
