@@ -298,6 +298,7 @@ setTimeout(function () {
 
 //Show Chat in Room
 async function showChatRoom(roomId) {
+  console.log(roomId)
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
       'Cache-Control': 'no-cache'
@@ -307,8 +308,10 @@ async function showChatRoom(roomId) {
   let ajData = await conn.json()
   let sMessageDiv = '';
   var currentUser = document.getElementById("currentUserId").innerHTML;
-  console.log(currentUser);
+  console.log(ajData);
+
   ajData.forEach(jItem => {
+
     if (jItem.messageFromUserFk === currentUser){
     //+= and empty array
     sMessageDiv += `
@@ -329,13 +332,46 @@ async function showChatRoom(roomId) {
     document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
-} })}
-// let iLatestMessageId = 0
-//    setInterval( () => { showChatRoom()  } , 1000 )
-//<p  >${jItem.senderNick}</p>
+} })
 
+//websockets would be better
+setInterval( async function(){ 
+  let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
+    headers: {
+      'Cache-Control': 'no-cache'
+    }
+  })
+  if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
+  let ajData = await conn.json()
+  let sMessageDiv = '';
 
+  console.log("aaa", ajData)
+  ajData.forEach(jItem => {
 
+    if (jItem.messageFromUserFk === currentUser){
+    //+= and empty array
+    sMessageDiv += `
+    <div class="message ${roomId}" id="${jItem.messageId}">
+      <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
+      <p class="${jItem.senderNick}">${jItem.messageText}</p>
+    </div>`
+    document.querySelector('#roomId').innerHTML = sMessageDiv
+    iLatestRoomId = jItem.roomId
+    iLatestMessageId = jItem.messageId
+} else{
+  sMessageDiv += `
+    <div  class="message notme" id="${jItem.messageId}">
+    <img  src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
+      <p  class="${jItem.senderNick}">${jItem.messageText}</p>
+    
+    </div>`
+    document.querySelector('#roomId').innerHTML = sMessageDiv
+    iLatestRoomId = jItem.roomId
+    iLatestMessageId = jItem.messageId
+} })
+
+}, 3000);
+ }
 
 // Go To Room
 function goToRoom(roId){
@@ -351,7 +387,7 @@ function goToRoom(roId){
     `
     document.querySelector('#sendMessage').innerHTML = sMessForm;
     //document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
-    //
+    
 }
 
 // // Create Message in Room
