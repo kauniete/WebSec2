@@ -272,7 +272,7 @@ let getUsersRooms = setInterval (async function (){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
+      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
@@ -282,7 +282,7 @@ let getUsersRooms = setInterval (async function (){
     let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId})" data-roomId="${jItem.roomId}" >Chat with</button>
+      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
     </div>
     `
