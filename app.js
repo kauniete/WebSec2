@@ -253,7 +253,8 @@ async function createRoom(addUserId,addUserNick, addUserImg){
 //showChatRoom(${response}),
 //<form onsubmit="return false"> </form>
 
-  // Get all User Rooms
+  
+  
 let getUsersRooms = setInterval (async function (){
   let conn = await fetch('api/api-get-last-rooms.php',  {
    // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
@@ -288,16 +289,29 @@ let getUsersRooms = setInterval (async function (){
     document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
   }})
 }, 2000);
+
 setTimeout(function () {
   clearInterval(getUsersRooms);
 }, 2500);
+   
 
- //let iLatestRoomId = 0
-   //setInterval( () => { getUsersRooms()  } , 1000 )
-//
 
 //Show Chat in Room
 async function showChatRoom(roomId) {
+  Chat.style.display = "block";
+  btnChat.classList.add("active");
+  Home.style.display = "none";
+  btnHome.classList.remove("active");
+  Events.style.display = "none";
+  btnEvents.classList.remove("active");
+  Users.style.display = "none";
+  btnUsers.classList.remove("active");
+  Profile.style.display = "none";
+  btnProfile.classList.remove("active");
+  Galery.style.display = "none";
+  btnGalery.classList.remove("active");
+  Calendar.style.display = "none";
+  btnCalendar.classList.remove("active");
   console.log(roomId)
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
