@@ -5,10 +5,10 @@ if( ! isset($_SESSION['userId']) ){
     header('Location: index.php');
   exit();
 }
-// if ($_SESSION['userActive'] == 0){
-//     header('Location: api/logout-action.php');
-//     exit();
-// }
+if ($_SESSION['userActive'] == 0){
+     header('Location: api/logout-action.php');
+     exit(); }
+     
 print_r($_SESSION);
 include (__DIR__.'/api/api-add-image.php');
 

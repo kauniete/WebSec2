@@ -78,7 +78,7 @@ else{
         $_SESSION['userId'] = $currentUser->userId;
         $_SESSION['userName'] = $currentUser->userUserName;
         $_SESSION['password'] = $currentUser->userPassword;
-        $_SESSION['userActive'] = $currentUser->userActive;
+        $_SESSION['userActive'] = 1;
         $_SESSION['userAvatar'] = $currentUser->userAvatar;
         header('Location: https://localhost/home');
         exit();

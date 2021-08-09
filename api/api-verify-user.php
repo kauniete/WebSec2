@@ -13,7 +13,7 @@ $signup_flow_error = '';
     $otpcode = htmlspecialchars($_POST['otp_code']);
     if(! isset($otpcode) || empty($otpcode) ) { $verification_error = 'Missing OTP code'; } 
     if (! isset ($_SESSION['vKey'])){
-        $signup_flow_error = 'It seems you should start sign up process from the beginning via this link';
+        $signup_flow_error = 'Oops, you should try to login via this link';
         //header('Location: /../signup');
     }
     else{
@@ -38,6 +38,7 @@ $signup_flow_error = '';
             );
             $q->bindValue('newValue',1);
             $q->execute();
+            $_SESSION['userActive'] = 1;
             header('Location: /../home');
             exit();}
         }}} 
