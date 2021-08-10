@@ -120,10 +120,13 @@ include (__DIR__.'/api/api-add-image.php');
                 <button type="submit" name="submit">Submit</button>
                 <!-- <button onclick="getImage();" type="submit" name="submit">Submit</button> -->
             </form>
-            <?php if(isset($img_error)){?>
+            <?php if(isset( $img_error)){?>
             <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $img_error?></p>
                 <?php } ?>
-                
+                <?php if(isset($img_success)){?>
+            <p style="color:#39C16C;  font-size: 16px;margin-bottom: 4px;"><?php echo  $img_success?></p>
+                <?php } ?>
+               
             <div id="imgUploaded"></div>
         </section>
 <!-- end of Galery page--> 

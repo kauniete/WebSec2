@@ -10,6 +10,7 @@ if(isset($_POST['submit'])){
       }
 //session_start();
 $img_error = '';
+$img_success = '';
 if (!isset( $_FILES["image"] ) xor empty( $_FILES["image"]["name"] )){
     $img_error = "You must upload an image";
 }
@@ -48,7 +49,7 @@ try{
     if ($uploadOk == true){
         if (move_uploaded_file($_FILES['image']['tmp_name'],$target)){
             //echo "Image uploaded successfully";
-            $img_error = 'Image uploaded successfully';
+            $img_success = 'Image uploaded successfully';
             
             $q=$db->prepare('INSERT INTO galeries (galeryUserFk, galeryImage, galeryImgSize)
             VALUES(:galeryUserFk, :galeryImage, :galeryImgSize)');
