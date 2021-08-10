@@ -226,9 +226,12 @@ if (ajData[0].id === item.className){
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
 } }
 } 
-
 else{
   ajData.forEach( jItem => {
+    var currentUser = document.getElementById("currentUserId").innerHTML;
+    if (jItem.id === currentUser){
+console.log("user can not have a chat room with himself");
+    } else{
     let sResultDiv = `
     <div class="result" id="${jItem.id}">
       <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
@@ -237,7 +240,7 @@ else{
     </div>
     `
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-  })
+  }})
 }
   })}
  
