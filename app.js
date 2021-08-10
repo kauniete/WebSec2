@@ -284,7 +284,7 @@ let getUsersRooms = setInterval (async function (){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to load the latest rooms') }
   let ajData = await conn.json()
-  console.log(ajData);
+  //console.log(ajData);
   var currentUser = document.getElementById("currentUserId").innerHTML;
   //console.log(currentUser);
   ajData.forEach( jItem => {
@@ -292,7 +292,7 @@ let getUsersRooms = setInterval (async function (){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button id ="stopInt" onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
+      <button  onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
@@ -302,7 +302,7 @@ let getUsersRooms = setInterval (async function (){
     let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button id ="stopInt" onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
+      <button  onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
     </div>
     `
@@ -445,7 +445,7 @@ async function sendMessage(roId){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
-  console.log(response);
+  //console.log(response);
   showChatRoom(roId);
 }
 
