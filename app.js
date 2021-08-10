@@ -183,7 +183,6 @@ async function startSearch(){
   let existingChat = document.querySelectorAll("div.rooms > p");
   //let existingChat = document.querySelectorAll("div.rooms > p").item(0).className;
   //console.log(existingChat);
-  console.log(existingChat);
   if (existingChat.length == 0){
     ajData.forEach( jItem => {
       let sResultDiv = `
@@ -195,11 +194,14 @@ async function startSearch(){
       `
       document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
     })
-  } else{
+  } 
+  if (ajData[0] == null){
+ console.log("user does not exist");}
+else{
   existingChat.forEach(item =>{
 //console.log(item.className);
 if (ajData[0].id === item.className){
-  console.log("exists");
+  console.log("chat exists");
   let existingRoomUserNick = item.innerText;
   let openRooms = document.querySelectorAll(".rooms");
   //let openRoomsUser = document.querySelectorAll(".rooms > p");
@@ -223,7 +225,9 @@ if (ajData[0].id === item.className){
     `
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
 } }
-} else{
+} 
+
+else{
   ajData.forEach( jItem => {
     let sResultDiv = `
     <div class="result" id="${jItem.id}">
