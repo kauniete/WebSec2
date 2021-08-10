@@ -292,7 +292,7 @@ let getUsersRooms = setInterval (async function (){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
+      <button id ="stopInt" onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
@@ -302,7 +302,7 @@ let getUsersRooms = setInterval (async function (){
     let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick=" showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
+      <button id ="stopInt" onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
     </div>
     `
@@ -318,6 +318,7 @@ setTimeout(function () {
 
 //Show Chat in Room
 async function showChatRoom(roomId) {
+  
   Chat.style.display = "block";
   btnChat.classList.add("active");
   Home.style.display = "none";
@@ -369,7 +370,15 @@ async function showChatRoom(roomId) {
 } })
 
 //websockets would be better
-setInterval( async function(){ 
+
+//let stopInterval = 
+for(i=0; i<100; i++)
+{
+    window.clearInterval(i);
+}
+setInterval( async function showChatRoom(){ 
+  
+  let currentRoomoomId = roomId;
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
       'Cache-Control': 'no-cache'
@@ -380,6 +389,7 @@ setInterval( async function(){
   let sMessageDiv = '';
 
   console.log("aaa", ajData)
+  console.log("this is current room" + currentRoomoomId);
   ajData.forEach(jItem => {
 
     if (jItem.messageFromUserFk === currentUser){
@@ -397,7 +407,6 @@ setInterval( async function(){
     <div  class="message notme" id="${jItem.messageId}">
     <img  src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p  class="${jItem.senderNick}">${jItem.messageText}</p>
-    
     </div>`
     document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
@@ -405,7 +414,27 @@ setInterval( async function(){
 } })
 
 }, 3000);
+
+//let openChatRooms = document.querySelectorAll(".rooms");
+//console.log(openChatRooms);
+//for (var i=0; i<openChatRooms.length; i++){
+  //console.log(openChatRooms[i].id); 
+//if (roomId != openChatRooms[i].id){
+  //clearInterval(stopInterval);
+//} }
+  
+//ajData.forEach( jItem => {
+//console.log(ajData[0].messageToRoomFk);
+//messageToRoomFk
+//
+// let btnPause = document.getElementById("stopInt");
+// btnPause.addEventListener("click",function (){
+//   clearInterval(stopInterval);
+//   console.log("paused");
+// });
  }
+
+
 
 // Go To Room
 function goToRoom(roId){
