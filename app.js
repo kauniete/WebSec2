@@ -183,6 +183,19 @@ async function startSearch(){
   let existingChat = document.querySelectorAll("div.rooms > p");
   //let existingChat = document.querySelectorAll("div.rooms > p").item(0).className;
   //console.log(existingChat);
+  console.log(existingChat);
+  if (existingChat.length == 0){
+    ajData.forEach( jItem => {
+      let sResultDiv = `
+      <div class="result" id="${jItem.id}">
+        <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
+        <p>${jItem.userNick}</p>
+        <button onclick="createRoom('${jItem.id}', '${jItem.userNick}', '${jItem.avatar}')" data-addUserId='${jItem.id}' data-addUserNick='${jItem.userNick}' data-addUserImg='${jItem.avatar}'>+ add User</button>
+      </div>
+      `
+      document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
+    })
+  } else{
   existingChat.forEach(item =>{
 //console.log(item.className);
 if (ajData[0].id === item.className){
@@ -222,7 +235,7 @@ if (ajData[0].id === item.className){
     document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
   })
 }
-  })
+  })}
  
 }
 // Create Room in Chat
