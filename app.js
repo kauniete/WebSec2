@@ -333,7 +333,7 @@ async function showChatRoom(roomId) {
   btnGalery.classList.remove("active");
   Calendar.style.display = "none";
   btnCalendar.classList.remove("active");
-  console.log(roomId)
+  //console.log(roomId)
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
       'Cache-Control': 'no-cache'
@@ -343,7 +343,7 @@ async function showChatRoom(roomId) {
   let ajData = await conn.json()
   let sMessageDiv = '';
   var currentUser = document.getElementById("currentUserId").innerHTML;
-  console.log(ajData);
+  //console.log(ajData);
 
   ajData.forEach(jItem => {
 
@@ -388,8 +388,8 @@ setInterval( async function showChatRoom(){
   let ajData = await conn.json()
   let sMessageDiv = '';
 
-  console.log("aaa", ajData)
-  console.log("this is current room" + currentRoomoomId);
+  //console.log("aaa", ajData)
+  //console.log("this is current room" + currentRoomoomId);
   ajData.forEach(jItem => {
 
     if (jItem.messageFromUserFk === currentUser){
@@ -415,23 +415,6 @@ setInterval( async function showChatRoom(){
 
 }, 3000);
 
-//let openChatRooms = document.querySelectorAll(".rooms");
-//console.log(openChatRooms);
-//for (var i=0; i<openChatRooms.length; i++){
-  //console.log(openChatRooms[i].id); 
-//if (roomId != openChatRooms[i].id){
-  //clearInterval(stopInterval);
-//} }
-  
-//ajData.forEach( jItem => {
-//console.log(ajData[0].messageToRoomFk);
-//messageToRoomFk
-//
-// let btnPause = document.getElementById("stopInt");
-// btnPause.addEventListener("click",function (){
-//   clearInterval(stopInterval);
-//   console.log("paused");
-// });
  }
 
 
