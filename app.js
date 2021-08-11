@@ -453,7 +453,7 @@ function goToRoom(roId, nick, avatar){
     //addToken();
     const { id } = event;
     let sMessForm = `
-    <form onsubmit="return false">
+    <form id="messageForm" onsubmit="return false">
     <input type="hidden" name="csrf" value="${id}">
     <input id="${roId}" name="roomId" value="${roId}" type="hidden">
     <input id="" name="messageText" type="text">
@@ -474,6 +474,7 @@ async function sendMessage(roId, nick, avatar){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
+  document.getElementById("messageForm").reset();
   //console.log(response);
   showChatRoom(roId, nick, avatar);
 }
