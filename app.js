@@ -261,7 +261,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
       
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
-        <button onclick=" goToRoom(${response})" data-roomId="${response}">Chat with</button>
+        <button onclick=" showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}">Chat with</button>
       
       <p class="${addUserId}"><strong >${addUserNick}</strong></p>
     </div>
@@ -343,7 +343,13 @@ async function showChatRoom(roomId) {
   let ajData = await conn.json()
   let sMessageDiv = '';
   var currentUser = document.getElementById("currentUserId").innerHTML;
-  //console.log(ajData);
+  console.log(ajData.length);
+if (ajData.length == 0){
+sMessageDiv += `
+<div class="message ${roomId}">
+</div>`
+document.querySelector('#roomId').innerHTML = sMessageDiv
+}
 
   ajData.forEach(jItem => {
 
@@ -387,7 +393,14 @@ setInterval( async function showChatRoom(){
   if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
   let sMessageDiv = '';
-
+  if (ajData.length == 0){
+    console.log(ajData.length);
+    sMessageDiv += `
+    <div class="message ${roomId}">
+    </div>`
+    document.querySelector('#roomId').innerHTML = sMessageDiv
+    }
+   
   //console.log("aaa", ajData)
   //console.log("this is current room" + currentRoomoomId);
   ajData.forEach(jItem => {
