@@ -14,7 +14,7 @@ async function sendComment(){
     body : form
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to load the latest comments') }
-
+  document.getElementById("commentForm").reset();
     getLatestComments()
 }
 
@@ -121,7 +121,7 @@ function doAppendEvent(event) {
           <p>comments count: ${eventTotalComments}</p>
           <div id="comments_${eventId}" class="comments"></div>
           <div>
-            <form onsubmit="return false">
+            <form id="commentForm" onsubmit="return false">
               <input type="hidden" name="csrf" value="${id}">
               <input id="eventId_${eventId}" name="eventId" value="${eventId}" type="hidden">
               <input id="commentText_${eventId}" name="commentText" type="text">
@@ -253,7 +253,7 @@ console.log("user can not have a chat room with himself");
   }})
 }
   })}
- 
+  
 }
 // Create Room in Chat
 async function createRoom(addUserId,addUserNick, addUserImg){
@@ -453,7 +453,7 @@ function goToRoom(roId, nick, avatar){
     //addToken();
     const { id } = event;
     let sMessForm = `
-    <form onsubmit="return false">
+    <form id="messageForm" onsubmit="return false">
     <input type="hidden" name="csrf" value="${id}">
     <input id="${roId}" name="roomId" value="${roId}" type="hidden">
     <input id="" name="messageText" type="text">
@@ -474,6 +474,7 @@ async function sendMessage(roId, nick, avatar){
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
+  document.getElementById("messageForm").reset();
   //console.log(response);
   showChatRoom(roId, nick, avatar);
 }
