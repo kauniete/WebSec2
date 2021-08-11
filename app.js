@@ -168,11 +168,7 @@ function hideSearchResults(){
 
 let currentSearchText = document.querySelector('#searchText');
 let body = document.querySelector('body');
-window.onclick=function(event){
-  if (event.target = currentSearchText  ){
-    document.querySelector('#searchResults').innerHTML = ""
-  }
-}
+
 window.onclick=function(event){
   if (event.target = body && event.target != currentSearchText ){
     hideSearchResults();
