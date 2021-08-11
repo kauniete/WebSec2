@@ -219,7 +219,7 @@ if (ajData[0].id === item.className){
   <div class="rooms" id="${existingRoomId}">
   <img src="${existingRoomUserAvatar}" alt="">
         <input id="LastMid" name="LastMid" value="${existingRoomId}" type="hidden">
-        <button onclick=" showChatRoom(${existingRoomId}),goToRoom(${existingRoomId})" data-roomId="${existingRoomId}">Chat with</button>
+        <button onclick=" showChatRoom(${existingRoomId}, '${existingRoomUserNick}','${existingRoomUserAvatar}' ),goToRoom(${existingRoomId}, '${existingRoomUserNick}','${existingRoomUserAvatar}')" data-roomId="${existingRoomId}">Chat with</button>
        <p class="${ajData[0].id}"><strong >${existingRoomUserNick}</strong></p>
      </div>
     `
@@ -261,7 +261,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
       
         <input id="LastMid" name="LastMid" value="${response}" type="hidden">
-        <button onclick=" showChatRoom(${response}), goToRoom(${response})" data-roomId="${response}">Chat with</button>
+        <button onclick=" showChatRoom(${response},'${addUserNick}','${addUserImg}'), goToRoom(${response},'${addUserNick}','${addUserImg}')" data-roomId="${response}">Chat with</button>
       
       <p class="${addUserId}"><strong >${addUserNick}</strong></p>
     </div>
@@ -292,7 +292,7 @@ let getUsersRooms = setInterval (async function (){
   let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
       <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
+      <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'),goToRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
     </div>
     `
@@ -301,8 +301,8 @@ let getUsersRooms = setInterval (async function (){
   } else{
     let sRoomDiv = `
     <div class="rooms" id="${jItem.roomId}">
-      <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick="  showChatRoom(${jItem.roomId}),goToRoom(${jItem.roomId}), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
+      <img src="fotos_assets/${jItem.roomOwnerAvatar}.jpg" alt="">
+      <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'),goToRoom(${jItem.roomId},'${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
       <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
     </div>
     `
@@ -317,8 +317,7 @@ setTimeout(function () {
 
 
 //Show Chat in Room
-async function showChatRoom(roomId) {
-  
+async function showChatRoom(roomId, roomChatter, roomChatterAvatar) {
   Chat.style.display = "block";
   btnChat.classList.add("active");
   Home.style.display = "none";
@@ -340,10 +339,13 @@ async function showChatRoom(roomId) {
     }
   })
   if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
+
   let ajData = await conn.json()
   let sMessageDiv = '';
+  let sChatWithDiv = '';
   var currentUser = document.getElementById("currentUserId").innerHTML;
   console.log(ajData.length);
+  
 if (ajData.length == 0){
 sMessageDiv += `
 <div class="message ${roomId}">
@@ -352,21 +354,20 @@ document.querySelector('#roomId').innerHTML = sMessageDiv
 }
 
   ajData.forEach(jItem => {
-
+    
     if (jItem.messageFromUserFk === currentUser){
     //+= and empty array
     sMessageDiv += `
     <div class="message ${roomId}" id="${jItem.messageId}">
-      <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
     document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
 } else{
+  
   sMessageDiv += `
     <div  class="message notme" id="${jItem.messageId}">
-    <img  src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p  class="${jItem.senderNick}">${jItem.messageText}</p>
     
     </div>`
@@ -374,17 +375,15 @@ document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
 } })
-
+//let thisRoom =document.querySelector
+//console.log(thisRoom);
+   //
 //websockets would be better
-
-//let stopInterval = 
 for(i=0; i<100; i++)
 {
     window.clearInterval(i);
 }
 setInterval( async function showChatRoom(){ 
-  
-  let currentRoomoomId = roomId;
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
       'Cache-Control': 'no-cache'
@@ -393,6 +392,8 @@ setInterval( async function showChatRoom(){
   if (!conn.ok) { doShowToastMessage('Failed to load the latest message') }
   let ajData = await conn.json()
   let sMessageDiv = '';
+  
+  
   if (ajData.length == 0){
     console.log(ajData.length);
     sMessageDiv += `
@@ -409,7 +410,6 @@ setInterval( async function showChatRoom(){
     //+= and empty array
     sMessageDiv += `
     <div class="message ${roomId}" id="${jItem.messageId}">
-      <img src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
     document.querySelector('#roomId').innerHTML = sMessageDiv
@@ -418,22 +418,28 @@ setInterval( async function showChatRoom(){
 } else{
   sMessageDiv += `
     <div  class="message notme" id="${jItem.messageId}">
-    <img  src="fotos_assets/${jItem.senderAvatar}.jpg" alt="">
       <p  class="${jItem.senderNick}">${jItem.messageText}</p>
     </div>`
     document.querySelector('#roomId').innerHTML = sMessageDiv
     iLatestRoomId = jItem.roomId
     iLatestMessageId = jItem.messageId
-} })
+} 
+  }
+)
 
 }, 3000);
-
+sChatWithDiv += `
+   <div class="roomWith notme ${roomId}">
+   <img class= "chatTopLine" src="fotos_assets/${roomChatterAvatar}.jpg" alt="">
+   <p class="${roomChatter}">${roomChatter}</p>
+   </div>`
+   document.querySelector('#roomWith').innerHTML = sChatWithDiv
  }
 
 
 
 // Go To Room
-function goToRoom(roId){
+function goToRoom(roId, nick, avatar){
     //addToken();
     const { id } = event;
     let sMessForm = `
@@ -441,7 +447,7 @@ function goToRoom(roId){
     <input type="hidden" name="csrf" value="${id}">
     <input id="${roId}" name="roomId" value="${roId}" type="hidden">
     <input id="" name="messageText" type="text">
-    <button onclick="sendMessage(${roId})" data-roomId="${roId}">Send</button>
+    <button onclick="sendMessage(${roId},'${nick}','${avatar}')" data-roomId="${roId}">Send</button>
     </form>
     `
     document.querySelector('#sendMessage').innerHTML = sMessForm;
@@ -450,7 +456,7 @@ function goToRoom(roId){
 }
 
 // // Create Message in Room
-async function sendMessage(roId){
+async function sendMessage(roId, nick, avatar){
   let form = new FormData(event.target.parentNode);
   let conn = await fetch('api/api-create-message.php', {
     method : "POST",
@@ -459,7 +465,7 @@ async function sendMessage(roId){
   if( ! conn.ok ){ doShowToastMessage('Failed to create a message') }
   let response = await conn.json();
   //console.log(response);
-  showChatRoom(roId);
+  showChatRoom(roId, nick, avatar);
 }
 
 

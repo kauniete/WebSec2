@@ -101,9 +101,11 @@ include (__DIR__.'/api/api-add-image.php');
                 <input id="searchText" name="userProfileName" type="text" placeholder="Searching for the user ?"
                     onfocus="showSearchResults()"
                     oninput="startSearch()"
+                    onblur="hideSearchResults()"
                 >
             </form>    
             <div id="searchResults"></div>
+            <div id="roomWith"></div>
             <div id="roomId" class="room"></div>
             <div id="sendMessage"></div>
         </section>
