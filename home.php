@@ -33,7 +33,7 @@ include (__DIR__.'/api/api-add-image.php');
     <h1>Yellow Mellow</h1>
     
 </header>
-<div id="page">
+<div id="page" >
     <nav>
         <a id="btnhome" href="#home" class="active">Home</a>
         <a id="btnevents" href="#events">Events</a>
@@ -93,7 +93,7 @@ include (__DIR__.'/api/api-add-image.php');
 <!-- end of Profile page--> 
 
 <!-- start of Chat page--> 
-        <section id="chat">
+        <section id="chat" >
             <header>
                     <h3>Chat</h3>
             </header>
@@ -101,10 +101,9 @@ include (__DIR__.'/api/api-add-image.php');
                 <input id="searchText" name="userProfileName" type="text" placeholder="Searching for the user ?"
                     onfocus="showSearchResults()"
                     oninput="startSearch()"
-                    onblur="hideSearchResults()"
                 >
             </form>    
-            <div id="searchResults"></div>
+            <div id="searchResults" onclick="hideSearchResults()"></div>
             <div id="roomWith"></div>
             <div id="roomId" class="room"></div>
             <div id="sendMessage"></div>

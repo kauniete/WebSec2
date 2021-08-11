@@ -162,10 +162,24 @@ box.remove();
 function showSearchResults(){
   document.querySelector('#searchResults').style.display = "grid"
 }
-
 function hideSearchResults(){
   document.querySelector('#searchResults').style.display = "none"
 }
+
+let currentSearchText = document.querySelector('#searchText');
+let body = document.querySelector('body');
+window.onclick=function(event){
+  if (event.target = currentSearchText  ){
+    document.querySelector('#searchResults').innerHTML = ""
+  }
+}
+window.onclick=function(event){
+  if (event.target = body && event.target != currentSearchText ){
+    hideSearchResults();
+  }
+}
+
+
 
 async function startSearch(){
      // Check that the input has data
