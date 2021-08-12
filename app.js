@@ -14,7 +14,7 @@ async function sendComment(){
     body : form
   })
   if( ! conn.ok ){ doShowToastMessage('Failed to load the latest comments') }
-  document.getElementById("commentForm").reset();
+  document.querySelector(".commentForm").reset();
     getLatestComments()
 }
 
@@ -121,7 +121,7 @@ function doAppendEvent(event) {
           <p>comments count: ${eventTotalComments}</p>
           <div id="comments_${eventId}" class="comments"></div>
           <div>
-            <form id="commentForm" onsubmit="return false">
+            <form class="commentForm" onsubmit="return false">
               <input type="hidden" name="csrf" value="${id}">
               <input id="eventId_${eventId}" name="eventId" value="${eventId}" type="hidden">
               <input id="commentText_${eventId}" name="commentText" type="text">
@@ -161,9 +161,11 @@ box.remove();
 // Search Users in Chat
 function showSearchResults(){
   document.querySelector('#searchResults').style.display = "grid"
+  document.getElementById("startChat").reset();
 }
 function hideSearchResults(){
   document.querySelector('#searchResults').style.display = "none"
+  document.getElementById("startChat").reset();
 }
 
 let currentSearchText = document.querySelector('#searchText');
@@ -171,6 +173,7 @@ let body = document.querySelector('body');
 
 window.onclick=function(event){
   if (event.target = body && event.target != currentSearchText ){
+    document.getElementById("startChat").reset();
     hideSearchResults();
   }
 }
@@ -178,6 +181,7 @@ window.onclick=function(event){
 window.onclick=function(event){
   if (event.target = currentSearchText  ){
     document.querySelector('#searchResults').innerHTML = ""
+    document.getElementById("startChat").reset();
   }
 }
 
