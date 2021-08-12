@@ -174,7 +174,12 @@ window.onclick=function(event){
     hideSearchResults();
   }
 }
-
+//adding this back due to different firefox and chrome behavior
+window.onclick=function(event){
+  if (event.target = currentSearchText  ){
+    document.querySelector('#searchResults').innerHTML = ""
+  }
+}
 
 
 async function startSearch(){
