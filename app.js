@@ -187,83 +187,30 @@ window.onclick=function(event){
 
 
 async function startSearch(){
-     // Check that the input has data
-  if( document.querySelector('#searchText').value.length == 0 ){
-    return
-  }
-  let sSearchFor = document.querySelector('#searchText').value
-  let conn = await fetch('api/api-search-user.php?user='+sSearchFor)
-  if( ! conn.ok ){ doShowToastMessage('Failed to load users') }
-  let ajData = await conn.json()
-  //console.log(ajData[0].id);
-  //console.log(ajData);
-     // Clear previous data
-  document.querySelector('#searchResults').innerHTML = ""
-  let existingChat = document.querySelectorAll("div.rooms > p");
-  //let existingChat = document.querySelectorAll("div.rooms > p").item(0).className;
-  //console.log(existingChat);
-  if (existingChat.length == 0){
-    ajData.forEach( jItem => {
-      let sResultDiv = `
-      <div class="result" id="${jItem.id}">
-        <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
-        <p>${jItem.userNick}</p>
-        <button onclick="createRoom('${jItem.id}', '${jItem.userNick}', '${jItem.avatar}')" data-addUserId='${jItem.id}' data-addUserNick='${jItem.userNick}' data-addUserImg='${jItem.avatar}'>+ add User</button>
-      </div>
-      `
-      document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-    })
-  } 
-  if (ajData[0] == null){
- console.log("user does not exist");}
-else{
-  existingChat.forEach(item =>{
-//console.log(item.className);
-if (ajData[0].id === item.className){
-  console.log("chat exists");
-  let existingRoomUserNick = item.innerText;
-  let openRooms = document.querySelectorAll(".rooms");
-  //let openRoomsUser = document.querySelectorAll(".rooms > p");
- for (var i=0; i<openRooms.length; i++){
-   //console.log(openRooms);
-  //console.log(openRooms[i].childNodes[5].className);
-  if (ajData[0].id === openRooms[i].childNodes[5].className)
-  {
-  let existingRoomId = openRooms[i].id;
-  //console.log( existingRoomId);
-  let existingRoomUserAvatar = openRooms[i].childNodes[1].src;
-  //console.log(existingRoomUserAvatar);
-//console.log(existingRoomUserNick);
-  let sResultDiv = `
-  <div class="rooms" id="${existingRoomId}">
-  <img src="${existingRoomUserAvatar}" alt="">
-        <input id="LastMid" name="LastMid" value="${existingRoomId}" type="hidden">
-        <button onclick=" showChatRoom(${existingRoomId}, '${existingRoomUserNick}','${existingRoomUserAvatar}' ),goToRoom(${existingRoomId}, '${existingRoomUserNick}','${existingRoomUserAvatar}')" data-roomId="${existingRoomId}">Chat with</button>
-       <p class="${ajData[0].id}"><strong >${existingRoomUserNick}</strong></p>
-     </div>
-    `
-    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-} }
-} 
-else{
-  ajData.forEach( jItem => {
-    var currentUser = document.getElementById("currentUserId").innerHTML;
-    if (jItem.id === currentUser){
-console.log("user can not have a chat room with himself");
-    } else{
-    let sResultDiv = `
-    <div class="result" id="${jItem.id}">
-      <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
-      <p>${jItem.userNick}</p>
-      <button onclick="createRoom('${jItem.id}', '${jItem.userNick}', '${jItem.avatar}')" data-addUserId='${jItem.id}' data-addUserNick='${jItem.userNick}' data-addUserImg='${jItem.avatar}'>+ add User</button>
-    </div>
-    `
-    document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-  }})
+  // Check that the input has data
+if( document.querySelector('#searchText').value.length == 0 ){
+ return
 }
-  })}
-  
+
+let sSearchFor = document.querySelector('#searchText').value
+let conn = await fetch('api/api-search-user.php?user='+sSearchFor)
+if( ! conn.ok ){ doShowToastMessage('Failed to load users') }
+let ajData = await conn.json()
+  // Clear previous data
+document.querySelector('#searchResults').innerHTML = ""
+ajData.forEach( jItem => {
+ let sResultDiv = `
+ <div class="result" id="${jItem.id}">
+   <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
+   <p>${jItem.userNick}</p>
+   <button onclick="createRoom('${jItem.id}', '${jItem.userNick}', '${jItem.avatar}')" data-addUserId='${jItem.id}' data-addUserNick='${jItem.userNick}' data-addUserImg='${jItem.avatar}'>+ add User</button>
+ </div>
+ `
+ document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
+})
 }
+
+
 // Create Room in Chat
 async function createRoom(addUserId,addUserNick, addUserImg){
   let con = await fetch('api/api-create-room.php?to='+addUserId+'&nick='+addUserNick+'&img='+addUserImg, {
