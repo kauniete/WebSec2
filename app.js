@@ -5,7 +5,7 @@ const localStates = {
 }
 
 
-
+//
 // Create Comments to Events
 async function sendComment(){
   let form = new FormData(event.target.parentNode);
