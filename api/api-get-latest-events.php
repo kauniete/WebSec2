@@ -11,7 +11,7 @@ $iLatestEventId = $_GET['iLatestEventId'] ?? 0;
 
 try{
     $q = $db->prepare('CALL getLastEvents(:iLatestEventId)');
-    $q->bindValue(':iLatestEventId', $iLatestEventId);
+    $q->bindValue(':iLatestEventId', htmlspecialchars($iLatestEventId));
     $q->execute();
     $ajRows = $q->fetchAll();
     header('Content-Type: application/json');

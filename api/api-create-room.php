@@ -13,10 +13,10 @@ try{
   VALUES (:roomId, :roomOwner, :user2, :roomName, :user2Avatar, :user2Nick,:roomOwnerNick, :roomOwnerAvatar)');
   $q->bindValue('roomId', null);
   $q->bindValue('roomOwner', $_SESSION['userId']);
-  $q->bindValue('user2', $_GET['to']);
+  $q->bindValue('user2', htmlspecialchars($_GET['to']));
   $q->bindValue('roomName', null);
-  $q->bindValue('user2Avatar', $_GET['img']);
-  $q->bindValue('user2Nick', $_GET['nick']);
+  $q->bindValue('user2Avatar', htmlspecialchars($_GET['img']));
+  $q->bindValue('user2Nick', htmlspecialchars($_GET['nick']));
   $q->bindValue('roomOwnerNick', $_SESSION['userName']);
   $q->bindValue('roomOwnerAvatar', $_SESSION['userAvatar']);
   $q->execute();

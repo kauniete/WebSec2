@@ -10,7 +10,7 @@ $db = require_once (__DIR__.'/../private/db.php');
 try{
 
   $q = $db->prepare('CALL searchUser(:searchString)');
-  $q->bindValue(':searchString', $_GET['user'].'%');
+  $q->bindValue(':searchString', htmlspecialchars($_GET['user'].'%'));
   $q->execute();
   $ajData = $q->fetchAll();
   header('Content-Type: application/json');

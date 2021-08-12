@@ -11,7 +11,7 @@ $iLatestCommentId = $_GET['iLatestCommentId'] ?? 0;
 
 try{
 $q = $db->prepare('CALL getLastComments(:iLatestCommentId)');
-$q->bindValue(':iLatestCommentId', $iLatestCommentId);
+$q->bindValue(':iLatestCommentId', htmlspecialchars($iLatestCommentId));
 $q->execute();
 $ajRows = $q->fetchAll();
 header('Content-Type: application/json');

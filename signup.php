@@ -35,12 +35,12 @@ require_once (__DIR__.'../utils/csrf.php');
             <?php if(isset($login_timeout)){?><p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $login_timeout?></p><?php } ?>
             <?php if(isset($psst_error)){?><p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $psst_error?></p><?php } ?>
             <?php if(isset($validation_error) ){?><p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $validation_error?></p><?php } ?>
-            <input type="text" name="username" placeholder="username">
+            <input type="text" name="username" placeholder="username" maxlength="50">
             <?php if(isset($username_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$username_error."</p>";}?>
-            <input type="password" name="password" placeholder="password">
+            <input type="password" name="password" placeholder="password" maxlength="50">
             <?php if(isset($pass_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$pass_error."</p>";}?>
             <?php if(isset($pass_validation_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$pass_validation_error."</p>";}?>
-            <input type="email" name="email" placeholder="email">
+            <input type="email" name="email" placeholder="email" maxlength="50">
             <?php if(isset($email_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$email_error."</p>";}?>
             <?php if(isset($email_validation_error)){echo "<p style='color:#E0245E;  font-size: 16px;margin-bottom: 4px;'>".$email_validation_error."</p>";}?>
             <button name="submit" type="submit" form="signupForm">Sign up</button>

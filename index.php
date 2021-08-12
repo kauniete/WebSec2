@@ -45,11 +45,11 @@ if( isset($_SESSION['userId']) ){
                 <?php if(isset($psst_error)){?>
                 <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $psst_error?></p>
                 <?php } ?>
-            <input type="text" name="username" placeholder="username">
+            <input type="text" name="username" placeholder="username" maxlength="50">
             <?php if(isset($username_error)){?>
                 <p style="color:#E0245E; font-size: 16px;margin-bottom: 4px;"><?php echo $username_error?></p>
                 <?php } ?>
-            <input type="password" name="password" placeholder="password">
+            <input type="password" name="password" placeholder="password" maxlength="50">
             <?php if(isset($pass_error)){echo "<p style='color:#E0245E; font-size: 16px;margin-bottom: 4px;'>".$pass_error."</p>";}?>
             <button name="submit" type="submit" form="loginForm">Log in</button>
         </form>
