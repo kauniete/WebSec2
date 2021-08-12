@@ -265,7 +265,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
   })
   if( ! con.ok ){ doShowToastMessage('Failed to create room') }
   let response = await con.json();
-  console.log(response);
+  //console.log(response);
   let sRoomDiv = `
     <div class="rooms" id="${response}">
       <img src="fotos_assets/${addUserImg}.jpg" alt="">
@@ -285,46 +285,51 @@ async function createRoom(addUserId,addUserNick, addUserImg){
 
   
   
-let getUsersRooms = setInterval (async function (){
-  let conn = await fetch('api/api-get-last-rooms.php',  {
-   // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
-    headers:{
-      'Cache-Control': 'no-cache'
-    }
-  })
-  if( ! conn.ok ){ doShowToastMessage('Failed to load the latest rooms') }
-  let ajData = await conn.json()
-  //console.log(ajData);
-  var currentUser = document.getElementById("currentUserId").innerHTML;
-  //console.log(currentUser);
-  ajData.forEach( jItem => {
-    if (jItem.roomOwnerFk === currentUser){
-  let sRoomDiv = `
-    <div class="rooms" id="${jItem.roomId}">
-      <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
-      <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'),goToRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
-      <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
-    </div>
-    `
-    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
-    //iLatestRoomId = jItem.roomId
-  } else{
-    let sRoomDiv = `
-    <div class="rooms" id="${jItem.roomId}">
-      <img src="fotos_assets/${jItem.roomOwnerAvatar}.jpg" alt="">
-      <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'),goToRoom(${jItem.roomId},'${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
-      <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
-    </div>
-    `
-    document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
-  }})
-}, 2000);
 
-setTimeout(function () {
-  clearInterval(getUsersRooms);
-}, 2500);
-   
 
+  let getUserRoomsInterval= setInterval(async function getUserRooms(){
+    let conn = await fetch('api/api-get-last-rooms.php',  {
+      // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
+       headers:{
+         'Cache-Control': 'no-cache'
+       }
+     })
+     if( ! conn.ok ){ doShowToastMessage('Failed to load the latest rooms') }
+     let ajData = await conn.json()
+     let sRoomDiv = '';
+     //console.log(ajData);
+     //if (ajData.length == 0){
+     //}
+     var currentUser = document.getElementById("currentUserId").innerHTML;
+     //console.log(currentUser);
+     ajData.forEach( jItem => {
+       if (jItem.roomOwnerFk === currentUser){
+     sRoomDiv += `
+       <div class="rooms" id="${jItem.roomId}">
+         <img src="fotos_assets/${jItem.user2Avatar}.jpg" alt="">
+         <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'),goToRoom(${jItem.roomId}, '${jItem.user2Nick}','${jItem.user2Avatar}'), window.location.href='https://localhost/home#chat'" data-roomId="${jItem.roomId}" >Chat with</button>
+         <p class="${jItem.user2Fk}"><strong>${jItem.user2Nick}</strong></p>
+       </div>
+       `
+       document.querySelector('#right').innerHTML = sRoomDiv
+       //document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
+       //iLatestRoomId = jItem.roomId
+     } else{
+       sRoomDiv += `
+       <div class="rooms" id="${jItem.roomId}">
+         <img src="fotos_assets/${jItem.roomOwnerAvatar}.jpg" alt="">
+         <button  onclick="showChatRoom(${jItem.roomId}, '${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'),goToRoom(${jItem.roomId},'${jItem.roomOwnerNick}','${jItem.roomOwnerAvatar}'), window.location.href='https://localhost/home#chat' " data-roomId="${jItem.roomId}" >Chat with</button>
+         <p class="${jItem.roomOwnerFk}"><strong>${jItem.roomOwnerNick}</strong></p>
+       </div>
+       `
+       document.querySelector('#right').innerHTML = sRoomDiv
+       //document.querySelector('#right').insertAdjacentHTML('afterbegin', sRoomDiv);
+     }})
+  },2000)
+
+
+
+  
 
 //Show Chat in Room
 async function showChatRoom(roomId, roomChatter, roomChatterAvatar) {
@@ -354,7 +359,7 @@ async function showChatRoom(roomId, roomChatter, roomChatterAvatar) {
   let sMessageDiv = '';
   let sChatWithDiv = '';
   var currentUser = document.getElementById("currentUserId").innerHTML;
-  console.log(ajData.length);
+  //console.log(ajData.length);
   
 if (ajData.length == 0){
 sMessageDiv += `
@@ -390,9 +395,9 @@ document.querySelector('#roomId').innerHTML = sMessageDiv
    //
 //websockets would be better
 for(i=0; i<100; i++)
-{
+{if (i != getUserRoomsInterval){
     window.clearInterval(i);
-}
+}}
 setInterval( async function showChatRoom(){ 
   let conn = await fetch('api/api-get-latest-message.php?room=' + roomId, {
     headers: {
@@ -405,7 +410,7 @@ setInterval( async function showChatRoom(){
   
   
   if (ajData.length == 0){
-    console.log(ajData.length);
+    //console.log(ajData.length);
     sMessageDiv += `
     <div class="message ${roomId}">
     </div>`
