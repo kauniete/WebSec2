@@ -1,6 +1,6 @@
 <?php
 require_once (__DIR__.'/../utils/sendError.php');
-require_once (__DIR__.'/../utils/csrfHelper.php');
+//require_once (__DIR__.'/../utils/csrfHelper.php');
 $db = require_once (__DIR__.'./../private/db.php');
 
 

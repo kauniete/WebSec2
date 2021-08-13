@@ -91,18 +91,21 @@ if (currentUser == userId) {
     document.getElementById(`comments_${eventId}`).insertAdjacentHTML('beforeend',tmpCommentElem) }}
 
   
-// Get Token
-async function addToken(){
-	let request = await fetch('api/api-add-token.php')
-  if( ! request.ok ){ doShowToastMessage('Failed to add token') }
-	let response = await request.json();
-  //console.log(response.id);
-  }
-  
+
 // Get Events
 function doAppendEvent(event) {
   addToken();
-  const {id, eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
+  //get token
+  async function addToken(){
+    let request = await fetch('api/api-add-token.php')
+    if( ! request.ok ){ doShowToastMessage('Failed to add token') }
+    let response = await request.json();
+    //console.log(response.id);
+    let responseId = response.id;
+    //console.log(responseId);
+    
+  const {eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
+  //console.log(event);
   const eventsContainer = document.getElementById('events');
   const tmpEventElem = `
   <article class="event">
@@ -122,16 +125,17 @@ function doAppendEvent(event) {
           <div id="comments_${eventId}" class="comments"></div>
           <div>
             <form class="commentForm" onsubmit="return false">
-              <input type="hidden" name="csrf" value="${id}">
+              <input type="hidden" name="csrf" value="${responseId}">
               <input id="eventId_${eventId}" name="eventId" value="${eventId}" type="hidden">
-              <input id="commentText_${eventId}" name="commentText" type="text">
+              <input id="commentText_${eventId}" name="commentText" type="text" maxlength="280">
               <button onclick="sendComment()">Send</button>
             </form>
           </div>
         </div>
       </article>`
   eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
-}
+  //console.log(responseId);
+}}
 
 //TODO: Call this once a user is logged in
 function doStartFetchingEventsData() {
