@@ -13,7 +13,10 @@ function is_csrf_valid(){
   if( $_SESSION['csrf'] != $_POST['csrf']){ return false; }
   return true;
 }
-
+if ($_POST){
+  if(! is_csrf_valid()) {
+    http_response_code(400);}
+   
 try{
   if(!isset($_POST['messageText']) ){ http_response_code(400);  }
   if(strlen($_POST['messageText']) < 1 ){ http_response_code(400);  }
@@ -30,9 +33,7 @@ try{
   $iLastInsertedId = $db->lastInsertId();
   echo $iLastInsertedId;
   
-
-
 }catch (Exception $ex) {
     header('Content-Type: application/json');
     echo '{"message":"error '.$ex.'"}';
-  }
+  }}

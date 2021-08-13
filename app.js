@@ -415,11 +415,19 @@ sChatWithDiv += `
 
 // Go To Room
 function goToRoom(roId, nick, avatar){
-    //addToken();
-    const { id } = event;
+    addToken();
+  //get token
+  async function addToken(){
+    let request = await fetch('api/api-add-token.php')
+    if( ! request.ok ){ doShowToastMessage('Failed to add token') }
+    let response = await request.json();
+    //console.log(response.id);
+    let responseId = response.id;
+    //console.log(responseId);
+    //const { id } = event;
     let sMessForm = `
     <form id="messageForm" onsubmit="return false">
-    <input type="hidden" name="csrf" value="${id}">
+    <input type="hidden" name="csrf" value="${responseId}">
     <input id="${roId}" name="roomId" value="${roId}" type="hidden">
     <input id="" name="messageText" type="text">
     <button onclick="sendMessage(${roId},'${nick}','${avatar}')" data-roomId="${roId}">Send</button>
@@ -428,7 +436,7 @@ function goToRoom(roId, nick, avatar){
     document.querySelector('#sendMessage').innerHTML = sMessForm;
     //document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
     
-}
+}}
 
 // // Create Message in Room
 async function sendMessage(roId, nick, avatar){
