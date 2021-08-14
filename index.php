@@ -37,6 +37,9 @@ if( isset($_SESSION['userId']) ){
             <?php if(isset($exception_error)){?>
                 <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $exception_error?></p>
                 <?php } ?>
+                <?php if(isset($login_success)){?>
+            <p style="color:#39C16C;  font-size: 16px;margin-bottom: 4px;"><?php echo  $login_success?></p>
+                <?php } ?>
             <?php if(isset($validation_error)){?>
                 <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $validation_error?></p>
                 <?php } ?>

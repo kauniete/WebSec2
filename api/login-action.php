@@ -6,6 +6,7 @@ $login_timeout = '';
 $psst_error = '';
 $verification_error = '';
 $exception_error = '';
+$login_success = '';
 require_once (__DIR__.'/../utils/sendError.php');
 //require_once (__DIR__.'/../utils/csrfHelper.php');
 require_once (__DIR__.'/../utils/csrf.php');
@@ -105,6 +106,7 @@ class LoginHandler {
             $login_timeout = 'You have to wait ~5 min, too many failed login attempts';
         } else {
             LoginHandler::doUnblockUser($dbHandler, $username);
+            $login_success = 'You are now allowed to login again!';
         }
     }
     
@@ -136,7 +138,7 @@ class LoginHandler {
     }
 }}}} catch (Exception $ex) {
     //echo '{"message":"error '.$ex.'"}';
-    $exception_error = 'Something went wrong';
+    $exception_error = 'Something went wrong ';
 } }}
     // http_response_code(200); // default is this line
 // ############################################################
