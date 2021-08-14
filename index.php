@@ -1,4 +1,5 @@
 <?php
+
 require_once (__DIR__.'../utils/csrf.php');
 if( isset($_SESSION['userId']) ){
     header('Location: home');
