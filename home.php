@@ -116,6 +116,9 @@ include (__DIR__.'/api/api-add-image.php');
             </header>
             <div id="galeryContainer"></div>        
             <form action="" method="POST" enctype="multipart/form-data">
+            <?php
+                set_csrf();
+            ?>
                 <input type="file" name="image" id="image">
                 <button type="submit" name="submit">Submit</button>
                 <!-- <button onclick="getImage();" type="submit" name="submit">Submit</button> -->
@@ -123,6 +126,10 @@ include (__DIR__.'/api/api-add-image.php');
             <?php if(isset( $img_error)){?>
             <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $img_error?></p>
                 <?php } ?>
+                <?php if(isset( $psst_error)){?>
+            <p style="color:#E0245E;  font-size: 16px;margin-bottom: 4px;"><?php echo $psst_error?></p>
+                <?php } ?>
+                
                 <?php if(isset($img_success)){?>
             <p style="color:#39C16C;  font-size: 16px;margin-bottom: 4px;"><?php echo  $img_success?></p>
                 <?php } ?>

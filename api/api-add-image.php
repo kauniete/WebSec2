@@ -1,6 +1,7 @@
 <?php
 require_once (__DIR__.'/../utils/sendError.php');
 //require_once (__DIR__.'/../utils/csrfHelper.php');
+require_once (__DIR__.'/../utils/csrf.php');
 $db = require_once (__DIR__.'./../private/db.php');
 
 
@@ -8,15 +9,19 @@ if(isset($_POST['submit'])){
     if( ! isset($_SESSION['userId']) ){
         header('Location: ../index.php');
       }
-//session_start();
+
 $img_error = '';
 $img_success = '';
+$psst_error = '';
 if (!isset( $_FILES["image"] ) xor empty( $_FILES["image"]["name"] )){
     $img_error = "You must upload an image";
 }
 
    else 
 {
+    if(! is_csrf_valid()) {
+        $psst_error = 'Your session is invalid, but try to upload image again here';
+    }
 try{
     $dir = 'images/';
     $target = $dir . basename($_FILES["image"]["name"]);
