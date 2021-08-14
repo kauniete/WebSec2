@@ -60,6 +60,6 @@ if( isset($_SESSION['userId']) ){
   </section>
     </div>
 </body>
-<!--<script src="app.js"></script>-->
+
 
 </html>
