@@ -52,6 +52,6 @@ require_once (__DIR__.'../utils/csrf.php');
   </section>
     </div>
 </body>
-<!--<script src="app.js"></script>-->
+
 
 </html>
