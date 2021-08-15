@@ -203,6 +203,9 @@ let ajData = await conn.json()
   // Clear previous data
 document.querySelector('#searchResults').innerHTML = ""
 ajData.forEach( jItem => {
+  var currentUser = document.getElementById("currentUserId").innerHTML;
+    if (jItem.id === currentUser){
+console.log("user can not have a chat room with himself");} else {
  let sResultDiv = `
  <div class="result" id="${jItem.id}">
    <img src="fotos_assets/${jItem.avatar}.jpg" alt="">
@@ -211,7 +214,7 @@ ajData.forEach( jItem => {
  </div>
  `
  document.querySelector('#searchResults').insertAdjacentHTML('afterbegin', sResultDiv)
-})
+}})
 }
 
 
@@ -247,7 +250,7 @@ async function createRoom(addUserId,addUserNick, addUserImg){
   
 
 
-  let getUserRoomsInterval= setInterval(async function getUserRooms(){
+  let getUserRoomsInterval = setInterval(async function getUserRooms(){
     let conn = await fetch('api/api-get-last-rooms.php',  {
       // let conn = await fetch('api/api-get-last-rooms.php?room='+iLatestRoomId,  {
        headers:{
