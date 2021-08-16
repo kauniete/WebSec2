@@ -92,18 +92,12 @@ if (currentUser == userId) {
 
   
 
+let form = document.querySelector('#galleryform');
+let token = form.querySelector('input[name="csrf"]').value;
+    //console.log(token);
+
 // Get Events
 function doAppendEvent(event) {
-  addToken();
-  //get token
-  async function addToken(){
-    let request = await fetch('api/api-add-token.php')
-    if( ! request.ok ){ doShowToastMessage('Failed to add token') }
-    let response = await request.json();
-    //console.log(response.id);
-    let responseId = response.id;
-    //console.log(responseId);
-    
   const {eventId, eventName, eventCreated, eventType, eventImg, eventAbout, eventTime, eventPlace, userId, userAvatar, userName, eventTotalFollowees, eventTotalComments} = event;
   //console.log(event);
   const eventsContainer = document.getElementById('events');
@@ -125,7 +119,7 @@ function doAppendEvent(event) {
           <div id="comments_${eventId}" class="comments"></div>
           <div>
             <form class="commentForm" onsubmit="return false">
-              <input type="hidden" name="csrf" value="${responseId}">
+              <input type="hidden" name="csrf" value="${token}">
               <input id="eventId_${eventId}" name="eventId" value="${eventId}" type="hidden">
               <input id="commentText_${eventId}" name="commentText" type="text" maxlength="280">
               <button onclick="sendComment()">Send</button>
@@ -135,7 +129,7 @@ function doAppendEvent(event) {
       </article>`
   eventsContainer.insertAdjacentHTML('beforeend',tmpEventElem);
   //console.log(responseId);
-}}
+}
 
 //TODO: Call this once a user is logged in
 function doStartFetchingEventsData() {
@@ -418,19 +412,10 @@ sChatWithDiv += `
 
 // Go To Room
 function goToRoom(roId, nick, avatar){
-    addToken();
-  //get token
-  async function addToken(){
-    let request = await fetch('api/api-add-token.php')
-    if( ! request.ok ){ doShowToastMessage('Failed to add token') }
-    let response = await request.json();
-    //console.log(response.id);
-    let responseId = response.id;
-    //console.log(responseId);
-    //const { id } = event;
+
     let sMessForm = `
     <form id="messageForm" onsubmit="return false">
-    <input type="hidden" name="csrf" value="${responseId}">
+    <input type="hidden" name="csrf" value="${token}">
     <input id="${roId}" name="roomId" value="${roId}" type="hidden">
     <input id="" name="messageText" type="text">
     <button onclick="sendMessage(${roId},'${nick}','${avatar}')" data-roomId="${roId}">Send</button>
@@ -439,7 +424,7 @@ function goToRoom(roId, nick, avatar){
     document.querySelector('#sendMessage').innerHTML = sMessForm;
     //document.querySelector('#sendMessage').insertAdjacentHTML('afterbegin', sMessForm);
     
-}}
+}
 
 // // Create Message in Room
 async function sendMessage(roId, nick, avatar){
