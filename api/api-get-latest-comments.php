@@ -21,3 +21,4 @@ echo json_encode($ajRows);
   header('Content-Type: application/json');
   echo '{"message":"error '.$ex.'"}';
 }
+

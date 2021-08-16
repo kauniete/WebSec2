@@ -115,7 +115,7 @@ include (__DIR__.'/api/api-add-image.php');
                     <h3>Gallery</h3>
             </header>
             <div id="galeryContainer"></div>        
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form id="galleryform" action="" method="POST" enctype="multipart/form-data">
             <?php
                 set_csrf();
             ?>
